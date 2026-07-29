@@ -1,23 +1,19 @@
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { getFirestore, Firestore } from 'firebase/firestore';
 import { getAuth, Auth, GoogleAuthProvider } from 'firebase/auth';
-import { getAnalytics, Analytics } from 'firebase/analytics';
 
-// Secure configuration using Vercel environment variables with safe fallbacks
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "demo-api-key",
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "batu-emas-inn.firebaseapp.com",
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "batu-emas-inn",
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "batu-emas-inn.firebasestorage.app",
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "123456789012",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:123456789012:web:abcdef123456",
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-0000000000"
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:123456789012:web:abcdef123456"
 };
 
 let app: FirebaseApp;
 let db: Firestore;
 let auth: Auth;
-let analytics: Analytics | undefined;
 let hasFirebaseConfig = Boolean(import.meta.env.VITE_FIREBASE_API_KEY);
 
 try {
@@ -29,11 +25,6 @@ try {
   
   db = getFirestore(app);
   auth = getAuth(app);
-  
-  // Analytics only runs properly in browser environments
-  if (typeof window !== 'undefined') {
-    analytics = getAnalytics(app);
-  }
 } catch (error) {
   console.warn("Firebase initialization warning:", error);
   if (!getApps().length) {
@@ -94,4 +85,4 @@ export function handleFirestoreError(error: unknown, operationType: OperationTyp
   return new Error(JSON.stringify(errInfo));
 }
 
-export { app, db, auth, analytics, hasFirebaseConfig };
+export { app, db, auth, hasFirebaseConfig };
