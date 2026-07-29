@@ -71,6 +71,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
     }
   }[lang];
 
+  const formatIDR = (priceInUSD: number) => {
+    const idrAmount = priceInUSD * 1000;
+    const formatted = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 0 }).format(idrAmount);
+    return `Rp ${formatted}`;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onQuickBook({
@@ -201,7 +207,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
               </select>
             </div>
 
-            {/* Room Type */}
+            {/* Room Type (Rp 200.000 Style Pricing) */}
             <div>
               <label className="block text-xs font-bold text-stone-700 mb-1.5">
                 {text.roomSuite}
@@ -213,7 +219,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
               >
                 {ROOMS.map(room => (
                   <option key={room.id} value={room.id}>
-                    {room.name} (${room.pricePerNight}/nt)
+                    {room.name} ({formatIDR(room.pricePerNight)}/nt)
                   </option>
                 ))}
               </select>
