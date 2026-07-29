@@ -38,8 +38,8 @@ export const RoomsSection: React.FC<RoomsSectionProps> = ({ onSelectRoom }) => {
     }
   }[lang];
 
-  const formatIDR = (priceInUSD: number) => {
-    const idrAmount = priceInUSD * 1000;
+  const formatIDR = (priceInBase: number) => {
+    const idrAmount = priceInBase * 1000;
     return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(idrAmount);
   };
 
