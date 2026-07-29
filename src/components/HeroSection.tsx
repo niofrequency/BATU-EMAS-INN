@@ -30,7 +30,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
   // Localized text dictionary for Hero Section
   const text = {
     en: {
-      badge: "Signature Golden Hospitality",
+      badge: "Golden Hospitality",
       welcomeTo: "Welcome to",
       description: "Immerse yourself in timeless elegance framed by our signature polished golden floor tiles, opulent suite spaces, crystal pools, and 24/7 bespoke guest service.",
       instantConf: "Instant Confirmation",
@@ -53,7 +53,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
       mapAction: "View on Google Maps"
     },
     id: {
-      badge: "Keramahan Emas Signature",
+      badge: "Keramahan Emas",
       welcomeTo: "Selamat Datang di",
       description: "Nikmati keanggunan abadi yang dibingkai oleh lantai ubin emas poles khas kami, ruang suite mewah, kolam renang jernih, dan layanan tamu 24/7.",
       instantConf: "Konfirmasi Instan",
@@ -102,7 +102,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
       {/* Background Image Overlay with Golden Sheen */}
       <div className="absolute inset-0 z-0 opacity-40 mix-blend-luminosity">
         <img
-          src="/img/admindesk.webp"
+          src="/img/frontview.webp"
           alt="Batu Emas Inn Resort Entrance"
           className="w-full h-full object-cover scale-105 transform transition-transform duration-10000 hover:scale-100"
         />
