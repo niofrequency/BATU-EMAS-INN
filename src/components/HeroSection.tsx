@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Calendar as CalendarIcon, Users, Sparkles, ArrowRight, CheckCircle2, Crown, Shield } from 'lucide-react';
 import { ROOMS } from '../data/rooms';
 import { useLanguage } from '../context/LanguageContext';
-
+ 
 interface HeroSectionProps {
   onQuickBook: (searchParams: {
     checkInDate: string;
