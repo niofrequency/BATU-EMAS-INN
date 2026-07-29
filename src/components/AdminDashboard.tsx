@@ -19,18 +19,11 @@ import {
   Calendar, 
   Users, 
   Trash2, 
-  CheckCircle2, 
-  XCircle, 
-  Clock, 
-  Search, 
   RefreshCw, 
-  MailCheck, 
-  Mail, 
   PlusCircle, 
   DollarSign, 
   Filter,
-  Sparkles,
-  Edit2
+  Sparkles
 } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
@@ -138,6 +131,7 @@ export const AdminDashboard: React.FC = () => {
     e.preventDefault();
     const room = ROOMS.find(r => r.id === newRoomType) || ROOMS[0];
     const nightCount = Math.max(1, Math.round((new Date(newCheckOut).getTime() - new Date(newCheckIn).getTime()) / (1000 * 3600 * 24)));
+    const roomPriceIDR = room.pricePerNight * 16000;
     
     try {
       await createBooking({
@@ -150,7 +144,7 @@ export const AdminDashboard: React.FC = () => {
         roomType: room.id,
         roomName: room.name,
         status: 'confirmed',
-        totalAmount: room.pricePerNight * nightCount,
+        totalAmount: roomPriceIDR * nightCount,
         specialRequests: 'Walk-in / Direct Admin Phone Reservation'
       });
       setActionMsg('New reservation successfully recorded.');
@@ -177,31 +171,35 @@ export const AdminDashboard: React.FC = () => {
     return matchesSearch && matchesStatus;
   });
 
+  const formatIDR = (amount: number) => {
+    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(amount);
+  };
+
   return (
-    <div className="py-10 bg-stone-900 text-stone-100 min-h-screen w-full">
+    <div className="py-10 bg-stone-100 text-stone-900 min-h-screen w-full">
       <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24 space-y-8">
         
         {/* Admin Header Banner */}
-        <div className="bg-emerald-950 p-6 sm:p-8 rounded-3xl border-2 border-emerald-800/60 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-stone-200 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/40 text-xs font-bold">
-              <ShieldCheck className="w-4 h-4 text-amber-400" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-800 border border-amber-300 text-xs font-bold">
+              <ShieldCheck className="w-4 h-4 text-amber-600" />
               <span>Full Admin Management Control</span>
             </div>
-            <h1 className="font-serif text-3xl font-bold text-white">
+            <h1 className="font-serif text-3xl font-bold text-stone-900">
               Hotel Staff & Operations Portal
             </h1>
-            <p className="text-stone-300 text-sm">
-              Logged in as <strong className="text-amber-300">{user?.displayName}</strong> ({user?.email})
+            <p className="text-stone-600 text-sm">
+              Logged in as <strong className="text-amber-700">{user?.displayName}</strong> ({user?.email})
             </p>
           </div>
 
           <div className="flex items-center gap-3">
             <button
               onClick={loadAllAdminData}
-              className="px-4 py-2.5 rounded-xl bg-stone-900 border border-stone-700 hover:bg-stone-800 text-stone-200 text-xs font-semibold flex items-center gap-2 transition-colors"
+              className="px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-300 hover:bg-stone-100 text-stone-700 text-xs font-semibold flex items-center gap-2 transition-colors shadow-xs"
             >
-              <RefreshCw className="w-4 h-4 text-amber-400" />
+              <RefreshCw className="w-4 h-4 text-amber-600" />
               <span>Refresh Data</span>
             </button>
           </div>
@@ -209,64 +207,64 @@ export const AdminDashboard: React.FC = () => {
 
         {/* Action Toast Feedback */}
         {actionMsg && (
-          <div className="p-4 rounded-xl bg-amber-400/10 border border-amber-400/40 text-amber-300 text-xs font-semibold flex items-center justify-between">
+          <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold flex items-center justify-between shadow-xs">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-amber-400" />
+              <Sparkles className="w-4 h-4 text-amber-600" />
               <span>{actionMsg}</span>
             </div>
-            <button onClick={() => setActionMsg('')} className="text-stone-400 hover:text-white">✕</button>
+            <button onClick={() => setActionMsg('')} className="text-stone-400 hover:text-stone-700">✕</button>
           </div>
         )}
 
         {/* Summary Metrics Row */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           
-          <div className="bg-stone-950 p-5 rounded-2xl border border-stone-800 space-y-2">
-            <div className="flex items-center justify-between text-stone-400 text-xs font-semibold">
+          <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs space-y-2">
+            <div className="flex items-center justify-between text-stone-500 text-xs font-semibold">
               <span>Total Bookings</span>
-              <Calendar className="w-4 h-4 text-amber-400" />
+              <Calendar className="w-4 h-4 text-amber-600" />
             </div>
-            <div className="font-serif text-2xl font-bold text-white">{bookings.length}</div>
-            <div className="text-[11px] text-amber-400 font-medium">{pendingBookingsCount} Pending Approvals</div>
+            <div className="font-serif text-2xl font-bold text-stone-900">{bookings.length}</div>
+            <div className="text-[11px] text-amber-700 font-medium">{pendingBookingsCount} Pending Approvals</div>
           </div>
 
-          <div className="bg-stone-950 p-5 rounded-2xl border border-stone-800 space-y-2">
-            <div className="flex items-center justify-between text-stone-400 text-xs font-semibold">
+          <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs space-y-2">
+            <div className="flex items-center justify-between text-stone-500 text-xs font-semibold">
               <span>Confirmed Revenue</span>
-              <DollarSign className="w-4 h-4 text-emerald-400" />
+              <DollarSign className="w-4 h-4 text-emerald-600" />
             </div>
-            <div className="font-serif text-2xl font-bold text-emerald-400">${totalRevenue}</div>
-            <div className="text-[11px] text-stone-400">Total processed revenue</div>
+            <div className="font-serif text-xl font-bold text-emerald-700">{formatIDR(totalRevenue)}</div>
+            <div className="text-[11px] text-stone-500">Total processed revenue</div>
           </div>
 
-          <div className="bg-stone-950 p-5 rounded-2xl border border-stone-800 space-y-2">
-            <div className="flex items-center justify-between text-stone-400 text-xs font-semibold">
+          <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs space-y-2">
+            <div className="flex items-center justify-between text-stone-500 text-xs font-semibold">
               <span>Inquiry Messages</span>
-              <Inbox className="w-4 h-4 text-amber-400" />
+              <Inbox className="w-4 h-4 text-amber-600" />
             </div>
-            <div className="font-serif text-2xl font-bold text-white">{messages.length}</div>
-            <div className="text-[11px] text-amber-300 font-medium">{unreadMessagesCount} Unread Inquiries</div>
+            <div className="font-serif text-2xl font-bold text-stone-900">{messages.length}</div>
+            <div className="text-[11px] text-amber-700 font-medium">{unreadMessagesCount} Unread Inquiries</div>
           </div>
 
-          <div className="bg-stone-950 p-5 rounded-2xl border border-stone-800 space-y-2">
-            <div className="flex items-center justify-between text-stone-400 text-xs font-semibold">
+          <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs space-y-2">
+            <div className="flex items-center justify-between text-stone-500 text-xs font-semibold">
               <span>Registered Users</span>
-              <Users className="w-4 h-4 text-blue-400" />
+              <Users className="w-4 h-4 text-blue-600" />
             </div>
-            <div className="font-serif text-2xl font-bold text-white">{usersList.length}</div>
-            <div className="text-[11px] text-stone-400">Guest & Staff Profiles</div>
+            <div className="font-serif text-2xl font-bold text-stone-900">{usersList.length}</div>
+            <div className="text-[11px] text-stone-500">Guest & Staff Profiles</div>
           </div>
 
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex items-center gap-2 border-b border-stone-800 pb-3 overflow-x-auto">
+        <div className="flex items-center gap-2 border-b border-stone-200 pb-3 overflow-x-auto">
           <button
             onClick={() => setActiveTab('bookings')}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs transition-all ${
               activeTab === 'bookings'
                 ? 'bg-amber-500 text-stone-950 shadow-md'
-                : 'text-stone-400 hover:text-stone-200 hover:bg-stone-800'
+                : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/60'
             }`}
           >
             <Calendar className="w-4 h-4" />
@@ -278,7 +276,7 @@ export const AdminDashboard: React.FC = () => {
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs transition-all relative ${
               activeTab === 'messages'
                 ? 'bg-amber-500 text-stone-950 shadow-md'
-                : 'text-stone-400 hover:text-stone-200 hover:bg-stone-800'
+                : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/60'
             }`}
           >
             <Inbox className="w-4 h-4" />
@@ -293,7 +291,7 @@ export const AdminDashboard: React.FC = () => {
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs transition-all ${
               activeTab === 'users'
                 ? 'bg-amber-500 text-stone-950 shadow-md'
-                : 'text-stone-400 hover:text-stone-200 hover:bg-stone-800'
+                : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/60'
             }`}
           >
             <Users className="w-4 h-4" />
@@ -305,7 +303,7 @@ export const AdminDashboard: React.FC = () => {
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs transition-all ${
               activeTab === 'add_booking'
                 ? 'bg-amber-500 text-stone-950 shadow-md'
-                : 'text-stone-400 hover:text-stone-200 hover:bg-stone-800'
+                : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/60'
             }`}
           >
             <PlusCircle className="w-4 h-4" />
@@ -318,24 +316,24 @@ export const AdminDashboard: React.FC = () => {
           <div className="space-y-6">
             
             {/* Search and Filters */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-between bg-stone-950 p-4 rounded-2xl border border-stone-800">
+            <div className="flex flex-col sm:flex-row gap-4 justify-between bg-white p-4 rounded-2xl border border-stone-200 shadow-xs">
               <div className="relative flex-1">
-                <Search className="w-4 h-4 text-stone-500 absolute left-3.5 top-3" />
+                <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-3" />
                 <input
                   type="text"
                   placeholder="Search by guest name, email, or booking ID..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 bg-stone-900 border border-stone-700 rounded-xl text-xs text-white placeholder-stone-500 focus:outline-none focus:border-amber-400"
+                  className="w-full pl-10 pr-4 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 placeholder-stone-400 focus:outline-none focus:border-amber-500"
                 />
               </div>
 
               <div className="flex items-center gap-2">
-                <Filter className="w-4 h-4 text-stone-400" />
+                <Filter className="w-4 h-4 text-stone-500" />
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="bg-stone-900 border border-stone-700 rounded-xl text-xs px-3 py-2 text-white font-semibold"
+                  className="bg-stone-50 border border-stone-300 rounded-xl text-xs px-3 py-2 text-stone-900 font-semibold"
                 >
                   <option value="all">All Statuses</option>
                   <option value="pending">Pending Only</option>
@@ -348,17 +346,17 @@ export const AdminDashboard: React.FC = () => {
 
             {/* Bookings Table / Cards */}
             {loading ? (
-              <div className="bg-stone-950 p-12 text-center text-stone-400 text-xs rounded-2xl border border-stone-800">
+              <div className="bg-white p-12 text-center text-stone-500 text-xs rounded-2xl border border-stone-200 shadow-xs">
                 Fetching reservations from Firestore...
               </div>
             ) : filteredBookings.length === 0 ? (
-              <div className="bg-stone-950 p-12 text-center text-stone-400 text-xs rounded-2xl border border-stone-800">
+              <div className="bg-white p-12 text-center text-stone-500 text-xs rounded-2xl border border-stone-200 shadow-xs">
                 No matching bookings found.
               </div>
             ) : (
-              <div className="overflow-x-auto bg-stone-950 rounded-2xl border border-stone-800">
-                <table className="w-full text-left text-xs text-stone-300">
-                  <thead className="bg-stone-900 uppercase font-bold text-stone-400 border-b border-stone-800">
+              <div className="overflow-x-auto bg-white rounded-2xl border border-stone-200 shadow-xs">
+                <table className="w-full text-left text-xs text-stone-700">
+                  <thead className="bg-stone-100 uppercase font-bold text-stone-600 border-b border-stone-200">
                     <tr>
                       <th className="p-4">Guest Details</th>
                       <th className="p-4">Room & Stay</th>
@@ -368,36 +366,36 @@ export const AdminDashboard: React.FC = () => {
                       <th className="p-4 text-right">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-stone-800">
+                  <tbody className="divide-y divide-stone-200">
                     {filteredBookings.map((b) => (
-                      <tr key={b.id} className="hover:bg-stone-900/60 transition-colors">
+                      <tr key={b.id} className="hover:bg-stone-50 transition-colors">
                         
                         <td className="p-4">
-                          <div className="font-bold text-white">{b.guestName}</div>
-                          <div className="text-stone-400 text-[11px]">{b.guestEmail}</div>
-                          {b.guestPhone && <div className="text-stone-500 text-[10px]">{b.guestPhone}</div>}
+                          <div className="font-bold text-stone-900">{b.guestName}</div>
+                          <div className="text-stone-500 text-[11px]">{b.guestEmail}</div>
+                          {b.guestPhone && <div className="text-stone-400 text-[10px]">{b.guestPhone}</div>}
                         </td>
 
                         <td className="p-4">
-                          <div className="font-semibold text-amber-300">{b.roomName || b.roomType}</div>
-                          <div className="text-stone-400 text-[11px]">{b.guests} Guests</div>
+                          <div className="font-semibold text-amber-700">{b.roomName || b.roomType}</div>
+                          <div className="text-stone-500 text-[11px]">{b.guests} Guests</div>
                         </td>
 
                         <td className="p-4">
-                          <div className="text-stone-200">{b.checkInDate} to {b.checkOutDate}</div>
-                          <div className="text-[10px] text-stone-500">Booked: {new Date(b.createdAt).toLocaleDateString()}</div>
+                          <div className="text-stone-800">{b.checkInDate} to {b.checkOutDate}</div>
+                          <div className="text-[10px] text-stone-400">Booked: {new Date(b.createdAt).toLocaleDateString()}</div>
                         </td>
 
-                        <td className="p-4 font-serif font-bold text-white text-sm">
-                          ${b.totalAmount}
+                        <td className="p-4 font-serif font-bold text-stone-900 text-sm">
+                          {formatIDR(b.totalAmount)}
                         </td>
 
                         <td className="p-4">
                           <span className={`inline-block px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${
-                            b.status === 'confirmed' ? 'bg-emerald-950 text-emerald-400 border border-emerald-700' :
-                            b.status === 'pending' ? 'bg-amber-950 text-amber-300 border border-amber-700' :
-                            b.status === 'completed' ? 'bg-blue-950 text-blue-300 border border-blue-700' :
-                            'bg-red-950 text-red-300 border border-red-700'
+                            b.status === 'confirmed' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' :
+                            b.status === 'pending' ? 'bg-amber-100 text-amber-800 border border-amber-300' :
+                            b.status === 'completed' ? 'bg-blue-100 text-blue-800 border border-blue-300' :
+                            'bg-red-100 text-red-800 border border-red-300'
                           }`}>
                             {b.status}
                           </span>
@@ -410,7 +408,7 @@ export const AdminDashboard: React.FC = () => {
                                 <button
                                   onClick={() => handleUpdateBookingStatus(b.id!, 'confirmed')}
                                   title="Approve / Confirm"
-                                  className="px-2.5 py-1 bg-emerald-900 hover:bg-emerald-800 text-emerald-200 rounded-lg text-[11px] font-bold"
+                                  className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-[11px] font-bold shadow-xs"
                                 >
                                   Approve
                                 </button>
@@ -420,7 +418,7 @@ export const AdminDashboard: React.FC = () => {
                                 <button
                                   onClick={() => handleUpdateBookingStatus(b.id!, 'completed')}
                                   title="Mark Completed"
-                                  className="px-2.5 py-1 bg-blue-900 hover:bg-blue-800 text-blue-200 rounded-lg text-[11px] font-bold"
+                                  className="px-2.5 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-[11px] font-bold shadow-xs"
                                 >
                                   Complete
                                 </button>
@@ -430,7 +428,7 @@ export const AdminDashboard: React.FC = () => {
                                 <button
                                   onClick={() => handleUpdateBookingStatus(b.id!, 'cancelled')}
                                   title="Cancel"
-                                  className="px-2.5 py-1 bg-amber-950 hover:bg-amber-900 text-amber-200 rounded-lg text-[11px] font-bold"
+                                  className="px-2.5 py-1 bg-amber-700 hover:bg-amber-800 text-white rounded-lg text-[11px] font-bold shadow-xs"
                                 >
                                   Cancel
                                 </button>
@@ -439,7 +437,7 @@ export const AdminDashboard: React.FC = () => {
                               <button
                                 onClick={() => handleDeleteBooking(b.id!)}
                                 title="Delete record"
-                                className="p-1.5 text-stone-500 hover:text-red-400 transition-colors"
+                                className="p-1.5 text-stone-400 hover:text-red-600 transition-colors"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </button>
@@ -461,21 +459,21 @@ export const AdminDashboard: React.FC = () => {
         {activeTab === 'messages' && (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h2 className="font-serif text-2xl font-bold text-white flex items-center gap-2">
-                <Inbox className="w-5 h-5 text-amber-400" />
+              <h2 className="font-serif text-2xl font-bold text-stone-900 flex items-center gap-2">
+                <Inbox className="w-5 h-5 text-amber-600" />
                 Contact Form Message Inbox
               </h2>
-              <span className="text-xs text-stone-400">
+              <span className="text-xs text-stone-500">
                 Messages submitted directly from the landing page contact form
               </span>
             </div>
 
             {loading ? (
-              <div className="bg-stone-950 p-12 text-center text-stone-400 text-xs rounded-2xl border border-stone-800">
+              <div className="bg-white p-12 text-center text-stone-500 text-xs rounded-2xl border border-stone-200 shadow-xs">
                 Fetching message inquiries from Firestore database...
               </div>
             ) : messages.length === 0 ? (
-              <div className="bg-stone-950 p-12 text-center text-stone-400 text-xs rounded-2xl border border-stone-800">
+              <div className="bg-white p-12 text-center text-stone-500 text-xs rounded-2xl border border-stone-200 shadow-xs">
                 No contact form messages received yet.
               </div>
             ) : (
@@ -483,33 +481,33 @@ export const AdminDashboard: React.FC = () => {
                 {messages.map((m) => (
                   <div
                     key={m.id}
-                    className={`bg-stone-950 p-6 rounded-2xl border transition-all space-y-4 ${
-                      m.readStatus === 'unread' ? 'border-amber-400 shadow-lg' : 'border-stone-800 opacity-90'
+                    className={`bg-white p-6 rounded-2xl border transition-all shadow-xs space-y-4 ${
+                      m.readStatus === 'unread' ? 'border-amber-400 shadow-md ring-1 ring-amber-400/30' : 'border-stone-200 opacity-95'
                     }`}
                   >
-                    <div className="flex items-start justify-between border-b border-stone-800 pb-3">
+                    <div className="flex items-start justify-between border-b border-stone-100 pb-3">
                       <div>
-                        <div className="font-bold text-white text-sm">{m.senderName}</div>
-                        <div className="text-amber-300 text-xs">{m.email}</div>
-                        {m.phone && <div className="text-stone-400 text-[11px]">{m.phone}</div>}
+                        <div className="font-bold text-stone-900 text-sm">{m.senderName}</div>
+                        <div className="text-amber-700 text-xs">{m.email}</div>
+                        {m.phone && <div className="text-stone-500 text-[11px]">{m.phone}</div>}
                       </div>
 
                       <span className={`text-[10px] font-bold uppercase px-2.5 py-1 rounded-full ${
-                        m.readStatus === 'unread' ? 'bg-red-950 text-red-300 border border-red-700' :
-                        m.readStatus === 'replied' ? 'bg-emerald-950 text-emerald-300 border border-emerald-700' :
-                        'bg-stone-800 text-stone-300'
+                        m.readStatus === 'unread' ? 'bg-red-100 text-red-800 border border-red-300' :
+                        m.readStatus === 'replied' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' :
+                        'bg-stone-200 text-stone-700'
                       }`}>
                         {m.readStatus}
                       </span>
                     </div>
 
                     {m.subject && (
-                      <div className="text-xs font-bold text-amber-400">
+                      <div className="text-xs font-bold text-amber-800">
                         Subject: {m.subject}
                       </div>
                     )}
 
-                    <div className="text-xs text-stone-300 leading-relaxed bg-stone-900 p-3.5 rounded-xl border border-stone-800">
+                    <div className="text-xs text-stone-800 leading-relaxed bg-stone-50 p-3.5 rounded-xl border border-stone-200">
                       "{m.messageText}"
                     </div>
 
@@ -522,7 +520,7 @@ export const AdminDashboard: React.FC = () => {
                             {m.readStatus === 'unread' && (
                               <button
                                 onClick={() => handleMessageRead(m.id!, 'read')}
-                                className="text-xs px-2 py-1 bg-stone-800 hover:bg-stone-700 text-stone-200 rounded-md font-medium"
+                                className="text-xs px-2.5 py-1 bg-stone-200 hover:bg-stone-300 text-stone-800 rounded-md font-medium"
                               >
                                 Mark Read
                               </button>
@@ -530,14 +528,14 @@ export const AdminDashboard: React.FC = () => {
 
                             <button
                               onClick={() => handleMessageRead(m.id!, 'replied', 'Replied by admin via email')}
-                              className="text-xs px-2 py-1 bg-emerald-900 hover:bg-emerald-800 text-emerald-200 rounded-md font-medium"
+                              className="text-xs px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md font-medium"
                             >
                               Mark Replied
                             </button>
 
                             <button
                               onClick={() => handleDeleteMessage(m.id!)}
-                              className="p-1 text-stone-500 hover:text-red-400"
+                              className="p-1 text-stone-400 hover:text-red-600"
                               title="Delete inquiry"
                             >
                               <Trash2 className="w-4 h-4" />
@@ -559,18 +557,18 @@ export const AdminDashboard: React.FC = () => {
         {activeTab === 'users' && (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h2 className="font-serif text-2xl font-bold text-white flex items-center gap-2">
-                <Users className="w-5 h-5 text-amber-400" />
+              <h2 className="font-serif text-2xl font-bold text-stone-900 flex items-center gap-2">
+                <Users className="w-5 h-5 text-amber-600" />
                 User Profiles & Role Management
               </h2>
-              <span className="text-xs text-stone-400">
+              <span className="text-xs text-stone-500">
                 Promote or demote user access privileges ('admin' vs 'guest')
               </span>
             </div>
 
-            <div className="overflow-x-auto bg-stone-950 rounded-2xl border border-stone-800">
-              <table className="w-full text-left text-xs text-stone-300">
-                <thead className="bg-stone-900 uppercase font-bold text-stone-400 border-b border-stone-800">
+            <div className="overflow-x-auto bg-white rounded-2xl border border-stone-200 shadow-xs">
+              <table className="w-full text-left text-xs text-stone-700">
+                <thead className="bg-stone-100 uppercase font-bold text-stone-600 border-b border-stone-200">
                   <tr>
                     <th className="p-4">User</th>
                     <th className="p-4">Email</th>
@@ -578,14 +576,14 @@ export const AdminDashboard: React.FC = () => {
                     <th className="p-4 text-right">Change Role</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-stone-800">
+                <tbody className="divide-y divide-stone-200">
                   {usersList.map((u) => (
-                    <tr key={u.uid} className="hover:bg-stone-900/60 transition-colors">
-                      <td className="p-4 font-bold text-white">{u.displayName || 'User'}</td>
-                      <td className="p-4 text-stone-400">{u.email}</td>
+                    <tr key={u.uid} className="hover:bg-stone-50 transition-colors">
+                      <td className="p-4 font-bold text-stone-900">{u.displayName || 'User'}</td>
+                      <td className="p-4 text-stone-600">{u.email}</td>
                       <td className="p-4">
                         <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${
-                          u.role === 'admin' ? 'bg-emerald-950 text-emerald-300 border border-emerald-700' : 'bg-amber-950 text-amber-300 border border-amber-700'
+                          u.role === 'admin' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-amber-100 text-amber-800 border border-amber-300'
                         }`}>
                           {u.role}
                         </span>
@@ -594,14 +592,14 @@ export const AdminDashboard: React.FC = () => {
                         {u.role === 'guest' ? (
                           <button
                             onClick={() => handleRoleChange(u.uid, 'admin')}
-                            className="px-3 py-1 bg-emerald-900 hover:bg-emerald-800 text-emerald-200 rounded-lg text-xs font-bold"
+                            className="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow-xs"
                           >
                             Promote to Admin
                           </button>
                         ) : (
                           <button
                             onClick={() => handleRoleChange(u.uid, 'guest')}
-                            className="px-3 py-1 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-lg text-xs font-bold"
+                            className="px-3 py-1 bg-stone-300 hover:bg-stone-400 text-stone-800 rounded-lg text-xs font-bold shadow-xs"
                           >
                             Demote to Guest
                           </button>
@@ -618,9 +616,9 @@ export const AdminDashboard: React.FC = () => {
 
         {/* TAB 4: WALK-IN / DIRECT BOOKING */}
         {activeTab === 'add_booking' && (
-          <div className="bg-stone-950 p-8 rounded-2xl border border-stone-800 max-w-2xl space-y-6">
-            <h2 className="font-serif text-2xl font-bold text-white flex items-center gap-2">
-              <PlusCircle className="w-5 h-5 text-amber-400" />
+          <div className="bg-white p-8 rounded-2xl border border-stone-200 shadow-xs max-w-2xl space-y-6">
+            <h2 className="font-serif text-2xl font-bold text-stone-900 flex items-center gap-2">
+              <PlusCircle className="w-5 h-5 text-amber-600" />
               Create Walk-In / Phone Reservation
             </h2>
 
@@ -628,72 +626,72 @@ export const AdminDashboard: React.FC = () => {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-stone-300 mb-1">Guest Full Name</label>
+                  <label className="block text-xs font-bold text-stone-700 mb-1">Guest Full Name</label>
                   <input
                     type="text"
                     required
                     placeholder="Guest Name"
                     value={newGuestName}
                     onChange={(e) => setNewGuestName(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-stone-900 border border-stone-700 text-white text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-stone-50 border border-stone-300 text-stone-900 text-sm focus:outline-none focus:border-amber-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-stone-300 mb-1">Guest Email</label>
+                  <label className="block text-xs font-bold text-stone-700 mb-1">Guest Email</label>
                   <input
                     type="email"
                     required
                     placeholder="guest@example.com"
                     value={newGuestEmail}
                     onChange={(e) => setNewGuestEmail(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-stone-900 border border-stone-700 text-white text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-stone-50 border border-stone-300 text-stone-900 text-sm focus:outline-none focus:border-amber-500"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-stone-300 mb-1">Select Room</label>
+                <label className="block text-xs font-bold text-stone-700 mb-1">Select Room</label>
                 <select
                   value={newRoomType}
                   onChange={(e) => setNewRoomType(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-stone-900 border border-stone-700 text-white text-sm"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-stone-50 border border-stone-300 text-stone-900 text-sm focus:outline-none focus:border-amber-500"
                 >
                   {ROOMS.map(r => (
-                    <option key={r.id} value={r.id}>{r.name} (${r.pricePerNight}/night)</option>
+                    <option key={r.id} value={r.id}>{r.name} ({formatIDR(r.pricePerNight * 16000)}/night)</option>
                   ))}
                 </select>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-stone-300 mb-1">Check-in</label>
+                  <label className="block text-xs font-bold text-stone-700 mb-1">Check-in</label>
                   <input
                     type="date"
                     required
                     value={newCheckIn}
                     onChange={(e) => setNewCheckIn(e.target.value)}
-                    className="w-full px-3.5 py-2 rounded-xl bg-stone-900 border border-stone-700 text-white text-sm"
+                    className="w-full px-3.5 py-2 rounded-xl bg-stone-50 border border-stone-300 text-stone-900 text-sm focus:outline-none focus:border-amber-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-stone-300 mb-1">Check-out</label>
+                  <label className="block text-xs font-bold text-stone-700 mb-1">Check-out</label>
                   <input
                     type="date"
                     required
                     value={newCheckOut}
                     onChange={(e) => setNewCheckOut(e.target.value)}
-                    className="w-full px-3.5 py-2 rounded-xl bg-stone-900 border border-stone-700 text-white text-sm"
+                    className="w-full px-3.5 py-2 rounded-xl bg-stone-50 border border-stone-300 text-stone-900 text-sm focus:outline-none focus:border-amber-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-stone-300 mb-1">Guests</label>
+                  <label className="block text-xs font-bold text-stone-700 mb-1">Guests</label>
                   <select
                     value={newGuests}
                     onChange={(e) => setNewGuests(Number(e.target.value))}
-                    className="w-full px-3.5 py-2 rounded-xl bg-stone-900 border border-stone-700 text-white text-sm"
+                    className="w-full px-3.5 py-2 rounded-xl bg-stone-50 border border-stone-300 text-stone-900 text-sm focus:outline-none focus:border-amber-500"
                   >
                     <option value={1}>1 Guest</option>
                     <option value={2}>2 Guests</option>
@@ -705,9 +703,9 @@ export const AdminDashboard: React.FC = () => {
 
               <button
                 type="submit"
-                className="w-full py-3 bg-amber-500 hover:bg-amber-600 text-stone-950 font-extrabold rounded-xl shadow-md text-sm mt-4"
+                className="w-full py-3 bg-amber-500 hover:bg-amber-600 text-stone-950 font-extrabold rounded-xl shadow-md text-sm mt-4 transition-all"
               >
-                Record Reservation directly
+                Record Reservation Directly
               </button>
 
             </form>
