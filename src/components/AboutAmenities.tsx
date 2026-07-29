@@ -1,24 +1,20 @@
 import React from 'react';
 import { HOTEL_AMENITIES } from '../data/rooms';
 import { useLanguage } from '../context/LanguageContext';
-import { Wifi, Waves, UtensilsCrossed, Clock, Sparkles, Car, ShieldCheck, Award } from 'lucide-react';
+import { Wifi, Wind, UtensilsCrossed, Clock, Tv, Car, ShieldCheck, Award, Sparkles } from 'lucide-react';
 
 const iconMap: Record<string, React.ReactNode> = {
   Wifi: <Wifi className="w-6 h-6 text-amber-600" />,
-  Waves: <Waves className="w-6 h-6 text-amber-600" />,
+  Wind: <Wind className="w-6 h-6 text-amber-600" />,
   UtensilsCrossed: <UtensilsCrossed className="w-6 h-6 text-amber-600" />,
   Clock: <Clock className="w-6 h-6 text-amber-600" />,
-  Sparkles: <Sparkles className="w-6 h-6 text-amber-600" />,
-  Car: <Car className="w-6 h-6 text-amber-600" />
+  Tv: <Tv className="w-6 h-6 text-amber-600" />,
+  Car: <Car className="w-6 h-6 text-amber-600" />,
+  Sparkles: <Sparkles className="w-6 h-6 text-amber-600" />
 };
 
 export const AboutAmenities: React.FC = () => {
   const { lang } = useLanguage();
-
-  // Bilingual text dictionary for About & Amenities
-  content: {
-    // handled inline below
-  }
 
   const text = {
     en: {
