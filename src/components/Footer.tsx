@@ -5,7 +5,7 @@ import { RoomInfo } from '../types';
 import { createBooking } from '../lib/dataService';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
-
+ 
 interface BookingModalProps {
   isOpen: boolean;
   onClose: () => void;
