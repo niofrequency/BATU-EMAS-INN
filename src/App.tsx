@@ -55,7 +55,7 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-stone-900 font-sans flex flex-col justify-between selection:bg-amber-300 selection:text-stone-950">
+    <div className="min-h-screen bg-stone-100 text-stone-900 font-sans flex flex-col justify-between selection:bg-amber-300 selection:text-stone-950">
       
       <div>
         <Navbar
@@ -80,7 +80,7 @@ function AppContent() {
               <GuestDashboard onOpenNewBooking={() => setBookingModalOpen(true)} />
             ) : (
               <div className="py-20 max-w-lg mx-auto text-center px-4 space-y-4">
-                <div className="w-12 h-12 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center mx-auto font-bold">
+                <div className="w-12 h-12 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center mx-auto font-bold shadow-xs">
                   <Calendar className="w-6 h-6" />
                 </div>
                 <h2 className="font-serif text-2xl font-bold text-stone-900">Guest Portal Access</h2>
@@ -89,7 +89,7 @@ function AppContent() {
                 </p>
                 <button
                   onClick={() => setAuthModalOpen(true)}
-                  className="bg-amber-500 hover:bg-amber-600 text-stone-950 font-bold px-6 py-2.5 rounded-xl shadow-md text-sm"
+                  className="bg-amber-500 hover:bg-amber-600 text-stone-950 font-bold px-6 py-2.5 rounded-xl shadow-md text-sm transition-all"
                 >
                   Sign In / Register
                 </button>
@@ -104,7 +104,7 @@ function AppContent() {
               <AdminDashboard />
             ) : (
               <div className="py-20 max-w-lg mx-auto text-center px-4 space-y-4">
-                <div className="w-12 h-12 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center mx-auto font-bold">
+                <div className="w-12 h-12 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center mx-auto font-bold shadow-xs">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
                 <h2 className="font-serif text-2xl font-bold text-stone-900">Admin Portal Access Restricted</h2>
@@ -114,7 +114,7 @@ function AppContent() {
                 <div className="flex justify-center gap-3">
                   <button
                     onClick={() => setAuthModalOpen(true)}
-                    className="bg-emerald-950 hover:bg-emerald-900 text-amber-300 font-bold px-6 py-2.5 rounded-xl text-sm border border-emerald-800"
+                    className="bg-emerald-900 hover:bg-emerald-800 text-amber-300 font-bold px-6 py-2.5 rounded-xl text-sm border border-emerald-700 shadow-xs transition-all"
                   >
                     Switch to Admin Role
                   </button>
