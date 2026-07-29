@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { Navbar } from './components/Navbar';
@@ -12,10 +12,10 @@ import { BookingModal } from './components/BookingModal';
 import { AuthModal } from './components/AuthModal';
 import { Footer } from './components/Footer';
 import { RoomInfo, UserRole } from './types';
-import { ShieldCheck, Calendar } from 'lucide-react';
+import { ShieldCheck, Calendar, Sparkles } from 'lucide-react';
 
 function AppContent() {
-  const { user, isAdmin } = useAuth();
+  const { user, isAdmin, loading } = useAuth();
   
   const [currentView, setCurrentView] = useState<'landing' | 'guest' | 'admin'>('landing');
   const [authModalOpen, setAuthModalOpen] = useState(false);
@@ -28,6 +28,13 @@ function AppContent() {
     guests: number;
     roomType: string;
   } | null>(null);
+
+  // Automatically switch view if user role resolves to admin after loading
+  useEffect(() => {
+    if (!loading && user && isAdmin && currentView === 'landing') {
+      setCurrentView('admin');
+    }
+  }, [loading, user, isAdmin]);
 
   const handleQuickBook = (params: {
     checkInDate: string;
@@ -53,6 +60,17 @@ function AppContent() {
       setCurrentView('guest');
     }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-stone-100 flex flex-col items-center justify-center space-y-4">
+        <div className="w-12 h-12 rounded-2xl bg-amber-500 text-stone-950 flex items-center justify-center shadow-lg animate-pulse">
+          <Sparkles className="w-6 h-6 fill-stone-950" />
+        </div>
+        <p className="text-stone-600 text-xs font-semibold tracking-wider uppercase">Loading Batu Emas Inn...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-stone-100 text-stone-900 font-sans flex flex-col justify-between selection:bg-amber-300 selection:text-stone-950">
