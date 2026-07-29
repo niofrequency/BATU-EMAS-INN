@@ -112,6 +112,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     }
   }[lang];
 
+  const formatIDR = (priceInUSD: number) => {
+    const idrAmount = priceInUSD * 1000;
+    const formatted = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 0 }).format(idrAmount);
+    return `Rp ${formatted}`;
+  };
+
   useEffect(() => {
     if (preselectedRoom) {
       setSelectedRoomId(preselectedRoom.id);
@@ -132,11 +138,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
   const currentRoom = ROOMS.find(r => r.id === selectedRoomId) || ROOMS[0];
 
-  // Calculate nights & total price
+  // Calculate nights & total price in IDR
   const inDate = new Date(checkInDate);
   const outDate = new Date(checkOutDate);
   const nightCount = Math.max(1, Math.round((outDate.getTime() - inDate.getTime()) / (1000 * 3600 * 24)));
-  const totalAmount = nightCount * currentRoom.pricePerNight;
+  const roomPriceIDR = currentRoom.pricePerNight * 1000;
+  const totalAmount = nightCount * roomPriceIDR;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -194,7 +201,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               {text.successTitle}
             </h3>
             <p className="text-stone-600 text-sm max-w-md mx-auto">
-              {text.successDesc} <strong className="text-stone-900">{currentRoom.name}</strong> {text.fromText} <strong>{checkInDate}</strong> {text.toText} <strong>{checkOutDate}</strong> ({nightCount} {text.nightsText}, ${totalAmount}) {text.hasBeenStored}
+              {text.successDesc} <strong className="text-stone-900">{currentRoom.name}</strong> {text.fromText} <strong>{checkInDate}</strong> {text.toText} <strong>{checkOutDate}</strong> ({nightCount} {text.nightsText}, {formatIDR(totalAmount)}) {text.hasBeenStored}
             </p>
             <div className="p-4 bg-amber-50 rounded-2xl border border-amber-200 text-xs text-amber-900 text-left space-y-1 max-w-md mx-auto">
               <div className="font-bold flex items-center gap-1">
@@ -256,7 +263,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 >
                   {ROOMS.map(r => (
                     <option key={r.id} value={r.id}>
-                      {r.name} — ${r.pricePerNight}/night ({r.subtitle})
+                      {r.name} — {formatIDR(r.pricePerNight)}/night ({r.subtitle})
                     </option>
                   ))}
                 </select>
@@ -371,11 +378,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 <div>
                   <div className="text-xs text-amber-900 font-bold">{text.estimatedTotal}</div>
                   <div className="text-[11px] text-stone-600">
-                    {nightCount} {text.nightPerNight} ${currentRoom.pricePerNight} / night
+                    {nightCount} {text.nightPerNight} {formatIDR(currentRoom.pricePerNight)} / night
                   </div>
                 </div>
                 <div className="font-serif text-2xl font-extrabold text-amber-700">
-                  ${totalAmount}
+                  {formatIDR(totalAmount)}
                 </div>
               </div>
 
