@@ -102,7 +102,7 @@ export const AboutAmenities: React.FC = () => {
           <div className="relative">
             <div className="grid grid-cols-2 gap-4">
               <img
-                src="/img/frontdesk.webp"
+                src="/img/admindesk.webp"
                 alt="Hotel Interior Yellow Tiles"
                 className="rounded-2xl object-cover h-64 w-full shadow-md border-2 border-amber-300/40"
               />
