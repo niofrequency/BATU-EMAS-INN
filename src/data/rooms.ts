@@ -67,7 +67,7 @@ export const getRooms = (lang: 'en' | 'id'): RoomInfo[] => {
       capacity: 2,
       size: '38 m²',
       description: 'A spacious and meticulously crafted retreat featuring signature polished yellow marble tile accents, a king-sized mattress, private balcony, and serene garden view.',
-      image: '/img/room 3.webp',
+      image: '/img/room 1.webp',
       amenities: ['King Bed', 'Free High-Speed Wi-Fi', 'Balcony with Garden View', 'Golden Tile Bathroom', '55" Smart TV', 'Mini Bar', 'Air Conditioning'],
       rating: 4.9,
       featured: true
@@ -80,7 +80,7 @@ export const getRooms = (lang: 'en' | 'id'): RoomInfo[] => {
       capacity: 3,
       size: '56 m²',
       description: 'Designed for discerning travelers. Features a separate lounge area with golden oak furnishings, deep soak bathtub, coffee espresso lounge, and sunset views.',
-      image: '/img/room 3.webp',
+      image: '/img/room 2.webp',
       amenities: ['King Bed + Sofa Bed', 'Separate Living Room', 'Espresso Machine', 'Soaking Bathtub', 'Executive Desk', '24/7 Butler Service', 'Free Breakfast'],
       rating: 4.95,
       featured: true
