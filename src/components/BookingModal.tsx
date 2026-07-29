@@ -112,9 +112,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     }
   }[lang];
 
-  const formatIDR = (priceInUSD: number) => {
-    const idrAmount = priceInUSD * 1000;
-    const formatted = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 0 }).format(idrAmount);
+  // Helper to format exact IDR matching the room cards (e.g. Rp 120.000)
+  const formatIDR = (amount: number) => {
+    const formatted = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 0 }).format(amount);
     return `Rp ${formatted}`;
   };
 
@@ -138,7 +138,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
   const currentRoom = ROOMS.find(r => r.id === selectedRoomId) || ROOMS[0];
 
-  // Calculate nights & total price in IDR
+  // Calculate nights & total price in IDR matching room card pricing
   const inDate = new Date(checkInDate);
   const outDate = new Date(checkOutDate);
   const nightCount = Math.max(1, Math.round((outDate.getTime() - inDate.getTime()) / (1000 * 3600 * 24)));
@@ -263,7 +263,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 >
                   {ROOMS.map(r => (
                     <option key={r.id} value={r.id}>
-                      {r.name} — {formatIDR(r.pricePerNight)}/night ({r.subtitle})
+                      {r.name} — {formatIDR(r.pricePerNight * 1000)}/night ({r.subtitle})
                     </option>
                   ))}
                 </select>
@@ -378,7 +378,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 <div>
                   <div className="text-xs text-amber-900 font-bold">{text.estimatedTotal}</div>
                   <div className="text-[11px] text-stone-600">
-                    {nightCount} {text.nightPerNight} {formatIDR(currentRoom.pricePerNight)} / night
+                    {nightCount} {text.nightPerNight} {formatIDR(currentRoom.pricePerNight * 1000)} / night
                   </div>
                 </div>
                 <div className="font-serif text-2xl font-extrabold text-amber-700">
