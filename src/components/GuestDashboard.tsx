@@ -4,7 +4,7 @@ import { fetchUserBookings, updateBookingStatus } from '../lib/dataService';
 import { Booking } from '../types';
 import { Calendar, Clock, Crown, Sparkles, CheckCircle2, AlertCircle, XCircle, RefreshCw, PlusCircle, User } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
- 
+
 interface GuestDashboardProps {
   onOpenNewBooking: () => void;
 }
