@@ -48,12 +48,12 @@ export const AdminDashboard: React.FC = () => {
   const [historyStartDate, setHistoryStartDate] = useState('');
   const [historyEndDate, setHistoryEndDate] = useState('');
 
-  // New Booking Form state for Walk-ins
+  // New Booking Form state for Walk-ins (Default check-out set to 1 night stay)
   const [newGuestName, setNewGuestName] = useState('');
   const [newGuestEmail, setNewGuestEmail] = useState('');
   const [newRoomType, setNewRoomType] = useState('deluxe_gold');
   const [newCheckIn, setNewCheckIn] = useState(new Date().toISOString().split('T')[0]);
-  const [newCheckOut, setNewCheckOut] = useState(new Date(Date.now() + 86400000 * 2).toISOString().split('T')[0]);
+  const [newCheckOut, setNewCheckOut] = useState(new Date(Date.now() + 86400000).toISOString().split('T')[0]);
   const [newGuests, setNewGuests] = useState(2);
 
   const loadAllAdminData = async () => {
@@ -168,6 +168,7 @@ export const AdminDashboard: React.FC = () => {
     }
   };
 
+  // Standardized helper to format exact IDR amounts accurately
   const formatIDR = (amount: number) => {
     const correctedAmount = amount < 10000 ? amount * 1000 : amount;
     const formatted = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 0 }).format(correctedAmount);
