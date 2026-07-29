@@ -9,8 +9,8 @@ interface RoomsSectionProps {
 
 export const RoomsSection: React.FC<RoomsSectionProps> = ({ onSelectRoom }) => {
   return (
-    <section id="rooms" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="rooms" className="py-20 bg-white w-full">
+      <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24">
         
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
           <div>
