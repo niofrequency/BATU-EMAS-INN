@@ -184,6 +184,5 @@ export const getHotelAmenities = (lang: 'en' | 'id') => {
   ];
 };
 
-// Backwards compatibility fallback arrays if imported statically elsewhere
 export const ROOMS: RoomInfo[] = getRooms('en');
 export const HOTEL_AMENITIES = getHotelAmenities('en');
