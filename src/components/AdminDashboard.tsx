@@ -24,13 +24,14 @@ import {
   DollarSign, 
   Filter,
   Sparkles,
-  Search
+  Search,
+  History
 } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
   const { user } = useAuth();
 
-  const [activeTab, setActiveTab] = useState<'bookings' | 'messages' | 'users' | 'add_booking'>('bookings');
+  const [activeTab, setActiveTab] = useState<'bookings' | 'history' | 'messages' | 'users' | 'add_booking'>('bookings');
   
   // Data States
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -41,6 +42,11 @@ export const AdminDashboard: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [actionMsg, setActionMsg] = useState('');
+
+  // History Tab Filter States
+  const [historySearch, setHistorySearch] = useState('');
+  const [historyStartDate, setHistoryStartDate] = useState('');
+  const [historyEndDate, setHistoryEndDate] = useState('');
 
   // New Booking Form state for Walk-ins
   const [newGuestName, setNewGuestName] = useState('');
@@ -162,12 +168,24 @@ export const AdminDashboard: React.FC = () => {
     }
   };
 
-  // Metrics
-  const totalRevenue = bookings.filter(b => b.status === 'confirmed' || b.status === 'completed').reduce((acc, curr) => acc + (curr.totalAmount || 0), 0);
+  const formatIDR = (amount: number) => {
+    const correctedAmount = amount < 10000 ? amount * 1000 : amount;
+    const formatted = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 0 }).format(correctedAmount);
+    return `Rp ${formatted}`;
+  };
+
+  // Corrected Math Formula for Total Confirmed Revenue
+  const totalRevenue = bookings
+    .filter(b => b.status === 'confirmed' || b.status === 'completed')
+    .reduce((acc, curr) => {
+      const amt = curr.totalAmount || 0;
+      return acc + (amt < 10000 ? amt * 1000 : amt);
+    }, 0);
+
   const pendingBookingsCount = bookings.filter(b => b.status === 'pending').length;
   const unreadMessagesCount = messages.filter(m => m.readStatus === 'unread').length;
 
-  // Filtered Bookings
+  // Filtered Bookings for CRUD tab
   const filteredBookings = bookings.filter(b => {
     const matchesSearch = b.guestName.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           b.guestEmail.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -176,10 +194,20 @@ export const AdminDashboard: React.FC = () => {
     return matchesSearch && matchesStatus;
   });
 
-  const formatIDR = (amount: number) => {
-    const formatted = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 0 }).format(amount);
-    return `Rp ${formatted}`;
-  };
+  // Filtered History for History Tab (Name, Email, Phone, Date filtering)
+  const filteredHistory = bookings.filter(b => {
+    const query = historySearch.toLowerCase();
+    const matchesSearch = 
+      (b.guestName && b.guestName.toLowerCase().includes(query)) || 
+      (b.guestEmail && b.guestEmail.toLowerCase().includes(query)) ||
+      (b.guestPhone && b.guestPhone.toLowerCase().includes(query));
+
+    const bookingDate = b.checkInDate; // YYYY-MM-DD
+    const matchesStartDate = !historyStartDate || bookingDate >= historyStartDate;
+    const matchesEndDate = !historyEndDate || bookingDate <= historyEndDate;
+
+    return matchesSearch && matchesStartDate && matchesEndDate;
+  });
 
   return (
     <div className="py-10 bg-stone-100 text-stone-900 min-h-screen w-full">
@@ -275,6 +303,18 @@ export const AdminDashboard: React.FC = () => {
           >
             <Calendar className="w-4 h-4" />
             <span>Bookings CRUD ({bookings.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('history')}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs transition-all ${
+              activeTab === 'history'
+                ? 'bg-amber-500 text-stone-950 shadow-md'
+                : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/60'
+            }`}
+          >
+            <History className="w-4 h-4" />
+            <span>Reservation History</span>
           </button>
 
           <button
@@ -461,7 +501,110 @@ export const AdminDashboard: React.FC = () => {
           </div>
         )}
 
-        {/* TAB 2: CONTACT MESSAGES INBOX */}
+        {/* TAB 2: RESERVATION HISTORY & FILTERS */}
+        {activeTab === 'history' && (
+          <div className="space-y-6">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-stone-200 shadow-xs">
+              <div className="relative flex-1">
+                <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-3" />
+                <input
+                  type="text"
+                  placeholder="Search history by name, email, or phone..."
+                  value={historySearch}
+                  onChange={(e) => setHistorySearch(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 bg-stone-50 border border-stone-300 rounded-xl text-xs text-stone-900 placeholder-stone-400 focus:outline-none focus:border-amber-500"
+                />
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1.5 text-xs text-stone-600 font-medium">
+                  <span>From:</span>
+                  <input
+                    type="date"
+                    value={historyStartDate}
+                    onChange={(e) => setHistoryStartDate(e.target.value)}
+                    className="bg-stone-50 border border-stone-300 rounded-xl px-2.5 py-1.5 text-xs text-stone-900"
+                  />
+                </div>
+
+                <div className="flex items-center gap-1.5 text-xs text-stone-600 font-medium">
+                  <span>To:</span>
+                  <input
+                    type="date"
+                    value={historyEndDate}
+                    onChange={(e) => setHistoryEndDate(e.target.value)}
+                    className="bg-stone-50 border border-stone-300 rounded-xl px-2.5 py-1.5 text-xs text-stone-900"
+                  />
+                </div>
+
+                {(historySearch || historyStartDate || historyEndDate) && (
+                  <button
+                    onClick={() => { setHistorySearch(''); setHistoryStartDate(''); setHistoryEndDate(''); }}
+                    className="text-xs text-amber-700 font-bold hover:underline"
+                  >
+                    Reset
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {loading ? (
+              <div className="bg-white p-12 text-center text-stone-500 text-xs rounded-2xl border border-stone-200 shadow-xs">
+                Loading history records...
+              </div>
+            ) : filteredHistory.length === 0 ? (
+              <div className="bg-white p-12 text-center text-stone-500 text-xs rounded-2xl border border-stone-200 shadow-xs">
+                No reservation history found matching your filters.
+              </div>
+            ) : (
+              <div className="overflow-x-auto bg-white rounded-2xl border border-stone-200 shadow-xs">
+                <table className="w-full text-left text-xs text-stone-700">
+                  <thead className="bg-stone-100 uppercase font-bold text-stone-600 border-b border-stone-200">
+                    <tr>
+                      <th className="p-4">Guest Details</th>
+                      <th className="p-4">Room & Stay</th>
+                      <th className="p-4">Check-in / Check-out</th>
+                      <th className="p-4">Total Paid</th>
+                      <th className="p-4">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-stone-200">
+                    {filteredHistory.map((b) => (
+                      <tr key={b.id} className="hover:bg-stone-50 transition-colors">
+                        <td className="p-4">
+                          <div className="font-bold text-stone-900">{b.guestName}</div>
+                          <div className="text-stone-500 text-[11px]">{b.guestEmail}</div>
+                          {b.guestPhone && <div className="text-stone-400 text-[10px]">{b.guestPhone}</div>}
+                        </td>
+                        <td className="p-4">
+                          <div className="font-semibold text-amber-700">{b.roomName || b.roomType}</div>
+                          <div className="text-stone-500 text-[11px]">{b.guests} Guests</div>
+                        </td>
+                        <td className="p-4">
+                          <div className="text-stone-800">{b.checkInDate} to {b.checkOutDate}</div>
+                        </td>
+                        <td className="p-4 font-serif font-bold text-stone-900 text-sm">
+                          {formatIDR(b.totalAmount)}
+                        </td>
+                        <td className="p-4">
+                          <span className={`inline-block px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${
+                            b.status === 'confirmed' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' :
+                            b.status === 'completed' ? 'bg-blue-100 text-blue-800 border border-blue-300' :
+                            'bg-stone-200 text-stone-700'
+                          }`}>
+                            {b.status}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* TAB 3: CONTACT MESSAGES INBOX */}
         {activeTab === 'messages' && (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
@@ -559,7 +702,7 @@ export const AdminDashboard: React.FC = () => {
           </div>
         )}
 
-        {/* TAB 3: USER ROLES MANAGEMENT */}
+        {/* TAB 4: USER ROLES MANAGEMENT */}
         {activeTab === 'users' && (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
@@ -627,7 +770,7 @@ export const AdminDashboard: React.FC = () => {
           </div>
         )}
 
-        {/* TAB 4: WALK-IN / DIRECT BOOKING */}
+        {/* TAB 5: WALK-IN / DIRECT BOOKING */}
         {activeTab === 'add_booking' && (
           <div className="bg-white p-8 rounded-2xl border border-stone-200 shadow-xs max-w-2xl space-y-6">
             <h2 className="font-serif text-2xl font-bold text-stone-900 flex items-center gap-2">
