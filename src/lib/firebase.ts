@@ -2,26 +2,22 @@ import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { getFirestore, Firestore } from 'firebase/firestore';
 import { getAuth, Auth, GoogleAuthProvider } from 'firebase/auth';
 
-// Default config fallback if config file is not yet generated
-const defaultConfig = {
-  apiKey: "demo-api-key",
-  authDomain: "batu-emas-inn.firebaseapp.com",
-  projectId: "batu-emas-inn",
-  storageBucket: "batu-emas-inn.appspot.com",
-  messagingSenderId: "123456789012",
-  appId: "1:123456789012:web:abcdef123456"
+// Use environment variables or fallback to demo config
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "demo-api-key",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "batu-emas-inn.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "batu-emas-inn",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "batu-emas-inn.appspot.com",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "123456789012",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:123456789012:web:abcdef123456"
 };
 
 let app: FirebaseApp;
 let db: Firestore;
 let auth: Auth;
-let hasFirebaseConfig = false;
+let hasFirebaseConfig = Boolean(import.meta.env.VITE_FIREBASE_API_KEY);
 
 try {
-  // Try importing firebase-applet-config.json dynamically or using fallback
-  // In Vite, we can try reading standard config
-  const firebaseConfig = defaultConfig;
-  
   if (!getApps().length) {
     app = initializeApp(firebaseConfig);
   } else {
@@ -30,12 +26,10 @@ try {
   
   db = getFirestore(app);
   auth = getAuth(app);
-  hasFirebaseConfig = true;
 } catch (error) {
-  console.warn("Firebase initialized with demo mode fallback:", error);
-  // Re-init standard app
+  console.warn("Firebase initialization warning:", error);
   if (!getApps().length) {
-    app = initializeApp(defaultConfig);
+    app = initializeApp(firebaseConfig);
   } else {
     app = getApp();
   }
