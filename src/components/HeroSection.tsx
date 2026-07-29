@@ -11,7 +11,7 @@ interface HeroSectionProps {
     roomType: string;
   }) => void;
 }
-
+ 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
   const { lang } = useLanguage();
 
