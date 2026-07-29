@@ -3,8 +3,8 @@ import { Crown, Heart, Shield, Phone, Mail, MapPin } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-emerald-950 text-stone-200 border-t border-emerald-900/60 pt-16 pb-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <footer className="bg-emerald-950 text-stone-200 border-t border-emerald-900/60 pt-16 pb-12 w-full">
+      <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24 space-y-12">
         
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           
