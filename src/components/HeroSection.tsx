@@ -35,7 +35,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
   };
 
   return (
-    <div className="relative bg-stone-900 text-white overflow-hidden">
+    <div className="relative bg-stone-900 text-white overflow-hidden w-full">
       
       {/* Background Image Overlay with Golden Sheen */}
       <div className="absolute inset-0 z-0 opacity-40 mix-blend-luminosity">
@@ -49,8 +49,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
       {/* Glossy Yellow Floor Tile Gradient Ambience */}
       <div className="absolute inset-0 z-1 bg-gradient-to-t from-stone-950 via-stone-900/80 to-amber-950/40 pointer-events-none" />
       
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-24 md:pt-24 md:pb-32">
-        <div className="max-w-3xl space-y-6">
+      {/* Fluid container removing excessive side margins on wide screens */}
+      <div className="relative z-10 w-full px-4 sm:px-8 lg:px-16 xl:px-24 pt-16 pb-24 md:pt-24 md:pb-32">
+        <div className="max-w-4xl space-y-6">
           
           {/* Welcome Badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-400/10 border border-amber-400/40 text-amber-300 text-xs font-bold tracking-wide uppercase backdrop-blur-md">
@@ -59,19 +60,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
           </div>
 
           {/* Headline */}
-          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+          <h1 className="font-serif text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-white leading-tight">
             Welcome to <br />
             <span className="bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent drop-shadow-sm">
               BATU EMAS INN
             </span>
           </h1>
 
-          <p className="text-stone-300 text-base sm:text-lg max-w-2xl font-light leading-relaxed">
+          <p className="text-stone-300 text-base sm:text-lg lg:text-xl max-w-3xl font-light leading-relaxed">
             Immerse yourself in timeless elegance framed by our signature polished golden floor tiles, opulent suite spaces, crystal pools, and 24/7 bespoke guest service.
           </p>
 
           {/* Trust Highlights */}
-          <div className="flex flex-wrap items-center gap-6 pt-2 text-xs font-medium text-stone-300">
+          <div className="flex flex-wrap items-center gap-6 pt-2 text-xs sm:text-sm font-medium text-stone-300">
             <div className="flex items-center gap-1.5">
               <CheckCircle2 className="w-4 h-4 text-amber-400" />
               <span>Instant Confirmation</span>
@@ -88,8 +89,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
 
         </div>
 
-        {/* Streamlined Booking Widget */}
-        <div className="mt-10 md:mt-12 bg-white/95 backdrop-blur-xl p-6 md:p-8 rounded-2xl shadow-2xl border-2 border-amber-400/30 text-stone-900">
+        {/* Streamlined & Responsive Booking Widget */}
+        <div className="mt-10 md:mt-12 bg-white/95 backdrop-blur-xl p-5 sm:p-6 md:p-8 rounded-2xl shadow-2xl border-2 border-amber-400/30 text-stone-900 w-full">
           <div className="mb-4 flex items-center justify-between border-b border-stone-200 pb-3">
             <h2 className="text-sm font-extrabold uppercase tracking-wider text-amber-900 flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-amber-500 fill-amber-500" />
