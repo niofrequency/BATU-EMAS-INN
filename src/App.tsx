@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { AboutAmenities } from './components/AboutAmenities';
@@ -11,14 +12,13 @@ import { BookingModal } from './components/BookingModal';
 import { AuthModal } from './components/AuthModal';
 import { Footer } from './components/Footer';
 import { RoomInfo, UserRole } from './types';
-import { Language } from './data/translations';
 import { ShieldCheck, Calendar, Crown, AlertCircle } from 'lucide-react';
 
 function AppContent() {
   const { user, isAdmin, isGuest } = useAuth();
+  const { lang, setLang } = useLanguage();
   
   const [currentView, setCurrentView] = useState<'landing' | 'guest' | 'admin'>('landing');
-  const [currentLang, setCurrentLang] = useState<Language>('en');
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
   
@@ -59,14 +59,14 @@ function AppContent() {
     <div className="min-h-screen bg-white text-stone-900 font-sans flex flex-col justify-between selection:bg-amber-300 selection:text-stone-950">
       
       <div>
-        {/* Navigation bar with Language Toggle */}
+        {/* Navigation bar with global language consumer */}
         <Navbar
           currentView={currentView}
           setCurrentView={setCurrentView}
           onOpenAuth={() => setAuthModalOpen(true)}
           onOpenBooking={() => setBookingModalOpen(true)}
-          currentLang={currentLang}
-          setLang={setCurrentLang}
+          currentLang={lang}
+          setLang={setLang}
         />
 
         {/* View Router */}
@@ -155,7 +155,9 @@ function AppContent() {
 export default function App() {
   return (
     <AuthProvider>
-      <AppContent />
+      <LanguageProvider>
+        <AppContent />
+      </LanguageProvider>
     </AuthProvider>
   );
 }
