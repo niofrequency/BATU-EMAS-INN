@@ -178,8 +178,8 @@ export const AdminDashboard: React.FC = () => {
   });
 
   return (
-    <div className="py-10 bg-stone-900 text-stone-100 min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <div className="py-10 bg-stone-900 text-stone-100 min-h-screen w-full">
+      <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24 space-y-8">
         
         {/* Admin Header Banner */}
         <div className="bg-emerald-950 p-6 sm:p-8 rounded-3xl border-2 border-emerald-800/60 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-6">
