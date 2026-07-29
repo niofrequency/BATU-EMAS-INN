@@ -116,11 +116,15 @@ export const AdminDashboard: React.FC = () => {
     }
   };
 
-  // USER ROLE HANDLERS
-  const handleRoleChange = async (uid: string, role: UserRole) => {
+  // USER ROLE HANDLERS (Protected Master Admin check)
+  const handleRoleChange = async (targetUser: UserProfile, newRole: UserRole) => {
+    if (targetUser.email === 'mpigome44@gmail.com' && newRole === 'guest') {
+      setActionMsg('Security Warning: Cannot demote the master administrator.');
+      return;
+    }
     try {
-      await updateUserRole(uid, role);
-      setActionMsg(`User role updated to ${role}.`);
+      await updateUserRole(targetUser.uid, newRole);
+      setActionMsg(`User role updated to ${newRole}.`);
       loadAllAdminData();
     } catch (e) {
       console.error(e);
@@ -173,7 +177,8 @@ export const AdminDashboard: React.FC = () => {
   });
 
   const formatIDR = (amount: number) => {
-    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(amount);
+    const formatted = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 0 }).format(amount);
+    return `Rp ${formatted}`;
   };
 
   return (
@@ -578,36 +583,43 @@ export const AdminDashboard: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-stone-200">
-                  {usersList.map((u) => (
-                    <tr key={u.uid} className="hover:bg-stone-50 transition-colors">
-                      <td className="p-4 font-bold text-stone-900">{u.displayName || 'User'}</td>
-                      <td className="p-4 text-stone-600">{u.email}</td>
-                      <td className="p-4">
-                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${
-                          u.role === 'admin' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-amber-100 text-amber-800 border border-amber-300'
-                        }`}>
-                          {u.role}
-                        </span>
-                      </td>
-                      <td className="p-4 text-right">
-                        {u.role === 'guest' ? (
-                          <button
-                            onClick={() => handleRoleChange(u.uid, 'admin')}
-                            className="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow-xs"
-                          >
-                            Promote to Admin
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => handleRoleChange(u.uid, 'guest')}
-                            className="px-3 py-1 bg-stone-300 hover:bg-stone-400 text-stone-800 rounded-lg text-xs font-bold shadow-xs"
-                          >
-                            Demote to Guest
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
+                  {usersList.map((u) => {
+                    const isMasterAdmin = u.email === 'mpigome44@gmail.com';
+                    return (
+                      <tr key={u.uid} className="hover:bg-stone-50 transition-colors">
+                        <td className="p-4 font-bold text-stone-900">
+                          {u.displayName || 'User'} {isMasterAdmin && <span className="text-amber-600 text-[10px] ml-1">(Master Admin)</span>}
+                        </td>
+                        <td className="p-4 text-stone-600">{u.email}</td>
+                        <td className="p-4">
+                          <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${
+                            u.role === 'admin' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-amber-100 text-amber-800 border border-amber-300'
+                          }`}>
+                            {u.role}
+                          </span>
+                        </td>
+                        <td className="p-4 text-right">
+                          {isMasterAdmin ? (
+                            <span className="text-[11px] font-semibold text-stone-400 italic">Protected</span>
+                          ) : u.role === 'guest' ? (
+                            <button
+                              onClick={() => handleRoleChange(u, 'admin')}
+                              className="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow-xs"
+                            >
+                              Promote to Admin
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => handleRoleChange(u, 'guest')}
+                              className="px-3 py-1 bg-stone-300 hover:bg-stone-400 text-stone-800 rounded-lg text-xs font-bold shadow-xs"
+                            >
+                              Demote to Guest
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
