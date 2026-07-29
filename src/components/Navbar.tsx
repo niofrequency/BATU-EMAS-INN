@@ -19,8 +19,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-amber-200/50 shadow-xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-amber-200/50 shadow-xs w-full">
+      <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24">
         <div className="flex items-center justify-between h-20">
           
           {/* Logo */}
@@ -175,7 +175,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-b border-stone-200 px-4 pt-3 pb-6 space-y-3">
+        <div className="md:hidden bg-white border-b border-stone-200 px-4 pt-3 pb-6 space-y-3 w-full">
           <button
             onClick={() => { setCurrentView('landing'); setMobileMenuOpen(false); }}
             className="block w-full text-left py-2 font-medium text-stone-800 hover:text-amber-600"
