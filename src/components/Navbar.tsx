@@ -1,32 +1,27 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { Crown, User, ShieldCheck, LogOut, Calendar, Menu, X, Sparkles, Globe } from 'lucide-react';
-import { translations, Language } from '../data/translations';
 
 interface NavbarProps {
   currentView: 'landing' | 'guest' | 'admin';
   setCurrentView: (view: 'landing' | 'guest' | 'admin') => void;
   onOpenAuth: () => void;
   onOpenBooking: () => void;
-  currentLang: Language;
-  setLang: (lang: Language) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   currentView,
   setCurrentView,
   onOpenAuth,
-  onOpenBooking,
-  currentLang,
-  setLang
+  onOpenBooking
 }) => {
   const { user, isAdmin, isGuest, logout } = useAuth();
+  const { lang, setLang, t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const t = translations[currentLang];
-
   const toggleLanguage = () => {
-    setLang(currentLang === 'en' ? 'id' : 'en');
+    setLang(lang === 'en' ? 'id' : 'en');
   };
 
   return (
@@ -52,7 +47,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </span>
               </div>
               <p className="text-[10px] tracking-widest text-emerald-800 font-medium uppercase">
-                {currentLang === 'en' ? 'Golden Luxury & Comfort' : 'Kemewahan & Kenyamanan Emas'}
+                {lang === 'en' ? 'Golden Luxury & Comfort' : 'Kemewahan & Kenyamanan Emas'}
               </p>
             </div>
           </div>
@@ -86,7 +81,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               title="Switch Language / Ganti Bahasa"
             >
               <Globe className="w-3.5 h-3.5 text-amber-600" />
-              <span>{currentLang === 'en' ? 'ID (Bahasa)' : 'EN (English)'}</span>
+              <span>{lang === 'en' ? 'ID (Bahasa)' : 'EN (English)'}</span>
             </button>
 
             {/* Direct Dashboard Switch Buttons */}
@@ -181,7 +176,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={toggleLanguage}
               className="px-2.5 py-1.5 rounded-lg border border-stone-200 text-stone-800 font-bold text-xs bg-stone-50"
             >
-              {currentLang.toUpperCase()}
+              {lang.toUpperCase()}
             </button>
             <button
               onClick={onOpenBooking}
