@@ -2,12 +2,41 @@ import React from 'react';
 import { ROOMS } from '../data/rooms';
 import { RoomInfo } from '../types';
 import { Users, Maximize2, Star, Check, Sparkles, ArrowRight } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 interface RoomsSectionProps {
   onSelectRoom: (room: RoomInfo) => void;
 }
 
 export const RoomsSection: React.FC<RoomsSectionProps> = ({ onSelectRoom }) => {
+  const { lang } = useLanguage();
+
+  // Localized text dictionary for Rooms Section
+  const text = {
+    en: {
+      badge: "Accommodations",
+      heading: "Explore Rooms & Luxury Suites",
+      subheading: "Each space features custom golden yellow floor tile accents, plush bedding, premium room amenities, and direct room service access.",
+      popularChoice: "Popular Choice",
+      perNight: " / night",
+      upToGuests: "Up to",
+      guestsLabel: "Guests",
+      keyHighlights: "Key Highlights:",
+      reserveBtn: "Reserve This Suite"
+    },
+    id: {
+      badge: "Akomodasi",
+      heading: "Jelajahi Kamar & Suite Mewah",
+      subheading: "Setiap ruang menampilkan aksen ubin lantai kuning keemasan khusus, tempat tidur empuk, fasilitas kamar premium, dan akses layanan kamar langsung.",
+      popularChoice: "Pilihan Populer",
+      perNight: " / malam",
+      upToGuests: "Hingga",
+      guestsLabel: "Tamu",
+      keyHighlights: "Sorotan Utama:",
+      reserveBtn: "Pesan Suite Ini"
+    }
+  }[lang];
+
   return (
     <section id="rooms" className="py-20 bg-white w-full">
       <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24">
@@ -15,14 +44,14 @@ export const RoomsSection: React.FC<RoomsSectionProps> = ({ onSelectRoom }) => {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
           <div>
             <span className="text-xs font-bold text-amber-700 uppercase tracking-widest px-3 py-1 bg-amber-50 rounded-full border border-amber-200">
-              Accommodations
+              {text.badge}
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900 mt-3">
-              Explore Rooms & Luxury Suites
+              {text.heading}
             </h2>
           </div>
           <p className="text-stone-600 text-sm max-w-md">
-            Each space features custom golden yellow floor tile accents, plush bedding, premium room amenities, and direct room service access.
+            {text.subheading}
           </p>
         </div>
 
@@ -45,7 +74,7 @@ export const RoomsSection: React.FC<RoomsSectionProps> = ({ onSelectRoom }) => {
                 {room.featured && (
                   <div className="absolute top-4 left-4 bg-amber-500 text-stone-950 text-xs font-extrabold px-3 py-1 rounded-full shadow-md flex items-center gap-1">
                     <Sparkles className="w-3.5 h-3.5 fill-stone-950" />
-                    <span>Popular Choice</span>
+                    <span>{text.popularChoice}</span>
                   </div>
                 )}
 
@@ -58,7 +87,7 @@ export const RoomsSection: React.FC<RoomsSectionProps> = ({ onSelectRoom }) => {
                 {/* Price Tag Overlay */}
                 <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-amber-300 shadow-md">
                   <span className="font-serif text-xl font-bold text-stone-900">${room.pricePerNight}</span>
-                  <span className="text-xs text-stone-600 font-medium"> / night</span>
+                  <span className="text-xs text-stone-600 font-medium">{text.perNight}</span>
                 </div>
               </div>
 
@@ -67,7 +96,7 @@ export const RoomsSection: React.FC<RoomsSectionProps> = ({ onSelectRoom }) => {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-xs text-stone-500 font-medium">
                     <span className="flex items-center gap-1">
-                      <Users className="w-3.5 h-3.5 text-amber-600" /> Up to {room.capacity} Guests
+                      <Users className="w-3.5 h-3.5 text-amber-600" /> {text.upToGuests} {room.capacity} {text.guestsLabel}
                     </span>
                     <span className="flex items-center gap-1">
                       <Maximize2 className="w-3.5 h-3.5 text-amber-600" /> {room.size}
@@ -88,7 +117,7 @@ export const RoomsSection: React.FC<RoomsSectionProps> = ({ onSelectRoom }) => {
 
                 {/* Amenities List */}
                 <div className="pt-3 border-t border-stone-200">
-                  <div className="text-xs font-bold text-stone-700 mb-2">Key Highlights:</div>
+                  <div className="text-xs font-bold text-stone-700 mb-2">{text.keyHighlights}</div>
                   <div className="flex flex-wrap gap-2">
                     {room.amenities.slice(0, 4).map((amenity, idx) => (
                       <span
@@ -107,7 +136,7 @@ export const RoomsSection: React.FC<RoomsSectionProps> = ({ onSelectRoom }) => {
                   onClick={() => onSelectRoom(room)}
                   className="w-full mt-4 bg-amber-500 hover:bg-amber-600 text-stone-950 font-bold py-3 px-4 rounded-xl shadow-md transition-all flex items-center justify-center gap-2 text-sm"
                 >
-                  <span>Reserve This Suite</span>
+                  <span>{text.reserveBtn}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
 
