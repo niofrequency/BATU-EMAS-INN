@@ -3,7 +3,7 @@ import { ROOMS } from '../data/rooms';
 import { RoomInfo } from '../types';
 import { Users, Maximize2, Star, Check, Sparkles, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
-
+ 
 interface RoomsSectionProps {
   onSelectRoom: (room: RoomInfo) => void;
 }
