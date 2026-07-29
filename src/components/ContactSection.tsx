@@ -1,22 +1,147 @@
-import React, { useState } from 'react';
-import { Send, MapPin, Phone, Mail, Clock, CheckCircle, Sparkles } from 'lucide-react';
-import { createContactMessage } from '../lib/dataService';
+import React, { useState, useEffect } from 'react';
+import { X, Calendar, Users, Crown, Sparkles, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { ROOMS } from '../data/rooms';
+import { RoomInfo } from '../types';
+import { createBooking } from '../lib/dataService';
+import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 
-export const ContactSection: React.FC = () => {
-  const [senderName, setSenderName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [subject, setSubject] = useState('');
-  const [messageText, setMessageText] = useState('');
-  
+interface BookingModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  preselectedRoom?: RoomInfo | null;
+  initialSearchParams?: {
+    checkInDate: string;
+    checkOutDate: string;
+    guests: number;
+    roomType: string;
+  } | null;
+  onSuccessNavigate?: () => void;
+}
+
+export const BookingModal: React.FC<BookingModalProps> = ({
+  isOpen,
+  onClose,
+  preselectedRoom,
+  initialSearchParams,
+  onSuccessNavigate
+}) => {
+  const { user } = useAuth();
+  const { lang } = useLanguage();
+
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+  const threeDaysLater = new Date(today);
+  threeDaysLater.setDate(today.getDate() + 4);
+
+  const [selectedRoomId, setSelectedRoomId] = useState<string>(preselectedRoom?.id || 'deluxe_gold');
+  const [guestName, setGuestName] = useState('');
+  const [guestEmail, setGuestEmail] = useState('');
+  const [guestPhone, setGuestPhone] = useState('');
+  const [checkInDate, setCheckInDate] = useState(tomorrow.toISOString().split('T')[0]);
+  const [checkOutDate, setCheckOutDate] = useState(threeDaysLater.toISOString().split('T')[0]);
+  const [guestsCount, setGuestsCount] = useState(2);
+  const [specialRequests, setSpecialRequests] = useState('');
+
   const [submitting, setSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [bookedSuccess, setBookedSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+
+  // Localized text dictionary for Booking Modal
+  const text = {
+    en: {
+      successTitle: "Reservation Request Received!",
+      successDesc: "Your booking for",
+      fromText: "from",
+      toText: "to",
+      nightsText: "nights",
+      hasBeenStored: "has been stored in our system.",
+      statusPending: "Booking Status: Pending Admin Confirmation",
+      guestEmailLabel: "Guest Email:",
+      guestNameLabel: "Guest Name:",
+      viewDashboard: "View in Guest Dashboard",
+      closeWindow: "Close Window",
+      reservationHeader: "Batu Emas Inn Reservation",
+      completeBooking: "Complete Your Suite Booking",
+      errorFields: "Please complete all required fields.",
+      errorFailed: "Failed to create reservation. Please try again.",
+      selectRoomLabel: "Select Room or Suite",
+      fullNameLabel: "Full Guest Name",
+      emailLabel: "Guest Email Address",
+      checkInLabel: "Check-in Date",
+      checkOutLabel: "Check-out Date",
+      guestsCountLabel: "Guests Count",
+      phoneLabel: "Phone Number (Optional)",
+      requestsLabel: "Special Requests / Arrival Notes",
+      requestsPlaceholder: "Late check-in, high floor preference, airport transfer request...",
+      estimatedTotal: "Estimated Total Amount:",
+      nightPerNight: "night(s) x",
+      confirmBtn: "Confirm Reservation",
+      processingBtn: "Creating Reservation..."
+    },
+    id: {
+      successTitle: "Permintaan Reservasi Diterima!",
+      successDesc: "Pemesanan Anda untuk",
+      fromText: "dari",
+      toText: "hingga",
+      nightsText: "malam",
+      hasBeenStored: "telah disimpan dalam sistem kami.",
+      statusPending: "Status Pemesanan: Menunggu Konfirmasi Admin",
+      guestEmailLabel: "Email Tamu:",
+      guestNameLabel: "Nama Tamu:",
+      viewDashboard: "Lihat di Dashboard Tamu",
+      closeWindow: "Tutup Jendela",
+      reservationHeader: "Reservasi Batu Emas Inn",
+      completeBooking: "Selesaikan Pemesanan Suite Anda",
+      errorFields: "Harap lengkapi semua bidang yang wajib diisi.",
+      errorFailed: "Gagal membuat reservasi. Silakan coba lagi.",
+      selectRoomLabel: "Pilih Kamar atau Suite",
+      fullNameLabel: "Nama Lengkap Tamu",
+      emailLabel: "Alamat Email Tamu",
+      checkInLabel: "Tanggal Check-in",
+      checkOutLabel: "Tanggal Check-out",
+      guestsCountLabel: "Jumlah Tamu",
+      phoneLabel: "Nomor Telepon (Opsional)",
+      requestsLabel: "Permintaan Khusus / Catatan Kedatangan",
+      requestsPlaceholder: "Check-in terlambat, preferensi lantai atas, permintaan antar-jemput bandara...",
+      estimatedTotal: "Perkiraan Total Jumlah:",
+      nightPerNight: "malam x",
+      confirmBtn: "Konfirmasi Reservasi",
+      processingBtn: "Membuat Reservasi..."
+    }
+  }[lang];
+
+  useEffect(() => {
+    if (preselectedRoom) {
+      setSelectedRoomId(preselectedRoom.id);
+    }
+    if (initialSearchParams) {
+      setCheckInDate(initialSearchParams.checkInDate);
+      setCheckOutDate(initialSearchParams.checkOutDate);
+      setGuestsCount(initialSearchParams.guests);
+      setSelectedRoomId(initialSearchParams.roomType);
+    }
+    if (user) {
+      setGuestName(user.displayName || '');
+      setGuestEmail(user.email || '');
+    }
+  }, [preselectedRoom, initialSearchParams, user, isOpen]);
+
+  if (!isOpen) return null;
+
+  const currentRoom = ROOMS.find(r => r.id === selectedRoomId) || ROOMS[0];
+
+  // Calculate nights & total price
+  const inDate = new Date(checkInDate);
+  const outDate = new Date(checkOutDate);
+  const nightCount = Math.max(1, Math.round((outDate.getTime() - inDate.getTime()) / (1000 * 3600 * 24)));
+  const totalAmount = nightCount * currentRoom.pricePerNight;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!senderName || !email || !messageText) {
-      setErrorMsg('Please fill in all required fields.');
+    if (!guestName || !guestEmail || !checkInDate || !checkOutDate) {
+      setErrorMsg(text.errorFields);
       return;
     }
 
@@ -24,221 +149,250 @@ export const ContactSection: React.FC = () => {
     setErrorMsg('');
 
     try {
-      await createContactMessage({
-        senderName,
-        email,
-        phone,
-        subject,
-        messageText
+      await createBooking({
+        userID: user?.uid || 'guest-' + Date.now(),
+        guestName,
+        guestEmail,
+        guestPhone,
+        checkInDate,
+        checkOutDate,
+        guests: guestsCount,
+        roomType: currentRoom.id,
+        roomName: currentRoom.name,
+        status: 'pending',
+        totalAmount,
+        specialRequests
       });
-      setSuccess(true);
-      setSenderName('');
-      setEmail('');
-      setPhone('');
-      setSubject('');
-      setMessageText('');
+
+      setBookedSuccess(true);
     } catch (err) {
-      console.error("Error submitting contact message:", err);
-      setErrorMsg('Failed to send message. Please try again.');
+      console.error("Booking submission error:", err);
+      setErrorMsg(text.errorFailed);
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <section id="contact" className="py-20 bg-stone-900 text-white relative overflow-hidden w-full">
-      
-      {/* Background Sheen */}
-      <div className="absolute inset-0 bg-gradient-to-br from-stone-900 via-emerald-950/40 to-amber-950/20 pointer-events-none" />
-
-      <div className="relative z-10 w-full px-4 sm:px-8 lg:px-16 xl:px-24">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-950/80 backdrop-blur-sm animate-fade-in overflow-y-auto">
+      <div className="bg-white rounded-3xl max-w-2xl w-full p-6 md:p-8 shadow-2xl border-2 border-amber-400 relative my-8">
         
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          
-          {/* Contact Details Column */}
-          <div className="lg:col-span-5 space-y-8">
-            <div className="space-y-4">
-              <span className="text-xs font-bold text-amber-400 uppercase tracking-widest px-3 py-1 bg-amber-400/10 border border-amber-400/30 rounded-full">
-                Get In Touch
-              </span>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white leading-tight">
-                We'd Love to Hear From You
-              </h2>
-              <p className="text-stone-300 text-sm leading-relaxed">
-                Have questions about custom suite reservations, private events, shuttle services, or dining options? Send us an inquiry and our front desk will reply promptly.
-              </p>
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-5 right-5 p-2 rounded-full text-stone-400 hover:text-stone-800 hover:bg-stone-100 transition-colors"
+        >
+          <X className="w-5 h-5" />
+        </button>
+
+        {bookedSuccess ? (
+          <div className="text-center py-8 space-y-4">
+            <div className="w-16 h-16 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center mx-auto">
+              <CheckCircle2 className="w-10 h-10" />
             </div>
-
-            <div className="space-y-6 pt-4 border-t border-stone-800">
-              
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 flex-shrink-0">
-                  <MapPin className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-bold text-amber-300">Resort Address</h3>
-                  <p className="text-stone-300 text-sm">Batu Emas Boulevard No. 88, Golden Coast Resort Zone</p>
-                </div>
+            <h3 className="font-serif text-2xl font-bold text-stone-900">
+              {text.successTitle}
+            </h3>
+            <p className="text-stone-600 text-sm max-w-md mx-auto">
+              {text.successDesc} <strong className="text-stone-900">{currentRoom.name}</strong> {text.fromText} <strong>{checkInDate}</strong> {text.toText} <strong>{checkOutDate}</strong> ({nightCount} {text.nightsText}, ${totalAmount}) {text.hasBeenStored}
+            </p>
+            <div className="p-4 bg-amber-50 rounded-2xl border border-amber-200 text-xs text-amber-900 text-left space-y-1 max-w-md mx-auto">
+              <div className="font-bold flex items-center gap-1">
+                <ShieldCheck className="w-4 h-4 text-amber-600" />
+                {text.statusPending}
               </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 flex-shrink-0">
-                  <Phone className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-bold text-amber-300">Direct Reservations</h3>
-                  <p className="text-stone-300 text-sm">+1 (800) 888-GOLD / +1 (555) 321-4321</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 flex-shrink-0">
-                  <Mail className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-bold text-amber-300">Email Inquiry</h3>
-                  <p className="text-stone-300 text-sm">reservations@batuemasinn.com</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 flex-shrink-0">
-                  <Clock className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-bold text-amber-300">Front Desk Hours</h3>
-                  <p className="text-stone-300 text-sm">24 Hours / 7 Days a Week</p>
-                </div>
-              </div>
-
+              <div>{text.guestEmailLabel} {guestEmail}</div>
+              <div>{text.guestNameLabel} {guestName}</div>
+            </div>
+            <div className="pt-4 flex flex-col sm:flex-row gap-3 justify-center">
+              <button
+                onClick={() => {
+                  onClose();
+                  setBookedSuccess(false);
+                  if (onSuccessNavigate) onSuccessNavigate();
+                }}
+                className="bg-amber-500 hover:bg-amber-600 text-stone-950 font-bold px-6 py-2.5 rounded-xl shadow-md text-sm"
+              >
+                {text.viewDashboard}
+              </button>
+              <button
+                onClick={() => {
+                  onClose();
+                  setBookedSuccess(false);
+                }}
+                className="bg-stone-100 hover:bg-stone-200 text-stone-800 font-semibold px-6 py-2.5 rounded-xl text-sm"
+              >
+                {text.closeWindow}
+              </button>
             </div>
           </div>
-
-          {/* Contact Form Column */}
-          <div className="lg:col-span-7 bg-stone-950/90 p-8 rounded-2xl border-2 border-amber-500/30 shadow-2xl backdrop-blur-md">
-            
-            <div className="mb-6">
-              <h3 className="font-serif text-2xl font-bold text-white flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-amber-400" />
-                Send an Inquiry Message
-              </h3>
-              <p className="text-xs text-stone-400 mt-1">
-                Your message is sent directly to our admin inbox system.
-              </p>
+        ) : (
+          <div>
+            <div className="flex items-center gap-2 text-amber-700 font-bold text-xs uppercase tracking-wider mb-1">
+              <Crown className="w-4 h-4 fill-amber-500" />
+              {text.reservationHeader}
             </div>
+            <h3 className="font-serif text-2xl font-bold text-stone-900 mb-6">
+              {text.completeBooking}
+            </h3>
 
-            {success ? (
-              <div className="bg-emerald-950/80 border-2 border-emerald-500 p-6 rounded-xl text-center space-y-3">
-                <CheckCircle className="w-12 h-12 text-emerald-400 mx-auto" />
-                <h4 className="font-serif text-xl font-bold text-white">Thank You for Contacting Us!</h4>
-                <p className="text-sm text-stone-200">
-                  Your inquiry message has been recorded into our messages database. Our reception team will review and reply to your email shortly.
-                </p>
-                <button
-                  onClick={() => setSuccess(false)}
-                  className="mt-4 px-6 py-2 bg-amber-500 text-stone-950 font-bold text-xs rounded-xl hover:bg-amber-400 transition-colors"
-                >
-                  Send Another Message
-                </button>
+            {errorMsg && (
+              <div className="mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-medium">
+                {errorMsg}
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                
-                {errorMsg && (
-                  <div className="p-3 rounded-lg bg-red-950/80 border border-red-500 text-red-200 text-xs">
-                    {errorMsg}
-                  </div>
-                )}
+            )}
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-stone-300 mb-1">
-                      Your Full Name <span className="text-amber-400">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Jane Doe"
-                      value={senderName}
-                      onChange={(e) => setSenderName(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-stone-900 border border-stone-700 text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 text-sm"
-                    />
-                  </div>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              
+              {/* Room Selection */}
+              <div>
+                <label className="block text-xs font-bold text-stone-700 mb-1">
+                  {text.selectRoomLabel}
+                </label>
+                <select
+                  value={selectedRoomId}
+                  onChange={(e) => setSelectedRoomId(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 font-bold text-sm bg-stone-50 focus:ring-2 focus:ring-amber-500"
+                >
+                  {ROOMS.map(r => (
+                    <option key={r.id} value={r.id}>
+                      {r.name} — ${r.pricePerNight}/night ({r.subtitle})
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-                  <div>
-                    <label className="block text-xs font-bold text-stone-300 mb-1">
-                      Email Address <span className="text-amber-400">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      placeholder="jane@example.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-stone-900 border border-stone-700 text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 text-sm"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-stone-300 mb-1">
-                      Phone Number (Optional)
-                    </label>
-                    <input
-                      type="tel"
-                      placeholder="+1 (555) 000-0000"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-stone-900 border border-stone-700 text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 text-sm"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-stone-300 mb-1">
-                      Subject
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="e.g. Suite Booking Inquiry"
-                      value={subject}
-                      onChange={(e) => setSubject(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-stone-900 border border-stone-700 text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 text-sm"
-                    />
-                  </div>
-                </div>
-
+              {/* Guest Details */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-stone-300 mb-1">
-                    Message Text <span className="text-amber-400">*</span>
+                  <label className="block text-xs font-bold text-stone-700 mb-1">
+                    {text.fullNameLabel} <span className="text-red-500">*</span>
                   </label>
-                  <textarea
-                    rows={4}
+                  <input
+                    type="text"
                     required
-                    placeholder="Tell us about your trip dates, group requirements, or special requests..."
-                    value={messageText}
-                    onChange={(e) => setMessageText(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-stone-900 border border-stone-700 text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 text-sm resize-none"
+                    placeholder="e.g. Eleanor Vance"
+                    value={guestName}
+                    onChange={(e) => setGuestName(e.target.value)}
+                    className="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-sm focus:ring-2 focus:ring-amber-500"
                   />
                 </div>
 
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="w-full bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 text-stone-950 font-extrabold py-3 px-6 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 text-sm disabled:opacity-50"
-                >
-                  <Send className="w-4 h-4" />
-                  <span>{submitting ? 'Submitting Message...' : 'Send Message Inquiry'}</span>
-                </button>
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 mb-1">
+                    {text.emailLabel} <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="guest@example.com"
+                    value={guestEmail}
+                    onChange={(e) => setGuestEmail(e.target.value)}
+                    className="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-sm focus:ring-2 focus:ring-amber-500"
+                  />
+                </div>
+              </div>
 
-              </form>
-            )}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 mb-1">
+                    {text.checkInLabel}
+                  </label>
+                  <input
+                    type="date"
+                    required
+                    value={checkInDate}
+                    min={new Date().toISOString().split('T')[0]}
+                    onChange={(e) => setCheckInDate(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl border border-stone-300 text-sm font-semibold bg-stone-50"
+                  />
+                </div>
 
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 mb-1">
+                    {text.checkOutLabel}
+                  </label>
+                  <input
+                    type="date"
+                    required
+                    value={checkOutDate}
+                    min={checkInDate}
+                    onChange={(e) => setCheckOutDate(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl border border-stone-300 text-sm font-semibold bg-stone-50"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 mb-1">
+                    {text.guestsCountLabel}
+                  </label>
+                  <select
+                    value={guestsCount}
+                    onChange={(e) => setGuestsCount(Number(e.target.value))}
+                    className="w-full px-3 py-2 rounded-xl border border-stone-300 text-sm font-semibold bg-stone-50"
+                  >
+                    <option value={1}>1 Guest</option>
+                    <option value={2}>2 Guests</option>
+                    <option value={3}>3 Guests</option>
+                    <option value={4}>4 Guests</option>
+                    <option value={6}>6 Guests</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-stone-700 mb-1">
+                  {text.phoneLabel}
+                </label>
+                <input
+                  type="tel"
+                  placeholder="+1 (555) 000-0000"
+                  value={guestPhone}
+                  onChange={(e) => setGuestPhone(e.target.value)}
+                  className="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-sm"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-stone-700 mb-1">
+                  {text.requestsLabel}
+                </label>
+                <textarea
+                  rows={2}
+                  placeholder={text.requestsPlaceholder}
+                  value={specialRequests}
+                  onChange={(e) => setSpecialRequests(e.target.value)}
+                  className="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-sm resize-none"
+                />
+              </div>
+
+              {/* Price Calculation Summary */}
+              <div className="bg-amber-50 p-4 rounded-2xl border border-amber-200 flex items-center justify-between">
+                <div>
+                  <div className="text-xs text-amber-900 font-bold">{text.estimatedTotal}</div>
+                  <div className="text-[11px] text-stone-600">
+                    {nightCount} {text.nightPerNight} ${currentRoom.pricePerNight} / night
+                  </div>
+                </div>
+                <div className="font-serif text-2xl font-extrabold text-amber-700">
+                  ${totalAmount}
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={submitting}
+                className="w-full bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 text-stone-950 font-extrabold py-3.5 px-6 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 text-sm disabled:opacity-50"
+              >
+                <Sparkles className="w-4 h-4 fill-stone-950" />
+                <span>{submitting ? text.processingBtn : text.confirmBtn}</span>
+              </button>
+
+            </form>
           </div>
-
-        </div>
+        )}
 
       </div>
-    </section>
+    </div>
   );
 };
