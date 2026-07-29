@@ -1,158 +1,406 @@
-import React from 'react';
-import { getRooms } from '../data/rooms';
+import React, { useState, useEffect } from 'react';
+import { X, Calendar, Users, Crown, Sparkles, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { ROOMS } from '../data/rooms';
 import { RoomInfo } from '../types';
-import { Users, Maximize2, Star, Check, Sparkles, ArrowRight } from 'lucide-react';
+import { createBooking } from '../lib/dataService';
+import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 
-interface RoomsSectionProps {
-  onSelectRoom: (room: RoomInfo) => void;
+interface BookingModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  preselectedRoom?: RoomInfo | null;
+  initialSearchParams?: {
+    checkInDate: string;
+    checkOutDate: string;
+    guests: number;
+    roomType: string;
+  } | null;
+  onSuccessNavigate?: () => void;
 }
 
-export const RoomsSection: React.FC<RoomsSectionProps> = ({ onSelectRoom }) => {
+export const BookingModal: React.FC<BookingModalProps> = ({
+  isOpen,
+  onClose,
+  preselectedRoom,
+  initialSearchParams,
+  onSuccessNavigate
+}) => {
+  const { user } = useAuth();
   const { lang } = useLanguage();
-  const roomsList = getRooms(lang);
 
-  // Localized text dictionary for Rooms Section
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+  // Default check-out set to 1 night stay (today + 2) so 1 night total shows immediately
+  const defaultCheckOut = new Date(today);
+  defaultCheckOut.setDate(today.getDate() + 2);
+
+  const [selectedRoomId, setSelectedRoomId] = useState<string>(preselectedRoom?.id || 'deluxe_gold');
+  const [guestName, setGuestName] = useState('');
+  const [guestEmail, setGuestEmail] = useState('');
+  const [guestPhone, setGuestPhone] = useState('');
+  const [checkInDate, setCheckInDate] = useState(tomorrow.toISOString().split('T')[0]);
+  const [checkOutDate, setCheckOutDate] = useState(defaultCheckOut.toISOString().split('T')[0]);
+  const [guestsCount, setGuestsCount] = useState(2);
+  const [specialRequests, setSpecialRequests] = useState('');
+
+  const [submitting, setSubmitting] = useState(false);
+  const [bookedSuccess, setBookedSuccess] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+
+  // Localized text dictionary for Booking Modal
   const text = {
     en: {
-      badge: "Accommodations",
-      heading: "Explore Rooms & Luxury Suites",
-      subheading: "Each space features custom golden yellow floor tile accents, plush bedding, premium room amenities, and direct room service access.",
-      popularChoice: "Popular Choice",
-      perNight: " / night",
-      upToGuests: "Up to",
-      guestsLabel: "Guests",
-      keyHighlights: "Key Highlights:",
-      reserveBtn: "Reserve This Suite"
+      successTitle: "Reservation Request Received!",
+      successDesc: "Your booking for",
+      fromText: "from",
+      toText: "to",
+      nightsText: "nights",
+      hasBeenStored: "has been stored in our system.",
+      statusPending: "Booking Status: Pending Admin Confirmation",
+      guestEmailLabel: "Guest Email:",
+      guestNameLabel: "Guest Name:",
+      viewDashboard: "View in Guest Dashboard",
+      closeWindow: "Close Window",
+      reservationHeader: "Batu Emas Inn Reservation",
+      completeBooking: "Complete Your Suite Booking",
+      errorFields: "Please complete all required fields.",
+      errorFailed: "Failed to create reservation. Please try again.",
+      selectRoomLabel: "Select Room or Suite",
+      fullNameLabel: "Full Guest Name",
+      emailLabel: "Guest Email Address",
+      checkInLabel: "Check-in Date",
+      checkOutLabel: "Check-out Date",
+      guestsCountLabel: "Guests Count",
+      phoneLabel: "Phone Number (Optional)",
+      requestsLabel: "Special Requests / Arrival Notes",
+      requestsPlaceholder: "Late check-in, high floor preference, airport transfer request...",
+      estimatedTotal: "Estimated Total Amount:",
+      nightPerNight: "night(s) x",
+      confirmBtn: "Confirm Reservation",
+      processingBtn: "Creating Reservation..."
     },
     id: {
-      badge: "Akomodasi",
-      heading: "Jelajahi Kamar & Suite Mewah",
-      subheading: "Setiap ruang menampilkan aksen ubin lantai kuning keemasan khusus, tempat tidur empuk, fasilitas kamar premium, dan akses layanan kamar langsung.",
-      popularChoice: "Pilihan Populer",
-      perNight: " / malam",
-      upToGuests: "Hingga",
-      guestsLabel: "Tamu",
-      keyHighlights: "Sorotan Utama:",
-      reserveBtn: "Pesan Suite Ini"
+      successTitle: "Permintaan Reservasi Diterima!",
+      successDesc: "Pemesanan Anda untuk",
+      fromText: "dari",
+      toText: "hingga",
+      nightsText: "malam",
+      hasBeenStored: "telah disimpan dalam sistem kami.",
+      statusPending: "Status Pemesanan: Menunggu Konfirmasi Admin",
+      guestEmailLabel: "Email Tamu:",
+      guestNameLabel: "Nama Tamu:",
+      viewDashboard: "Lihat di Dashboard Tamu",
+      closeWindow: "Tutup Jendela",
+      reservationHeader: "Reservasi Batu Emas Inn",
+      completeBooking: "Selesaikan Pemesanan Suite Anda",
+      errorFields: "Harap lengkapi semua bidang yang wajib diisi.",
+      errorFailed: "Gagal membuat reservasi. Silakan coba lagi.",
+      selectRoomLabel: "Pilih Kamar atau Suite",
+      fullNameLabel: "Nama Lengkap Tamu",
+      emailLabel: "Alamat Email Tamu",
+      checkInLabel: "Tanggal Check-in",
+      checkOutLabel: "Tanggal Check-out",
+      guestsCountLabel: "Jumlah Tamu",
+      phoneLabel: "Nomor Telepon (Opsional)",
+      requestsLabel: "Permintaan Khusus / Catatan Kedatangan",
+      requestsPlaceholder: "Check-in terlambat, preferensi lantai atas, permintaan antar-jemput bandara...",
+      estimatedTotal: "Perkiraan Total Jumlah:",
+      nightPerNight: "malam x",
+      confirmBtn: "Konfirmasi Reservasi",
+      processingBtn: "Membuat Reservasi..."
     }
   }[lang];
 
-  const formatIDR = (priceInBase: number) => {
-    const idrAmount = priceInBase * 1000;
-    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(idrAmount);
+  // Helper to format exact IDR matching the room cards (e.g. Rp 120.000)
+  const formatIDR = (amount: number) => {
+    const formatted = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 0 }).format(amount);
+    return `Rp ${formatted}`;
+  };
+
+  useEffect(() => {
+    if (preselectedRoom) {
+      setSelectedRoomId(preselectedRoom.id);
+    }
+    if (initialSearchParams) {
+      setCheckInDate(initialSearchParams.checkInDate);
+      setCheckOutDate(initialSearchParams.checkOutDate);
+      setGuestsCount(initialSearchParams.guests);
+      setSelectedRoomId(initialSearchParams.roomType);
+    }
+    if (user) {
+      setGuestName(user.displayName || '');
+      setGuestEmail(user.email || '');
+    }
+  }, [preselectedRoom, initialSearchParams, user, isOpen]);
+
+  if (!isOpen) return null;
+
+  const currentRoom = ROOMS.find(r => r.id === selectedRoomId) || ROOMS[0];
+
+  // Calculate nights & total price in IDR matching room card pricing
+  const inDate = new Date(checkInDate);
+  const outDate = new Date(checkOutDate);
+  const nightCount = Math.max(1, Math.round((outDate.getTime() - inDate.getTime()) / (1000 * 3600 * 24)));
+  const roomPriceIDR = currentRoom.pricePerNight * 1000;
+  const totalAmount = nightCount * roomPriceIDR;
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!guestName || !guestEmail || !checkInDate || !checkOutDate) {
+      setErrorMsg(text.errorFields);
+      return;
+    }
+
+    setSubmitting(true);
+    setErrorMsg('');
+
+    try {
+      await createBooking({
+        userID: user?.uid || 'guest-' + Date.now(),
+        guestName,
+        guestEmail,
+        guestPhone,
+        checkInDate,
+        checkOutDate,
+        guests: guestsCount,
+        roomType: currentRoom.id,
+        roomName: currentRoom.name,
+        status: 'pending',
+        totalAmount,
+        specialRequests
+      });
+
+      setBookedSuccess(true);
+    } catch (err) {
+      console.error("Booking submission error:", err);
+      setErrorMsg(text.errorFailed);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
-    <section id="rooms" className="py-20 bg-white w-full">
-      <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-950/80 backdrop-blur-sm animate-fade-in overflow-y-auto">
+      <div className="bg-white rounded-3xl max-w-2xl w-full p-6 md:p-8 shadow-2xl border-2 border-amber-400 relative my-8">
         
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-          <div>
-            <span className="text-xs font-bold text-amber-700 uppercase tracking-widest px-3 py-1 bg-amber-50 rounded-full border border-amber-200">
-              {text.badge}
-            </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900 mt-3">
-              {text.heading}
-            </h2>
-          </div>
-          <p className="text-stone-600 text-sm max-w-md">
-            {text.subheading}
-          </p>
-        </div>
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-5 right-5 p-2 rounded-full text-stone-400 hover:text-stone-800 hover:bg-stone-100 transition-colors"
+        >
+          <X className="w-5 h-5" />
+        </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {roomsList.map((room) => (
-            <div
-              key={room.id}
-              className="bg-stone-50 rounded-2xl overflow-hidden border border-stone-200 shadow-xs hover:shadow-xl hover:border-amber-400 transition-all duration-300 flex flex-col group"
-            >
-              
-              {/* Room Image Container */}
-              <div className="relative h-64 overflow-hidden">
-                <img
-                  src={room.image}
-                  alt={room.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                
-                {/* Featured Badge */}
-                {room.featured && (
-                  <div className="absolute top-4 left-4 bg-amber-500 text-stone-950 text-xs font-extrabold px-3 py-1 rounded-full shadow-md flex items-center gap-1">
-                    <Sparkles className="w-3.5 h-3.5 fill-stone-950" />
-                    <span>{text.popularChoice}</span>
-                  </div>
-                )}
-
-                {/* Rating Badge */}
-                <div className="absolute top-4 right-4 bg-stone-950/80 backdrop-blur-md text-amber-400 text-xs font-bold px-2.5 py-1 rounded-lg flex items-center gap-1 border border-amber-400/30">
-                  <Star className="w-3.5 h-3.5 fill-amber-400" />
-                  <span>{room.rating}</span>
-                </div>
-
-                {/* Price Tag Overlay */}
-                <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-amber-300 shadow-md">
-                  <span className="font-serif text-lg font-bold text-stone-900">{formatIDR(room.pricePerNight)}</span>
-                  <span className="text-xs text-stone-600 font-medium">{text.perNight}</span>
-                </div>
-              </div>
-
-              {/* Card Content */}
-              <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-xs text-stone-500 font-medium">
-                    <span className="flex items-center gap-1">
-                      <Users className="w-3.5 h-3.5 text-amber-600" /> {text.upToGuests} {room.capacity} {text.guestsLabel}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Maximize2 className="w-3.5 h-3.5 text-amber-600" /> {room.size}
-                    </span>
-                  </div>
-
-                  <h3 className="font-serif text-2xl font-bold text-stone-900 group-hover:text-amber-700 transition-colors">
-                    {room.name}
-                  </h3>
-                  <p className="text-xs font-semibold text-emerald-800 uppercase tracking-wide">
-                    {room.subtitle}
-                  </p>
-
-                  <p className="text-stone-600 text-sm line-clamp-2 leading-relaxed">
-                    {room.description}
-                  </p>
-                </div>
-
-                {/* Amenities List */}
-                <div className="pt-3 border-t border-stone-200">
-                  <div className="text-xs font-bold text-stone-700 mb-2">{text.keyHighlights}</div>
-                  <div className="flex flex-wrap gap-2">
-                    {room.amenities.slice(0, 4).map((amenity, idx) => (
-                      <span
-                        key={idx}
-                        className="text-xs px-2.5 py-1 rounded-md bg-white text-stone-700 border border-stone-200 flex items-center gap-1"
-                      >
-                        <Check className="w-3 h-3 text-emerald-600" />
-                        {amenity}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Reserve CTA */}
-                <button
-                  onClick={() => onSelectRoom(room)}
-                  className="w-full mt-4 bg-amber-500 hover:bg-amber-600 text-stone-950 font-bold py-3 px-4 rounded-xl shadow-md transition-all flex items-center justify-center gap-2 text-sm"
-                >
-                  <span>{text.reserveBtn}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-
-              </div>
-
+        {bookedSuccess ? (
+          <div className="text-center py-8 space-y-4">
+            <div className="w-16 h-16 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center mx-auto">
+              <CheckCircle2 className="w-10 h-10" />
             </div>
-          ))}
-        </div>
+            <h3 className="font-serif text-2xl font-bold text-stone-900">
+              {text.successTitle}
+            </h3>
+            <p className="text-stone-600 text-sm max-w-md mx-auto">
+              {text.successDesc} <strong className="text-stone-900">{currentRoom.name}</strong> {text.fromText} <strong>{checkInDate}</strong> {text.toText} <strong>{checkOutDate}</strong> ({nightCount} {text.nightsText}, {formatIDR(totalAmount)}) {text.hasBeenStored}
+            </p>
+            <div className="p-4 bg-amber-50 rounded-2xl border border-amber-200 text-xs text-amber-900 text-left space-y-1 max-w-md mx-auto">
+              <div className="font-bold flex items-center gap-1">
+                <ShieldCheck className="w-4 h-4 text-amber-600" />
+                {text.statusPending}
+              </div>
+              <div>{text.guestEmailLabel} {guestEmail}</div>
+              <div>{text.guestNameLabel} {guestName}</div>
+            </div>
+            <div className="pt-4 flex flex-col sm:flex-row gap-3 justify-center">
+              <button
+                onClick={() => {
+                  onClose();
+                  setBookedSuccess(false);
+                  if (onSuccessNavigate) onSuccessNavigate();
+                }}
+                className="bg-amber-500 hover:bg-amber-600 text-stone-950 font-bold px-6 py-2.5 rounded-xl shadow-md text-sm"
+              >
+                {text.viewDashboard}
+              </button>
+              <button
+                onClick={() => {
+                  onClose();
+                  setBookedSuccess(false);
+                }}
+                className="bg-stone-100 hover:bg-stone-200 text-stone-800 font-semibold px-6 py-2.5 rounded-xl text-sm"
+              >
+                {text.closeWindow}
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div className="flex items-center gap-2 text-amber-700 font-bold text-xs uppercase tracking-wider mb-1">
+              <Crown className="w-4 h-4 fill-amber-500" />
+              {text.reservationHeader}
+            </div>
+            <h3 className="font-serif text-2xl font-bold text-stone-900 mb-6">
+              {text.completeBooking}
+            </h3>
+
+            {errorMsg && (
+              <div className="mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-medium">
+                {errorMsg}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              
+              {/* Room Selection */}
+              <div>
+                <label className="block text-xs font-bold text-stone-700 mb-1">
+                  {text.selectRoomLabel}
+                </label>
+                <select
+                  value={selectedRoomId}
+                  onChange={(e) => setSelectedRoomId(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 font-bold text-sm bg-stone-50 focus:ring-2 focus:ring-amber-500"
+                >
+                  {ROOMS.map(r => (
+                    <option key={r.id} value={r.id}>
+                      {r.name} — {formatIDR(r.pricePerNight * 1000)}/night ({r.subtitle})
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Guest Details */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 mb-1">
+                    {text.fullNameLabel} <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Eleanor Vance"
+                    value={guestName}
+                    onChange={(e) => setGuestName(e.target.value)}
+                    className="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-sm focus:ring-2 focus:ring-amber-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 mb-1">
+                    {text.emailLabel} <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="guest@example.com"
+                    value={guestEmail}
+                    onChange={(e) => setGuestEmail(e.target.value)}
+                    className="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-sm focus:ring-2 focus:ring-amber-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 mb-1">
+                    {text.checkInLabel}
+                  </label>
+                  <input
+                    type="date"
+                    required
+                    value={checkInDate}
+                    min={new Date().toISOString().split('T')[0]}
+                    onChange={(e) => setCheckInDate(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl border border-stone-300 text-sm font-semibold bg-stone-50"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 mb-1">
+                    {text.checkOutLabel}
+                  </label>
+                  <input
+                    type="date"
+                    required
+                    value={checkOutDate}
+                    min={checkInDate}
+                    onChange={(e) => setCheckOutDate(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl border border-stone-300 text-sm font-semibold bg-stone-50"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 mb-1">
+                    {text.guestsCountLabel}
+                  </label>
+                  <select
+                    value={guestsCount}
+                    onChange={(e) => setGuestsCount(Number(e.target.value))}
+                    className="w-full px-3 py-2 rounded-xl border border-stone-300 text-sm font-semibold bg-stone-50"
+                  >
+                    <option value={1}>1 Guest</option>
+                    <option value={2}>2 Guests</option>
+                    <option value={3}>3 Guests</option>
+                    <option value={4}>4 Guests</option>
+                    <option value={6}>6 Guests</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-stone-700 mb-1">
+                  {text.phoneLabel}
+                </label>
+                <input
+                  type="tel"
+                  placeholder="+1 (555) 000-0000"
+                  value={guestPhone}
+                  onChange={(e) => setGuestPhone(e.target.value)}
+                  className="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-sm"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-stone-700 mb-1">
+                  {text.requestsLabel}
+                </label>
+                <textarea
+                  rows={2}
+                  placeholder={text.requestsPlaceholder}
+                  value={specialRequests}
+                  onChange={(e) => setSpecialRequests(e.target.value)}
+                  className="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-sm resize-none"
+                />
+              </div>
+
+              {/* Price Calculation Summary */}
+              <div className="bg-amber-50 p-4 rounded-2xl border border-amber-200 flex items-center justify-between">
+                <div>
+                  <div className="text-xs text-amber-900 font-bold">{text.estimatedTotal}</div>
+                  <div className="text-[11px] text-stone-600">
+                    {nightCount} {text.nightPerNight} {formatIDR(currentRoom.pricePerNight * 1000)} / night
+                  </div>
+                </div>
+                <div className="font-serif text-2xl font-extrabold text-amber-700">
+                  {formatIDR(totalAmount)}
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={submitting}
+                className="w-full bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 text-stone-950 font-extrabold py-3.5 px-6 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 text-sm disabled:opacity-50"
+              >
+                <Sparkles className="w-4 h-4 fill-stone-950" />
+                <span>{submitting ? text.processingBtn : text.confirmBtn}</span>
+              </button>
+
+            </form>
+          </div>
+        )}
 
       </div>
-    </section>
+    </div>
   );
 };
