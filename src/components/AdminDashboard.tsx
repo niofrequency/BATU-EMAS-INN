@@ -23,7 +23,8 @@ import {
   PlusCircle, 
   DollarSign, 
   Filter,
-  Sparkles
+  Sparkles,
+  Search
 } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
