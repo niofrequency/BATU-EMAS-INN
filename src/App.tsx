@@ -11,6 +11,7 @@ import { AdminDashboard } from './components/AdminDashboard';
 import { BookingModal } from './components/BookingModal';
 import { AuthModal } from './components/AuthModal';
 import { Footer } from './components/Footer';
+import { WhatsAppButton } from './components/WhatsAppButton';
 import { RoomInfo, UserRole } from './types';
 import { ShieldCheck, Calendar, Sparkles } from 'lucide-react';
 
@@ -144,6 +145,8 @@ function AppContent() {
       </div>
 
       <Footer />
+
+      <WhatsAppButton />
 
       <BookingModal
         isOpen={bookingModalOpen}
