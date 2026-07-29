@@ -58,7 +58,6 @@ function AppContent() {
     <div className="min-h-screen bg-white text-stone-900 font-sans flex flex-col justify-between selection:bg-amber-300 selection:text-stone-950">
       
       <div>
-        {/* Navigation bar with global language context */}
         <Navbar
           currentView={currentView}
           setCurrentView={setCurrentView}
@@ -66,7 +65,6 @@ function AppContent() {
           onOpenBooking={() => setBookingModalOpen(true)}
         />
 
-        {/* View Router */}
         {currentView === 'landing' && (
           <main>
             <HeroSection onQuickBook={handleQuickBook} />
@@ -127,10 +125,8 @@ function AppContent() {
         )}
       </div>
 
-      {/* Footer */}
       <Footer />
 
-      {/* Global Modals */}
       <BookingModal
         isOpen={bookingModalOpen}
         onClose={() => setBookingModalOpen(false)}
