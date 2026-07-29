@@ -9,7 +9,7 @@ interface NavbarProps {
   onOpenAuth: () => void;
   onOpenBooking: () => void;
 }
-
+ 
 export const Navbar: React.FC<NavbarProps> = ({
   currentView,
   setCurrentView,
