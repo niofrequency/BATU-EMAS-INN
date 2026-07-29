@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, User, ShieldCheck, Mail, Lock, LogIn, Sparkles, UserPlus } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { UserRole } from '../types';
 
 interface AuthModalProps {
@@ -15,6 +16,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   onSelectRoleView
 }) => {
   const { loginWithGoogle, loginWithEmail, registerWithEmail, switchDemoRole } = useAuth();
+  const { lang } = useLanguage();
   
   const [mode, setMode] = useState<'login' | 'register'>('login');
   const [email, setEmail] = useState('');
@@ -24,12 +26,66 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
+  // Localized text dictionary for Auth Modal
+  const text = {
+    en: {
+      signInTitle: "Sign In to Batu Emas Inn",
+      registerTitle: "Create Guest Account",
+      subtitle: "Access your reservation portal or manage hotel administration",
+      quickDemo: "⚡ Quick Demo Access (Instant Toggle)",
+      demoGuest: "Demo Guest Portal",
+      demoAdmin: "Demo Admin Portal",
+      orCredentials: "Or Sign In With Credentials",
+      errorEmailPass: "Please enter email and password.",
+      errorAuth: "Authentication error. Please try again.",
+      fullName: "Full Name",
+      emailAddress: "Email Address",
+      passwordLabel: "Password",
+      assignRole: "Assign User Role",
+      guestRoleOption: "Guest (Standard Hotel Guest)",
+      adminRoleOption: "Admin (Hotel Staff Manager)",
+      processing: "Processing...",
+      signInBtn: "Sign In",
+      createAccountBtn: "Create Account",
+      continueGoogle: "Continue with Google",
+      noAccount: "Don't have an account?",
+      registerHere: "Register Here",
+      alreadyRegistered: "Already registered?",
+      signInHere: "Sign In"
+    },
+    id: {
+      signInTitle: "Masuk ke Batu Emas Inn",
+      registerTitle: "Buat Akun Tamu",
+      subtitle: "Akses portal reservasi Anda atau kelola administrasi hotel",
+      quickDemo: "⚡ Akses Demo Cepat (Peralihan Instan)",
+      demoGuest: "Demo Portal Tamu",
+      demoAdmin: "Demo Portal Admin",
+      orCredentials: "Atau Masuk dengan Kredensial",
+      errorEmailPass: "Silakan masukkan email dan kata sandi.",
+      errorAuth: "Kesalahan autentikasi. Silakan coba lagi.",
+      fullName: "Nama Lengkap",
+      emailAddress: "Alamat Email",
+      passwordLabel: "Kata Sandi",
+      assignRole: "Tetapkan Peran Pengguna",
+      guestRoleOption: "Tamu (Tamu Hotel Standar)",
+      adminRoleOption: "Admin (Manajer Staf Hotel)",
+      processing: "Memproses...",
+      signInBtn: "Masuk",
+      createAccountBtn: "Buat Akun",
+      continueGoogle: "Lanjutkan dengan Google",
+      noAccount: "Belum punya akun?",
+      registerHere: "Daftar di Sini",
+      alreadyRegistered: "Sudah terdaftar?",
+      signInHere: "Masuk"
+    }
+  }[lang];
+
   if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
-      setErrorMsg('Please enter email and password.');
+      setErrorMsg(text.errorEmailPass);
       return;
     }
 
@@ -48,7 +104,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       }
     } catch (err) {
       console.error("Auth error:", err);
-      setErrorMsg('Authentication error. Please try again.');
+      setErrorMsg(text.errorAuth);
     } finally {
       setLoading(false);
     }
@@ -91,17 +147,17 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             <Sparkles className="w-6 h-6 text-amber-600 fill-amber-500" />
           </div>
           <h3 className="font-serif text-2xl font-bold text-stone-900">
-            {mode === 'login' ? 'Sign In to Batu Emas Inn' : 'Create Guest Account'}
+            {mode === 'login' ? text.signInTitle : text.registerTitle}
           </h3>
           <p className="text-xs text-stone-500 mt-1">
-            Access your reservation portal or manage hotel administration
+            {text.subtitle}
           </p>
         </div>
 
         {/* Quick Demo Role Selectors */}
         <div className="mb-6 p-3 bg-stone-50 rounded-2xl border border-stone-200">
           <div className="text-[11px] font-bold uppercase tracking-wider text-stone-500 text-center mb-2">
-            ⚡ Quick Demo Access (Instant Toggle)
+            {text.quickDemo}
           </div>
           <div className="grid grid-cols-2 gap-2">
             <button
@@ -109,21 +165,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               className="py-2 px-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-stone-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-all"
             >
               <User className="w-3.5 h-3.5" />
-              Demo Guest Portal
+              {text.demoGuest}
             </button>
             <button
               onClick={() => handleQuickDemo('admin')}
               className="py-2 px-3 rounded-xl bg-emerald-950 hover:bg-emerald-900 text-amber-300 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-all border border-emerald-800"
             >
               <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-              Demo Admin Portal
+              {text.demoAdmin}
             </button>
           </div>
         </div>
 
         <div className="relative my-4 flex items-center justify-center">
           <div className="border-t border-stone-200 w-full" />
-          <span className="bg-white px-3 text-xs text-stone-400 uppercase font-semibold">Or Sign In With Credentials</span>
+          <span className="bg-white px-3 text-xs text-stone-400 uppercase font-semibold">{text.orCredentials}</span>
         </div>
 
         {errorMsg && (
@@ -136,7 +192,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           
           {mode === 'register' && (
             <div>
-              <label className="block text-xs font-bold text-stone-700 mb-1">Full Name</label>
+              <label className="block text-xs font-bold text-stone-700 mb-1">{text.fullName}</label>
               <input
                 type="text"
                 required
@@ -149,7 +205,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           )}
 
           <div>
-            <label className="block text-xs font-bold text-stone-700 mb-1">Email Address</label>
+            <label className="block text-xs font-bold text-stone-700 mb-1">{text.emailAddress}</label>
             <div className="relative">
               <Mail className="w-4 h-4 text-stone-400 absolute left-3.5 top-3" />
               <input
@@ -164,7 +220,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-stone-700 mb-1">Password</label>
+            <label className="block text-xs font-bold text-stone-700 mb-1">{text.passwordLabel}</label>
             <div className="relative">
               <Lock className="w-4 h-4 text-stone-400 absolute left-3.5 top-3" />
               <input
@@ -180,14 +236,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
           {mode === 'register' && (
             <div>
-              <label className="block text-xs font-bold text-stone-700 mb-1">Assign User Role</label>
+              <label className="block text-xs font-bold text-stone-700 mb-1">{text.assignRole}</label>
               <select
                 value={selectedRole}
                 onChange={(e) => setSelectedRole(e.target.value as UserRole)}
                 className="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-sm bg-stone-50"
               >
-                <option value="guest">Guest (Standard Hotel Guest)</option>
-                <option value="admin">Admin (Hotel Staff Manager)</option>
+                <option value="guest">{text.guestRoleOption}</option>
+                <option value="admin">{text.adminRoleOption}</option>
               </select>
             </div>
           )}
@@ -198,7 +254,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             className="w-full bg-amber-500 hover:bg-amber-600 text-stone-950 font-extrabold py-2.5 px-4 rounded-xl shadow-md transition-all text-sm flex items-center justify-center gap-2 mt-2"
           >
             {mode === 'login' ? <LogIn className="w-4 h-4" /> : <UserPlus className="w-4 h-4" />}
-            <span>{loading ? 'Processing...' : mode === 'login' ? 'Sign In' : 'Create Account'}</span>
+            <span>{loading ? text.processing : mode === 'login' ? text.signInBtn : text.createAccountBtn}</span>
           </button>
 
         </form>
@@ -215,29 +271,29 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.27C.46 8.2.01 10.04.01 12s.45 3.8 1.26 5.42l4.01-3.15z"/>
             <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.25 2.7 1.27 6.58l4.01 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
           </svg>
-          <span>Continue with Google</span>
+          <span>{text.continueGoogle}</span>
         </button>
 
         {/* Toggle Mode Footer */}
         <div className="mt-4 text-center text-xs text-stone-500">
           {mode === 'login' ? (
             <span>
-              Don't have an account?{' '}
+              {text.noAccount}{' '}
               <button
                 onClick={() => setMode('register')}
                 className="text-amber-700 font-bold hover:underline"
               >
-                Register Here
+                {text.registerHere}
               </button>
             </span>
           ) : (
             <span>
-              Already registered?{' '}
+              {text.alreadyRegistered}{' '}
               <button
                 onClick={() => setMode('login')}
                 className="text-amber-700 font-bold hover:underline"
               >
-                Sign In
+                {text.signInHere}
               </button>
             </span>
           )}
