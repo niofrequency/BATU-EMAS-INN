@@ -32,15 +32,16 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
-  const threeDaysLater = new Date(today);
-  threeDaysLater.setDate(today.getDate() + 4);
+  // Default check-out set to 1 night stay (today + 2) to display exact 1-night total initially
+  const defaultCheckOut = new Date(today);
+  defaultCheckOut.setDate(today.getDate() + 2);
 
   const [selectedRoomId, setSelectedRoomId] = useState<string>(preselectedRoom?.id || 'deluxe_gold');
   const [guestName, setGuestName] = useState('');
   const [guestEmail, setGuestEmail] = useState('');
   const [guestPhone, setGuestPhone] = useState('');
   const [checkInDate, setCheckInDate] = useState(tomorrow.toISOString().split('T')[0]);
-  const [checkOutDate, setCheckOutDate] = useState(threeDaysLater.toISOString().split('T')[0]);
+  const [checkOutDate, setCheckOutDate] = useState(defaultCheckOut.toISOString().split('T')[0]);
   const [guestsCount, setGuestsCount] = useState(2);
   const [specialRequests, setSpecialRequests] = useState('');
 
