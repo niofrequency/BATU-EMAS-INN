@@ -13,8 +13,8 @@ const iconMap: Record<string, React.ReactNode> = {
 
 export const AboutAmenities: React.FC = () => {
   return (
-    <section id="amenities" className="py-20 bg-stone-50 border-y border-stone-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="amenities" className="py-20 bg-stone-50 border-y border-stone-200 w-full">
+      <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24">
         
         {/* About Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
