@@ -127,12 +127,12 @@ export const AdminDashboard: React.FC = () => {
     }
   };
 
-  // CREATE WALK-IN BOOKING
+  // CREATE WALK-IN BOOKING (1 USD = 1,000 IDR)
   const handleCreateWalkInBooking = async (e: React.FormEvent) => {
     e.preventDefault();
     const room = ROOMS.find(r => r.id === newRoomType) || ROOMS[0];
     const nightCount = Math.max(1, Math.round((new Date(newCheckOut).getTime() - new Date(newCheckIn).getTime()) / (1000 * 3600 * 24)));
-    const roomPriceIDR = room.pricePerNight * 16000;
+    const roomPriceIDR = room.pricePerNight * 1000;
     
     try {
       await createBooking({
@@ -659,7 +659,7 @@ export const AdminDashboard: React.FC = () => {
                   className="w-full px-3.5 py-2.5 rounded-xl bg-stone-50 border border-stone-300 text-stone-900 text-sm focus:outline-none focus:border-amber-500"
                 >
                   {ROOMS.map(r => (
-                    <option key={r.id} value={r.id}>{r.name} ({formatIDR(r.pricePerNight * 16000)}/night)</option>
+                    <option key={r.id} value={r.id}>{r.name} ({formatIDR(r.pricePerNight * 1000)}/night)</option>
                   ))}
                 </select>
               </div>
