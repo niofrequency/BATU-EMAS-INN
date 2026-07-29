@@ -46,12 +46,12 @@ export const ContactSection: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-stone-900 text-white relative overflow-hidden">
+    <section id="contact" className="py-20 bg-stone-900 text-white relative overflow-hidden w-full">
       
       {/* Background Sheen */}
       <div className="absolute inset-0 bg-gradient-to-br from-stone-900 via-emerald-950/40 to-amber-950/20 pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 w-full px-4 sm:px-8 lg:px-16 xl:px-24">
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           
