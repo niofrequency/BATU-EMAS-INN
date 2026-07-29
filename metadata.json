@@ -1,0 +1,6 @@
+{
+  "name": "Batu Emas Inn",
+  "description": "Luxury hotel landing page, guest reservation portal, and admin management dashboard for Batu Emas Inn.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

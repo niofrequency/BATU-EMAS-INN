@@ -1,0 +1,62 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with role definition",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "guest"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "Hotel booking reservation record",
+      "type": "object",
+      "properties": {
+        "userID": { "type": "string" },
+        "guestName": { "type": "string" },
+        "guestEmail": { "type": "string" },
+        "checkInDate": { "type": "string" },
+        "checkOutDate": { "type": "string" },
+        "guests": { "type": "number" },
+        "roomType": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "cancelled", "completed"] },
+        "totalAmount": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["userID", "checkInDate", "checkOutDate", "guests", "roomType", "status"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "Inquiry message from contact form",
+      "type": "object",
+      "properties": {
+        "senderName": { "type": "string" },
+        "email": { "type": "string" },
+        "messageText": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "readStatus": { "type": "string", "enum": ["unread", "read", "replied"] }
+      },
+      "required": ["senderName", "email", "messageText", "timestamp", "readStatus"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User account documents containing user role"
+    },
+    "/bookings/{bookingId}": {
+      "schema": "Booking",
+      "description": "Guest hotel reservation records"
+    },
+    "/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Contact form inquiry messages"
+    }
+  }
+}
