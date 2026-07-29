@@ -1,22 +1,33 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Crown, User, ShieldCheck, LogOut, Calendar, MessageSquare, Menu, X, Sparkles } from 'lucide-react';
+import { Crown, User, ShieldCheck, LogOut, Calendar, Menu, X, Sparkles, Globe } from 'lucide-react';
+import { translations, Language } from '../data/translations';
 
 interface NavbarProps {
   currentView: 'landing' | 'guest' | 'admin';
   setCurrentView: (view: 'landing' | 'guest' | 'admin') => void;
   onOpenAuth: () => void;
   onOpenBooking: () => void;
+  currentLang: Language;
+  setLang: (lang: Language) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   currentView,
   setCurrentView,
   onOpenAuth,
-  onOpenBooking
+  onOpenBooking,
+  currentLang,
+  setLang
 }) => {
-  const { user, isAdmin, isGuest, logout, switchDemoRole } = useAuth();
+  const { user, isAdmin, isGuest, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const t = translations[currentLang];
+
+  const toggleLanguage = () => {
+    setLang(currentLang === 'en' ? 'id' : 'en');
+  };
 
   return (
     <nav className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-amber-200/50 shadow-xs w-full">
@@ -41,7 +52,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </span>
               </div>
               <p className="text-[10px] tracking-widest text-emerald-800 font-medium uppercase">
-                Golden Luxury & Comfort
+                {currentLang === 'en' ? 'Golden Luxury & Comfort' : 'Kemewahan & Kenyamanan Emas'}
               </p>
             </div>
           </div>
@@ -52,22 +63,32 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => setCurrentView('landing')}
               className={`transition-colors hover:text-amber-600 ${currentView === 'landing' ? 'text-amber-700 font-semibold' : ''}`}
             >
-              Overview
+              {t.overview}
             </button>
             <a href="#rooms" onClick={() => setCurrentView('landing')} className="hover:text-amber-600 transition-colors">
-              Rooms & Suites
+              {t.rooms}
             </a>
             <a href="#amenities" onClick={() => setCurrentView('landing')} className="hover:text-amber-600 transition-colors">
-              Amenities
+              {t.amenities}
             </a>
             <a href="#contact" onClick={() => setCurrentView('landing')} className="hover:text-amber-600 transition-colors">
-              Contact
+              {t.contact}
             </a>
           </div>
 
           {/* Action & Auth Controls */}
           <div className="hidden md:flex items-center gap-3">
             
+            {/* Language Toggle Button */}
+            <button
+              onClick={toggleLanguage}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-stone-200 bg-stone-50 hover:bg-amber-50 hover:border-amber-300 text-stone-800 font-bold text-xs transition-all"
+              title="Switch Language / Ganti Bahasa"
+            >
+              <Globe className="w-3.5 h-3.5 text-amber-600" />
+              <span>{currentLang === 'en' ? 'ID (Bahasa)' : 'EN (English)'}</span>
+            </button>
+
             {/* Direct Dashboard Switch Buttons */}
             {user ? (
               <div className="flex items-center gap-2 bg-stone-100 p-1.5 rounded-xl border border-stone-200">
@@ -81,7 +102,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     }`}
                   >
                     <ShieldCheck className="w-3.5 h-3.5" />
-                    Admin Portal
+                    {t.adminPortal}
                   </button>
                 ) : (
                   <button
@@ -93,7 +114,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     }`}
                   >
                     <Calendar className="w-3.5 h-3.5" />
-                    My Bookings
+                    {t.myBookings}
                   </button>
                 )}
                 
@@ -103,7 +124,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     currentView === 'landing' ? 'bg-white text-stone-900 shadow-xs' : 'text-stone-600 hover:text-stone-900'
                   }`}
                 >
-                  Landing
+                  {t.landing}
                 </button>
               </div>
             ) : null}
@@ -114,7 +135,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 text-stone-950 font-bold px-5 py-2.5 rounded-xl shadow-md shadow-amber-500/20 hover:from-amber-500 hover:to-yellow-600 hover:shadow-lg transition-all duration-200 flex items-center gap-2 text-sm"
             >
               <Sparkles className="w-4 h-4 fill-stone-950" />
-              Book Now
+              {t.bookNow}
             </button>
 
             {/* User Profile / Auth Toggle */}
@@ -136,7 +157,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </div>
                 <button
                   onClick={logout}
-                  title="Log out"
+                  title={t.logOut}
                   className="p-2 rounded-lg text-stone-500 hover:text-red-600 hover:bg-red-50 transition-colors"
                 >
                   <LogOut className="w-4 h-4" />
@@ -148,7 +169,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 className="flex items-center gap-1.5 text-stone-700 hover:text-amber-700 font-semibold text-sm px-3 py-2 rounded-xl border border-stone-200 hover:border-amber-400 hover:bg-amber-50/50 transition-all"
               >
                 <User className="w-4 h-4 text-amber-600" />
-                Sign In
+                {t.signIn}
               </button>
             )}
 
@@ -157,10 +178,16 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Mobile menu trigger */}
           <div className="md:hidden flex items-center gap-2">
             <button
+              onClick={toggleLanguage}
+              className="px-2.5 py-1.5 rounded-lg border border-stone-200 text-stone-800 font-bold text-xs bg-stone-50"
+            >
+              {currentLang.toUpperCase()}
+            </button>
+            <button
               onClick={onOpenBooking}
               className="bg-amber-500 text-stone-950 text-xs font-bold px-3 py-2 rounded-lg shadow-xs"
             >
-              Book
+              {t.bookNow}
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -180,7 +207,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => { setCurrentView('landing'); setMobileMenuOpen(false); }}
             className="block w-full text-left py-2 font-medium text-stone-800 hover:text-amber-600"
           >
-            Overview
+            {t.overview}
           </button>
           {user && (
             <>
@@ -190,7 +217,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   className="flex items-center gap-2 w-full text-left py-2 text-emerald-900 font-semibold"
                 >
                   <ShieldCheck className="w-4 h-4" />
-                  Admin Dashboard
+                  {t.adminPortal}
                 </button>
               )}
               {isGuest && (
@@ -199,7 +226,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   className="flex items-center gap-2 w-full text-left py-2 text-amber-700 font-semibold"
                 >
                   <Calendar className="w-4 h-4" />
-                  My Bookings
+                  {t.myBookings}
                 </button>
               )}
             </>
@@ -209,14 +236,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             {user ? (
               <div className="flex items-center justify-between">
                 <span className="text-xs text-stone-600">Logged in as {user.displayName}</span>
-                <button onClick={logout} className="text-xs text-red-600 font-semibold">Log Out</button>
+                <button onClick={logout} className="text-xs text-red-600 font-semibold">{t.logOut}</button>
               </div>
             ) : (
               <button
                 onClick={() => { onOpenAuth(); setMobileMenuOpen(false); }}
                 className="w-full text-center py-2.5 rounded-xl border border-stone-300 font-semibold text-stone-800"
               >
-                Sign In / Register
+                {t.signIn}
               </button>
             )}
           </div>
