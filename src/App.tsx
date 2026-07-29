@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import { LanguageProvider, useLanguage } from './context/LanguageContext';
+import { LanguageProvider } from './context/LanguageContext';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { AboutAmenities } from './components/AboutAmenities';
@@ -12,11 +12,10 @@ import { BookingModal } from './components/BookingModal';
 import { AuthModal } from './components/AuthModal';
 import { Footer } from './components/Footer';
 import { RoomInfo, UserRole } from './types';
-import { ShieldCheck, Calendar, Crown, AlertCircle } from 'lucide-react';
+import { ShieldCheck, Calendar } from 'lucide-react';
 
 function AppContent() {
-  const { user, isAdmin, isGuest } = useAuth();
-  const { lang, setLang } = useLanguage();
+  const { user, isAdmin } = useAuth();
   
   const [currentView, setCurrentView] = useState<'landing' | 'guest' | 'admin'>('landing');
   const [authModalOpen, setAuthModalOpen] = useState(false);
@@ -59,14 +58,12 @@ function AppContent() {
     <div className="min-h-screen bg-white text-stone-900 font-sans flex flex-col justify-between selection:bg-amber-300 selection:text-stone-950">
       
       <div>
-        {/* Navigation bar with global language consumer */}
+        {/* Navigation bar with global language context */}
         <Navbar
           currentView={currentView}
           setCurrentView={setCurrentView}
           onOpenAuth={() => setAuthModalOpen(true)}
           onOpenBooking={() => setBookingModalOpen(true)}
-          currentLang={lang}
-          setLang={setLang}
         />
 
         {/* View Router */}
