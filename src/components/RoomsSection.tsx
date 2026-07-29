@@ -38,6 +38,11 @@ export const RoomsSection: React.FC<RoomsSectionProps> = ({ onSelectRoom }) => {
     }
   }[lang];
 
+  const formatIDR = (priceInUSD: number) => {
+    const idrAmount = priceInUSD * 1000;
+    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(idrAmount);
+  };
+
   return (
     <section id="rooms" className="py-20 bg-white w-full">
       <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24">
@@ -87,7 +92,7 @@ export const RoomsSection: React.FC<RoomsSectionProps> = ({ onSelectRoom }) => {
 
                 {/* Price Tag Overlay */}
                 <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-amber-300 shadow-md">
-                  <span className="font-serif text-xl font-bold text-stone-900">${room.pricePerNight}</span>
+                  <span className="font-serif text-lg font-bold text-stone-900">{formatIDR(room.pricePerNight)}</span>
                   <span className="text-xs text-stone-600 font-medium">{text.perNight}</span>
                 </div>
               </div>
