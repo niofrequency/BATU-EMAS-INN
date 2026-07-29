@@ -1,143 +1,140 @@
 import React from 'react';
 import { HOTEL_AMENITIES } from '../data/rooms';
 import { useLanguage } from '../context/LanguageContext';
-import { Wifi, Waves, UtensilsCrossed, Clock, Sparkles, Car, ShieldCheck, Award } from 'lucide-react';
-
-const iconMap: Record<string, React.ReactNode> = {
-  Wifi: <Wifi className="w-6 h-6 text-amber-600" />,
-  Waves: <Waves className="w-6 h-6 text-amber-600" />,
-  UtensilsCrossed: <UtensilsCrossed className="w-6 h-6 text-amber-600" />,
-  Clock: <Clock className="w-6 h-6 text-amber-600" />,
-  Sparkles: <Sparkles className="w-6 h-6 text-amber-600" />,
-  Car: <Car className="w-6 h-6 text-amber-600" />
-};
+import { 
+  Wifi, 
+  Waves, 
+  UtensilsCrossed, 
+  Clock, 
+  Sparkles, 
+  Car, 
+  Star, 
+  ExternalLink 
+} from 'lucide-react';
 
 export const AboutAmenities: React.FC = () => {
   const { lang } = useLanguage();
 
-  // Bilingual text dictionary for About & Amenities
-  content: {
-    // handled inline below
-  }
-
   const text = {
     en: {
       badge: "Sanctuary of Refined Luxury",
-      title: "A Golden Haven Built on Tradition & Modern Comfort",
-      desc1: "Named after our iconic handcrafted glossy yellow floor tiles that gleam like polished amber in the morning sun, BATU EMAS INN offers guests an unforgettable blend of tropical tranquility and premier five-star hospitality.",
-      desc2: "Whether you are relaxing in our Royal Emas Suite, dining at our waterfront restaurant, or unwinding in our infinity gold pool, our attentive staff ensures every moment of your stay exceeds expectations.",
+      heading: "A Golden Haven Built on Tradition & Modern Comfort",
+      paragraph1: "Named after our iconic handcrafted glossy yellow floor tiles that gleam like polished amber in the morning sun, **BATU EMAS INN** offers guests an unforgettable blend of tropical tranquility and premier five-star hospitality.",
+      paragraph2: "Whether you are relaxing in our Royal Emas Suite, dining at our waterfront restaurant, or unwinding in our infinity gold pool, our attentive staff ensures every moment of your stay exceeds expectations.",
       suitesLabel: "Luxury Suites",
-      ratingLabel: "Guest Rating",
+      guestRatingLabel: "Google Guest Rating",
+      reviewsCount: "Based on verified reviews",
       conciergeLabel: "Concierge",
-      signatureExp: "Signature Experience",
-      signatureDesc: "Personalized butler service & complimentary gourmet breakfast daily.",
-      facilityBadge: "World-Class Facilities",
-      facilityTitle: "Designed for Your Absolute Ease",
-      facilityDesc: "From high-speed fiber connectivity to relaxing spa remedies, Batu Emas Inn brings you every comfort under one golden roof."
+      amenitiesBadge: "Resort Facilities",
+      amenitiesHeading: "Curated Amenities for Your Stay",
+      amenitiesSub: "Every detail is meticulously considered to provide comfort, relaxation, and bespoke hospitality.",
+      googleReviewAction: "View Google Reviews"
     },
     id: {
       badge: "Suaka Kemewahan Berkelas",
-      title: "Surga Emas yang Dibangun atas Tradisi & Kenyamanan Modern",
-      desc1: "Dinamai dari ubin lantai kuning mengkilap buatan tangan ikonik kami yang berkilau seperti amber dipoles di pagi hari, BATU EMAS INN menawarkan tamu perpaduan tak terlupakan antara ketenangan tropis dan keramahtamahan bintang lima utama.",
-      desc2: "Baik Anda bersantai di Royal Emas Suite kami, menikmati hidangan di restoran tepi air, atau bersantai di kolam renang emas infinity kami, staf penuh perhatian kami memastikan setiap momen masa inap Anda melampaui harapan.",
+      heading: "Surga Emas yang Dibangun atas Tradisi & Kenyamanan Modern",
+      paragraph1: "Dinamai dari ubin lantai kuning mengkilap buatan tangan ikonik kami yang berkilau seperti amber yang dipoles di pagi matahari, **BATU EMAS INN** menawarkan kepada para tamu perpaduan tak terlupakan antara ketenangan tropis dan keramahtamahan bintang lima.",
+      paragraph2: "Baik Anda bersantai di Suite Royal Emas kami, bersantap di restoran tepi laut kami, atau bersantai di kolam renang emas infinity kami, staf penuh perhatian kami memastikan setiap momen masa inap Anda melampaui harapan.",
       suitesLabel: "Suite Mewah",
-      ratingLabel: "Peringkat Tamu",
+      guestRatingLabel: "Rating Tamu Google",
+      reviewsCount: "Berdasarkan ulasan terverifikasi",
       conciergeLabel: "Pramutamu",
-      signatureExp: "Pengalaman Unggulan",
-      signatureDesc: "Layanan pelayan pribadi & sarapan gourmet gratis setiap hari.",
-      facilityBadge: "Fasilitas Kelas Dunia",
-      facilityTitle: "Dirancang untuk Kenyamanan Mutlak Anda",
-      facilityDesc: "Dari konektivitas serat optik berkecepatan tinggi hingga perawatan spa yang menenangkan, Batu Emas Inn menghadirkan kenyamanan di bawah satu atap emas."
+      amenitiesBadge: "Fasilitas Resor",
+      amenitiesHeading: "Fasilitas Pilihan untuk Masa Inap Anda",
+      amenitiesSub: "Setiap detail dipertimbangkan dengan cermat untuk memberikan kenyamanan, relaksasi, dan keramahtamahan khusus.",
+      googleReviewAction: "Lihat Ulasan Google"
     }
   }[lang];
 
+  // Map string icon identifiers to Lucide components
+  const getAmenityIcon = (iconName: string) => {
+    switch (iconName) {
+      case 'Wifi': return <Wifi className="w-6 h-6 text-amber-600" />;
+      case 'Waves': return <Waves className="w-6 h-6 text-amber-600" />;
+      case 'UtensilsCrossed': return <UtensilsCrossed className="w-6 h-6 text-amber-600" />;
+      case 'Clock': return <Clock className="w-6 h-6 text-amber-600" />;
+      case 'Sparkles': return <Sparkles className="w-6 h-6 text-amber-600" />;
+      case 'Car': return <Car className="w-6 h-6 text-amber-600" />;
+      default: return <Sparkles className="w-6 h-6 text-amber-600" />;
+    }
+  };
+
+  // Google Travel / Maps link provided
+  const googleMapsReviewsUrl = "https://www.google.com/travel/search?q=batu%20emas%20inn&g2lb=4965990%2C72471280%2C72560029%2C72573224%2C72647020%2C72686036%2C72803964%2C72882230%2C73064764%2C73249150%2C121529350%2C121738283%2C121762713&hl=en-ID&gl=id&cs=1&ssta=1&ts=CAEaSQopEicyJTB4NjgyMzc3MzBlZGMwMzU2NToweDQ3NmZlMmRmZTFmOTFmNTkSHBIUCgcI6g8QBxgfEgcI6g8QCBgBGAEyBAgAEAAqBwoFOgNJRFI&qs=CAEyE0Nnb0kyYjdral83Yi1MZEhFQUU4AkIJCVkf-eHf4m9HQgkJWR_54d_ib0dIAA&ap=MAC6AQdyZXZpZXdz&ictx=111";
+
   return (
-    <section id="amenities" className="py-20 bg-stone-50 border-y border-stone-200 w-full">
-      <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24">
+    <section id="overview" className="py-24 bg-stone-50 w-full overflow-hidden">
+      <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24 space-y-20">
         
-        {/* About Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
-          
-          <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-900/10 text-emerald-900 border border-emerald-800/20 text-xs font-bold uppercase tracking-wider">
-              <Award className="w-3.5 h-3.5 text-emerald-800" />
-              <span>{text.badge}</span>
-            </div>
-
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900 leading-tight">
-              {text.title}
-            </h2>
-
-            <p className="text-stone-600 leading-relaxed text-base">
-              {text.desc1.split("BATU EMAS INN").map((part, i) => 
-                i === 0 ? (
-                  <React.Fragment key={i}>
-                    {part}<strong className="text-stone-900">BATU EMAS INN</strong>
-                  </React.Fragment>
-                ) : part
-              )}
-            </p>
-
-            <p className="text-stone-600 leading-relaxed text-sm">
-              {text.desc2}
-            </p>
-
-            <div className="grid grid-cols-3 gap-4 pt-4 border-t border-stone-200">
-              <div>
-                <div className="font-serif text-2xl font-bold text-amber-600">48+</div>
-                <div className="text-xs font-medium text-stone-500 uppercase tracking-wider">{text.suitesLabel}</div>
-              </div>
-              <div>
-                <div className="font-serif text-2xl font-bold text-emerald-900">4.9★</div>
-                <div className="text-xs font-medium text-stone-500 uppercase tracking-wider">{text.ratingLabel}</div>
-              </div>
-              <div>
-                <div className="font-serif text-2xl font-bold text-amber-600">24/7</div>
-                <div className="text-xs font-medium text-stone-500 uppercase tracking-wider">{text.conciergeLabel}</div>
-              </div>
-            </div>
+        {/* About Intro Box */}
+        <div className="max-w-4xl space-y-6">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold uppercase tracking-wider">
+            <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+            <span>{text.badge}</span>
           </div>
 
-          {/* Photo Grid */}
-          <div className="relative">
-            <div className="grid grid-cols-2 gap-4">
-              <img
-                src="/img/admindesk.webp"
-                alt="Hotel Interior Yellow Tiles"
-                className="rounded-2xl object-cover h-64 w-full shadow-md border-2 border-amber-300/40"
-              />
-              <img
-                src="/img/frontdoor.webp"
-                alt="Resort Infinity Pool"
-                className="rounded-2xl object-cover h-64 w-full shadow-md mt-6"
-              />
-            </div>
+          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-stone-900 tracking-tight leading-tight">
+            {text.heading}
+          </h2>
+
+          <div className="space-y-4 text-stone-600 text-sm sm:text-base leading-relaxed font-light">
+            <p dangerouslySetInnerHTML={{ __html: text.paragraph1 }} />
+            <p>{text.paragraph2}</p>
+          </div>
+
+          {/* Key Metrics Bar including Real Google Rating Widget */}
+          <div className="pt-8 border-t border-stone-200 grid grid-cols-1 sm:grid-cols-3 gap-8 items-center">
             
-            {/* Floating Golden Accent Card */}
-            <div className="absolute -bottom-6 left-6 right-6 bg-emerald-950 text-white p-5 rounded-xl shadow-xl flex items-center gap-4 border border-emerald-800">
-              <div className="w-10 h-10 rounded-lg bg-amber-500 text-stone-950 flex items-center justify-center font-bold flex-shrink-0">
-                <ShieldCheck className="w-6 h-6" />
-              </div>
-              <div>
-                <div className="text-xs font-bold text-amber-300 uppercase tracking-wide">{text.signatureExp}</div>
-                <div className="text-sm font-medium text-stone-200">{text.signatureDesc}</div>
-              </div>
+            {/* Suites Stat */}
+            <div>
+              <div className="font-serif text-4xl sm:text-5xl font-extrabold text-amber-700">48+</div>
+              <div className="text-xs font-bold text-stone-500 uppercase tracking-widest mt-1">{text.suitesLabel}</div>
             </div>
-          </div>
 
+            {/* Google Verified Rating Widget */}
+            <div className="bg-white p-4 rounded-2xl border border-stone-200 shadow-xs hover:border-amber-400 transition-colors">
+              <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center gap-1.5 font-serif text-3xl sm:text-4xl font-extrabold text-stone-900">
+                  <span>4.9</span>
+                  <Star className="w-6 h-6 fill-amber-400 text-amber-400" />
+                </div>
+                <a
+                  href={googleMapsReviewsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 transition-colors"
+                  title={text.googleReviewAction}
+                >
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+              </div>
+              <div className="text-xs font-bold text-stone-800 flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                {text.guestRatingLabel}
+              </div>
+              <div className="text-[10px] text-stone-400 mt-0.5">{text.reviewsCount}</div>
+            </div>
+
+            {/* Concierge Stat */}
+            <div>
+              <div className="font-serif text-4xl sm:text-5xl font-extrabold text-amber-700">24/7</div>
+              <div className="text-xs font-bold text-stone-500 uppercase tracking-widest mt-1">{text.conciergeLabel}</div>
+            </div>
+
+          </div>
         </div>
 
-        {/* Amenities Section */}
-        <div className="pt-8">
-          <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
-            <span className="text-xs font-bold text-amber-700 uppercase tracking-widest px-3 py-1 bg-amber-100 rounded-full border border-amber-200">
-              {text.facilityBadge}
+        {/* Resort Amenities Grid */}
+        <div className="space-y-12">
+          <div className="text-center max-w-2xl mx-auto space-y-3">
+            <span className="text-xs font-bold text-amber-700 uppercase tracking-widest px-3 py-1 bg-amber-50 rounded-full border border-amber-200">
+              {text.amenitiesBadge}
             </span>
             <h3 className="font-serif text-3xl font-bold text-stone-900">
-              {text.facilityTitle}
+              {text.amenitiesHeading}
             </h3>
             <p className="text-stone-600 text-sm">
-              {text.facilityDesc}
+              {text.amenitiesSub}
             </p>
           </div>
 
@@ -145,21 +142,22 @@ export const AboutAmenities: React.FC = () => {
             {HOTEL_AMENITIES.map((amenity, idx) => (
               <div
                 key={idx}
-                className="bg-white p-6 rounded-2xl border border-stone-200 shadow-xs hover:shadow-md hover:border-amber-400 transition-all duration-200 space-y-3 group"
+                className="bg-white p-8 rounded-3xl border border-stone-200 shadow-xs hover:shadow-xl hover:border-amber-400 transition-all duration-300 space-y-4 group"
               >
-                <div className="w-12 h-12 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  {iconMap[amenity.icon] || <Sparkles className="w-6 h-6 text-amber-600" />}
+                <div className="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center group-hover:scale-110 group-hover:bg-amber-500 group-hover:text-stone-950 transition-all">
+                  {getAmenityIcon(amenity.icon)}
                 </div>
-                <h4 className="font-serif text-lg font-bold text-stone-900 group-hover:text-amber-700 transition-colors">
+
+                <h4 className="font-serif text-xl font-bold text-stone-900 group-hover:text-amber-700 transition-colors">
                   {amenity.title}
                 </h4>
-                <p className="text-stone-600 text-sm leading-relaxed">
+
+                <p className="text-stone-600 text-sm leading-relaxed font-light">
                   {amenity.description}
                 </p>
               </div>
             ))}
           </div>
-
         </div>
 
       </div>
