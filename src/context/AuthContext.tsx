@@ -35,6 +35,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   const MASTER_ADMIN_EMAIL = 'mpigome44@gmail.com';
+  const MASTER_ADMIN_UID = 'oR2YnszWuvNCBIeJ1KRNC0A6XfR2';
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
@@ -45,8 +46,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         let currentRole: UserRole = 'guest';
 
-        // Force master admin email
-        if (firebaseUser.email === MASTER_ADMIN_EMAIL) {
+        // Enforce Master Admin based on Email or UID
+        if (firebaseUser.email === MASTER_ADMIN_EMAIL || firebaseUser.uid === MASTER_ADMIN_UID) {
           currentRole = 'admin';
         } else if (userDoc.exists()) {
           currentRole = userDoc.data().role || 'guest';
@@ -75,7 +76,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const userDoc = await getDoc(userDocRef);
     let assignedRole: UserRole = 'guest';
 
-    if (firebaseUser.email === MASTER_ADMIN_EMAIL) {
+    if (firebaseUser.email === MASTER_ADMIN_EMAIL || firebaseUser.uid === MASTER_ADMIN_UID) {
       assignedRole = 'admin';
     } else if (userDoc.exists()) {
       assignedRole = userDoc.data().role || 'guest';
@@ -103,7 +104,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const registerWithEmail = async (email: string, pass: string) => {
     const result = await createUserWithEmailAndPassword(auth, email, pass);
-    const assignedRole = email === MASTER_ADMIN_EMAIL ? 'admin' : 'guest';
+    const assignedRole = (email === MASTER_ADMIN_EMAIL || result.user.uid === MASTER_ADMIN_UID) ? 'admin' : 'guest';
     
     await setDoc(doc(db, 'users', result.user.uid), {
       email: result.user.email,
