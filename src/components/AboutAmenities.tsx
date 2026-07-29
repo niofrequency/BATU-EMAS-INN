@@ -107,7 +107,7 @@ export const AboutAmenities: React.FC = () => {
                 className="rounded-2xl object-cover h-64 w-full shadow-md border-2 border-amber-300/40"
               />
               <img
-                src="/img/frontview.webp"
+                src="/img/frontdoor.webp"
                 alt="Resort Infinity Pool"
                 className="rounded-2xl object-cover h-64 w-full shadow-md mt-6"
               />
