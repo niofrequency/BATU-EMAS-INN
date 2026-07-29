@@ -102,7 +102,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
       {/* Background Image Overlay with Golden Sheen */}
       <div className="absolute inset-0 z-0 opacity-40 mix-blend-luminosity">
         <img
-          src="/img/frontview.webp"
+          src="/img/frontdoor.webp"
           alt="Batu Emas Inn Resort Entrance"
           className="w-full h-full object-cover scale-105 transform transition-transform duration-10000 hover:scale-100"
         />
