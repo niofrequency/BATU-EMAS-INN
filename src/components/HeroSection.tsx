@@ -15,12 +15,12 @@ interface HeroSectionProps {
 export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
   const { lang } = useLanguage();
 
-  // Tomorrow & 3 days later default
+  // Tomorrow & 1 day later default (1-night stay so 120.000 x 1 = 120.000)
   const today = new Date();
   const defaultCheckIn = new Date(today);
   defaultCheckIn.setDate(today.getDate() + 1);
   const defaultCheckOut = new Date(today);
-  defaultCheckOut.setDate(today.getDate() + 4);
+  defaultCheckOut.setDate(today.getDate() + 2);
 
   const [checkInDate, setCheckInDate] = useState(defaultCheckIn.toISOString().split('T')[0]);
   const [checkOutDate, setCheckOutDate] = useState(defaultCheckOut.toISOString().split('T')[0]);
