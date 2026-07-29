@@ -11,7 +11,7 @@ export const getRooms = (lang: 'en' | 'id'): RoomInfo[] => {
         capacity: 2,
         size: '38 m²',
         description: 'Tempat peristirahatan luas yang dibuat dengan cermat, menampilkan aksen ubin marmer kuning mengkilap khas, kasur ukuran king, balkon pribadi, dan pemandangan taman yang tenang.',
-        image: '/img/room 1.webp',
+        image: '/img/room 3.webp',
         amenities: ['Kasur King', 'Wi-Fi Kecepatan Tinggi', 'Balkon Pemandangan Taman', 'Kamar Mandi Ubin Emas', 'Smart TV 55"', 'Mini Bar', 'AC'],
         rating: 4.9,
         featured: true
@@ -24,7 +24,7 @@ export const getRooms = (lang: 'en' | 'id'): RoomInfo[] => {
         capacity: 3,
         size: '56 m²',
         description: 'Dirancang untuk pelancong cerdas. Menampilkan area santai terpisah dengan perabotan kayu ek emas, bathtub rendam dalam, lounge kopi espresso, dan pemandangan matahari terbenam.',
-        image: '/img/room 2.webp',
+        image: '/img/room 3.webp',
         amenities: ['Kasur King + Sofa Bed', 'Ruang Tamu Terpisah', 'Mesin Espresso', 'Bathtub Rendam', 'Meja Kerja Eksekutif', 'Layanan Pelayan 24/7', 'Sarapan Gratis'],
         rating: 4.95,
         featured: true
@@ -67,7 +67,7 @@ export const getRooms = (lang: 'en' | 'id'): RoomInfo[] => {
       capacity: 2,
       size: '38 m²',
       description: 'A spacious and meticulously crafted retreat featuring signature polished yellow marble tile accents, a king-sized mattress, private balcony, and serene garden view.',
-      image: '/img/room 1.webp',
+      image: '/img/room 3.webp',
       amenities: ['King Bed', 'Free High-Speed Wi-Fi', 'Balcony with Garden View', 'Golden Tile Bathroom', '55" Smart TV', 'Mini Bar', 'Air Conditioning'],
       rating: 4.9,
       featured: true
@@ -80,7 +80,7 @@ export const getRooms = (lang: 'en' | 'id'): RoomInfo[] => {
       capacity: 3,
       size: '56 m²',
       description: 'Designed for discerning travelers. Features a separate lounge area with golden oak furnishings, deep soak bathtub, coffee espresso lounge, and sunset views.',
-      image: '/img/room 2.webp',
+      image: '/img/room 3.webp',
       amenities: ['King Bed + Sofa Bed', 'Separate Living Room', 'Espresso Machine', 'Soaking Bathtub', 'Executive Desk', '24/7 Butler Service', 'Free Breakfast'],
       rating: 4.95,
       featured: true
@@ -120,12 +120,12 @@ export const getHotelAmenities = (lang: 'en' | 'id') => {
       {
         icon: 'Wifi',
         title: 'Wi-Fi Super Cepat',
-        description: 'Konektivitas nirkabel berkecepatan tinggi tanpa hambatan di seluruh area resor dan kolam renang.'
+        description: 'Konektivitas nirkabel berkecepatan tinggi tanpa hambatan di seluruh area resor.'
       },
       {
-        icon: 'Waves',
-        title: 'Kolam Renang Emas Infinity',
-        description: 'Kolam renang luar ruangan dengan suhu terkontrol yang dikelilingi oleh kursi berjemur dan tanaman hijau tropis.'
+        icon: 'Wind',
+        title: 'Pendingin Ruangan (AC)',
+        description: 'Sistem pengatur suhu yang dapat dikontrol secara individual di semua kamar untuk kenyamanan maksimal.'
       },
       {
         icon: 'UtensilsCrossed',
@@ -138,9 +138,9 @@ export const getHotelAmenities = (lang: 'en' | 'id') => {
         description: 'Keramahan personal sepanjang waktu, termasuk parkir valet, tur, dan layanan antar-jemput.'
       },
       {
-        icon: 'Sparkles',
-        title: 'Spa & Kebugaran Tenang',
-        description: 'Pijat aromaterapi yang menyegarkan, ruang sauna, dan perawatan tubuh holistik.'
+        icon: 'Tv',
+        title: 'Televisi Pintar',
+        description: 'TV pintar layar datar resolusi tinggi dengan saluran internasional dan akses streaming.'
       },
       {
         icon: 'Car',
@@ -154,12 +154,12 @@ export const getHotelAmenities = (lang: 'en' | 'id') => {
     {
       icon: 'Wifi',
       title: 'Ultra-Fast Wi-Fi',
-      description: 'Seamless high-speed wireless connectivity throughout the entire resort and pool area.'
+      description: 'Seamless high-speed wireless connectivity throughout the entire resort.'
     },
     {
-      icon: 'Waves',
-      title: 'Infinity Gold Pool',
-      description: 'Temperature-controlled outdoor swimming pool framed by sun loungers and tropical greenery.'
+      icon: 'Wind',
+      title: 'Air Conditioning',
+      description: 'Individually controlled climate systems in all rooms for your ultimate comfort.'
     },
     {
       icon: 'UtensilsCrossed',
@@ -172,9 +172,9 @@ export const getHotelAmenities = (lang: 'en' | 'id') => {
       description: 'Personalized hospitality round-the-clock, including valet parking, tours, and shuttle service.'
     },
     {
-      icon: 'Sparkles',
-      title: 'Serene Spa & Wellness',
-      description: 'Rejuvenating aromatherapy massages, sauna suites, and holistic body treatments.'
+      icon: 'Tv',
+      title: 'Smart Television',
+      description: 'High-resolution flat-screen smart TVs featuring international channels and streaming access.'
     },
     {
       icon: 'Car',
