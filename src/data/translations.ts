@@ -1,172 +1,89 @@
-export type Language = 'en' | 'id';
+import { RoomInfo } from '../types';
 
-export const translations = {
-  en: {
-    // Navbar
-    overview: "Overview",
-    rooms: "Rooms & Suites",
-    amenities: "Amenities",
-    contact: "Contact",
-    bookNow: "Book Now",
-    signIn: "Sign In",
-    myBookings: "My Bookings",
-    adminPortal: "Admin Portal",
-    landing: "Landing",
-    logOut: "Log Out",
-    
-    // Hero Section
-    welcomeBadge: "Signature Golden Hospitality",
-    welcomeTitle: "Welcome to",
-    welcomeDesc: "Immerse yourself in timeless elegance framed by our signature polished golden floor tiles, opulent suite spaces, crystal pools, and 24/7 bespoke guest service.",
-    reserveStay: "Reserve Your Stay",
-    checkIn: "Check-in Date",
-    checkOut: "Check-out Date",
-    guestsCount: "Number of Guests",
-    roomSuite: "Room & Suite",
-
-    // About & Amenities
-    sanctuaryBadge: "Sanctuary of Refined Luxury",
-    goldenHavenTitle: "A Golden Haven Built on Tradition & Modern Comfort",
-    goldenHavenDesc1: "Named after our iconic handcrafted glossy yellow floor tiles that gleam like polished amber in the morning sun, BATU EMAS INN offers guests an unforgettable blend of tropical tranquility and premier five-star hospitality.",
-    goldenHavenDesc2: "Whether you are relaxing in our Royal Emas Suite, dining at our waterfront restaurant, or unwinding in our infinity gold pool, our attentive staff ensures every moment of your stay exceeds expectations.",
-    luxurySuites: "Luxury Suites",
-    guestRating: "Guest Rating",
-    concierge: "Concierge",
-    signatureExp: "Signature Experience",
-    signatureDesc: "Personalized butler service & complimentary gourmet breakfast daily.",
-    worldClassFacilities: "World-Class Facilities",
-    absoluteEaseTitle: "Designed for Your Absolute Ease",
-    absoluteEaseDesc: "From high-speed fiber connectivity to relaxing spa remedies, Batu Emas Inn brings you every comfort under one golden roof.",
-
-    // Rooms
-    accommodations: "Accommodations",
-    exploreRoomsTitle: "Explore Rooms & Luxury Suites",
-    exploreRoomsDesc: "Each space features custom golden yellow floor tile accents, plush bedding, premium room amenities, and direct room service access.",
-    popularChoice: "Popular Choice",
-    perNight: "/ night",
-    upToGuests: "Up to",
-    keyHighlights: "Key Highlights:",
-    reserveSuite: "Reserve This Suite",
-
-    // Contact
-    getInTouch: "Get In Touch",
-    loveToHear: "We'd Love to Hear From You",
-    contactDesc: "Have questions about custom suite reservations, private events, shuttle services, or dining options? Send us an inquiry and our front desk will reply promptly.",
-    resortAddress: "Resort Address",
-    addressValue: "Batu Emas Boulevard No. 88, Golden Coast Resort Zone",
-    directReservations: "Direct Reservations",
-    emailInquiry: "Email Inquiry",
-    frontDeskHours: "Front Desk Hours",
-    hoursValue: "24 Hours / 7 Days a Week",
-    sendInquiryMsg: "Send an Inquiry Message",
-    inquirySub: "Your message is sent directly to our admin inbox system.",
-    thankYouContact: "Thank You for Contacting Us!",
-    inquiryRecorded: "Your inquiry message has been recorded into our messages database. Our reception team will review and reply to your email shortly.",
-    sendAnotherMsg: "Send Another Message",
-    errorRequired: "Please fill in all required fields.",
-    errorFailed: "Failed to send message. Please try again.",
-    fullName: "Your Full Name",
-    emailAddress: "Email Address",
-    phoneOptional: "Phone Number (Optional)",
-    subject: "Subject",
-    messageText: "Message Text",
-    messagePlaceholder: "Tell us about your trip dates, group requirements, or special requests...",
-    submittingMsg: "Submitting Message...",
-    sendMessageInquiry: "Send Message Inquiry",
-
-    // Footer
-    footerDesc: "Experience handcrafted luxury, famous yellow floor tile suites, exquisite ocean breeze dining, and personalized concierge care.",
-    explore: "Explore",
-    resortDirect: "Resort Direct",
-    directBookingAdvantage: "Direct Booking Advantage",
-    directBookingDesc: "Book directly on our official Batu Emas Inn portal for guaranteed lowest rates, priority room upgrades, and late check-out privileges.",
-    allRightsReserved: "All rights reserved.",
-    privacyPolicy: "Privacy Policy",
-    termsOfService: "Terms of Service",
-    guestGuidelines: "Guest Guidelines"
+export const ROOMS: RoomInfo[] = [
+  {
+    id: 'deluxe_gold',
+    name: 'Deluxe Gold Room',
+    subtitle: 'Golden Elegance & Pool View',
+    pricePerNight: 120,
+    capacity: 2,
+    size: '38 m²',
+    description: 'A spacious and meticulously crafted retreat featuring signature polished yellow marble tile accents, a king-sized mattress, private balcony, and serene garden view.',
+    image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1200&q=80',
+    amenities: ['King Bed', 'Free High-Speed Wi-Fi', 'Balcony with Garden View', 'Golden Tile Bathroom', '55" Smart TV', 'Mini Bar', 'Air Conditioning'],
+    rating: 4.9,
+    featured: true
   },
-  id: {
-    // Navbar
-    overview: "Ringkasan",
-    rooms: "Kamar & Suite",
-    amenities: "Fasilitas",
-    contact: "Kontak",
-    bookNow: "Pesan Sekarang",
-    signIn: "Masuk",
-    myBookings: "Pesananku",
-    adminPortal: "Portal Admin",
-    landing: "Beranda",
-    logOut: "Keluar",
-    
-    // Hero Section
-    welcomeBadge: "Keramahan Emas Signature",
-    welcomeTitle: "Selamat Datang di",
-    welcomeDesc: "Nikmati keanggunan abadi yang dibingkai oleh lantai ubin emas poles khas kami, ruang suite mewah, kolam renang jernih, dan layanan tamu 24/7.",
-    reserveStay: "Pesan Penginapan Anda",
-    checkIn: "Tanggal Check-in",
-    checkOut: "Tanggal Check-out",
-    guestsCount: "Jumlah Tamu",
-    roomSuite: "Kamar & Suite",
-
-    // About & Amenities
-    sanctuaryBadge: "Suaka Kemewahan Berkelas",
-    goldenHavenTitle: "Surga Emas yang Dibangun atas Tradisi & Kenyamanan Modern",
-    goldenHavenDesc1: "Dinamai dari ubin lantai kuning mengkilap buatan tangan ikonik kami yang berkilau seperti amber dipoles di pagi hari, BATU EMAS INN menawarkan tamu perpaduan tak terlupakan antara ketenangan tropis dan keramahtamahan bintang lima utama.",
-    goldenHavenDesc2: "Baik Anda bersantai di Royal Emas Suite kami, menikmati hidangan di restoran tepi air, atau bersantai di kolam renang emas infinity kami, staf penuh perhatian kami memastikan setiap momen masa inap Anda melampaui harapan.",
-    luxurySuites: "Suite Mewah",
-    guestRating: "Peringkat Tamu",
-    concierge: "Pramutamu",
-    signatureExp: "Pengalaman Unggulan",
-    signatureDesc: "Layanan pelayan pribadi & sarapan gourmet gratis setiap hari.",
-    worldClassFacilities: "Fasilitas Kelas Dunia",
-    absoluteEaseTitle: "Dirancang untuk Kenyamanan Mutlak Anda",
-    absoluteEaseDesc: "Dari konektivitas serat optik berkecepatan tinggi hingga perawatan spa yang menenangkan, Batu Emas Inn menghadirkan kenyamanan di bawah satu atap emas.",
-
-    // Rooms
-    accommodations: "Akomodasi",
-    exploreRoomsTitle: "Jelajahi Kamar & Suite Mewah",
-    exploreRoomsDesc: "Setiap ruang menampilkan aksen ubin lantai kuning keemasan khusus, tempat tidur empuk, fasilitas kamar premium, dan akses layanan kamar langsung.",
-    popularChoice: "Pilihan Populer",
-    perNight: "/ malam",
-    upToGuests: "Hingga",
-    keyHighlights: "Sorotan Utama:",
-    reserveSuite: "Pesan Suite Ini",
-
-    // Contact
-    getInTouch: "Hubungi Kami",
-    loveToHear: "Kami Ingin Mendengar Dari Anda",
-    contactDesc: "Punya pertanyaan tentang reservasi suite khusus, acara pribadi, layanan antar-jemput, atau pilihan bersantap? Kirimkan pertanyaan dan resepsionis kami akan segera membalas.",
-    resortAddress: "Alamat Resor",
-    addressValue: "Batu Emas Boulevard No. 88, Zona Resor Pantai Emas",
-    directReservations: "Reservasi Langsung",
-    emailInquiry: "Pertanyaan Email",
-    frontDeskHours: "Jam Meja Resepsionis",
-    hoursValue: "24 Jam / 7 Hari Seminggu",
-    sendInquiryMsg: "Kirim Pesan Pertanyaan",
-    inquirySub: "Pesan Anda dikirim langsung ke sistem inbox admin kami.",
-    thankYouContact: "Terima Kasih Telah Menghubungi Kami!",
-    inquiryRecorded: "Pesan pertanyaan Anda telah dicatat ke dalam database pesan kami. Tim resepsionis kami akan meninjau dan membalas email Anda segera.",
-    sendAnotherMsg: "Kirim Pesan Lain",
-    errorRequired: "Harap isi semua bidang yang wajib diisi.",
-    errorFailed: "Gagal mengirim pesan. Silakan coba lagi.",
-    fullName: "Nama Lengkap Anda",
-    emailAddress: "Alamat Email",
-    phoneOptional: "Nomor Telepon (Opsional)",
-    subject: "Subjek",
-    messageText: "Teks Pesan",
-    messagePlaceholder: "Ceritakan tentang tanggal perjalanan Anda, kebutuhan grup, atau permintaan khusus...",
-    submittingMsg: "Mengirim Pesan...",
-    sendMessageInquiry: "Kirim Pertanyaan Pesan",
-
-    // Footer
-    footerDesc: "Nikmati kemewahan buatan tangan, suite ubin lantai kuning yang terkenal, santapan angin laut yang luar biasa, dan layanan pramutamu pribadi.",
-    explore: "Jelajahi",
-    resortDirect: "Langsung Resor",
-    directBookingAdvantage: "Keuntungan Pemesanan Langsung",
-    directBookingDesc: "Pesan langsung di portal resmi Batu Emas Inn kami untuk tarif terendah yang dijamin, peningkatan kamar prioritas, dan hak istimewa check-out terlambat.",
-    allRightsReserved: "Hak cipta dilindungi undang-undang.",
-    privacyPolicy: "Kebijakan Privasi",
-    termsOfService: "Ketentuan Layanan",
-    guestGuidelines: "Panduan Tamu"
+  {
+    id: 'executive_suite',
+    name: 'Executive Amber Suite',
+    subtitle: 'Luxury Living & Work Studio',
+    pricePerNight: 210,
+    capacity: 3,
+    size: '56 m²',
+    description: 'Designed for discerning travelers. Features a separate lounge area with golden oak furnishings, deep soak bathtub, coffee espresso lounge, and sunset views.',
+    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80',
+    amenities: ['King Bed + Sofa Bed', 'Separate Living Room', 'Espresso Machine', 'Soaking Bathtub', 'Executive Desk', '24/7 Butler Service', 'Free Breakfast'],
+    rating: 4.95,
+    featured: true
+  },
+  {
+    id: 'royal_amber',
+    name: 'Royal Emas Suite',
+    subtitle: 'The Pinnacle of Luxury',
+    pricePerNight: 350,
+    capacity: 4,
+    size: '85 m²',
+    description: 'Our crown jewel. Magnificent suite boasting glossy gold tile floors, panoramic floor-to-ceiling windows, private jacuzzi, dining room, and VIP lounge access.',
+    image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1200&q=80',
+    amenities: ['Master Bedroom + Twin Bedroom', 'Private In-Room Jacuzzi', 'VIP Lounge Access', 'Floor-to-Ceiling Windows', 'Private Dining Table', 'Complimentary Champagne'],
+    rating: 5.0,
+    featured: true
+  },
+  {
+    id: 'family_villa',
+    name: 'Family Golden Villa',
+    subtitle: 'Private Sanctuary for Families',
+    pricePerNight: 280,
+    capacity: 6,
+    size: '110 m²',
+    description: 'An expansive private sanctuary surrounded by tropical flora. Features two master bedrooms, private pool deck, full kitchen, and family entertaining space.',
+    image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80',
+    amenities: ['2 Bedrooms (3 Beds)', 'Private Pool Access', 'Fully Equipped Kitchenette', 'Spacious Outdoor Deck', 'Kid-Friendly Amenities', 'Private Barbecue Area'],
+    rating: 4.88,
+    featured: false
   }
-};
+];
+
+export const HOTEL_AMENITIES = [
+  {
+    icon: 'Wifi',
+    title: 'Ultra-Fast Wi-Fi',
+    description: 'Seamless high-speed wireless connectivity throughout the entire resort and pool area.'
+  },
+  {
+    icon: 'Waves',
+    title: 'Infinity Gold Pool',
+    description: 'Temperature-controlled outdoor swimming pool framed by sun loungers and tropical greenery.'
+  },
+  {
+    icon: 'UtensilsCrossed',
+    title: 'Emas Fine Dining',
+    description: 'Authentic local delicacies and international gourmet dishes crafted by award-winning chefs.'
+  },
+  {
+    icon: 'Clock',
+    title: '24/7 Concierge Service',
+    description: 'Personalized hospitality round-the-clock, including valet parking, tours, and shuttle service.'
+  },
+  {
+    icon: 'Sparkles',
+    title: 'Serene Spa & Wellness',
+    description: 'Rejuvenating aromatherapy massages, sauna suites, and holistic body treatments.'
+  },
+  {
+    icon: 'Car',
+    title: 'Airport Transfer & Valet',
+    description: 'Complimentary luxury airport shuttle pickup and 24-hour guarded valet parking.'
+  }
+];
