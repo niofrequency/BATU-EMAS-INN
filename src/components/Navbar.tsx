@@ -170,23 +170,14 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           </div>
 
-          {/* Mobile Menu Trigger & Clean Action Buttons */}
-          <div className="md:hidden flex items-center gap-2">
+          {/* Mobile Menu Trigger (Simplified) */}
+          <div className="md:hidden flex items-center gap-3">
             <button
               onClick={toggleLanguage}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-stone-200 text-stone-800 font-bold text-xs bg-stone-50"
+              className="p-2 rounded-full border border-stone-200 bg-stone-50 hover:bg-amber-50 hover:border-amber-300 text-stone-800 transition-colors"
               title="Switch Language"
             >
-              <Globe className="w-3 h-3 text-amber-600" />
-              <span>{lang.toUpperCase()}</span>
-            </button>
-
-            <button
-              onClick={onOpenBooking}
-              className="bg-gradient-to-r from-amber-400 to-amber-500 text-stone-950 text-xs font-extrabold px-3 py-2 rounded-lg shadow-sm flex items-center gap-1"
-            >
-              <Sparkles className="w-3 h-3 fill-stone-950" />
-              <span>{t.bookNow}</span>
+              <Globe className="w-5 h-5 text-amber-600" />
             </button>
 
             <button
@@ -205,6 +196,15 @@ export const Navbar: React.FC<NavbarProps> = ({
       {mobileMenuOpen && (
         <div className="md:hidden bg-white/98 backdrop-blur-xl border-b border-stone-200 px-6 pt-4 pb-6 space-y-4 shadow-xl w-full animate-fade-in">
           
+          {/* Mobile Book Now CTA */}
+          <button
+            onClick={() => { onOpenBooking(); setMobileMenuOpen(false); }}
+            className="w-full bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 text-stone-950 font-bold px-4 py-3 rounded-xl shadow-md flex items-center justify-center gap-2 text-sm"
+          >
+            <Sparkles className="w-4 h-4 fill-stone-950" />
+            {t.bookNow}
+          </button>
+
           {/* Navigation Links */}
           <div className="flex flex-col space-y-3 font-medium text-stone-800 text-sm border-b border-stone-100 pb-3">
             <button
