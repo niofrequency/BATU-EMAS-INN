@@ -1,5 +1,5 @@
 import { RoomInfo } from '../types';
-
+ 
 export const getRooms = (lang: 'en' | 'id'): RoomInfo[] => {
   if (lang === 'id') {
     return [
