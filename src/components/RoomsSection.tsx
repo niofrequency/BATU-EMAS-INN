@@ -1,5 +1,5 @@
 import React from 'react';
-import { ROOMS } from '../data/rooms';
+import { getRooms } from '../data/rooms';
 import { RoomInfo } from '../types';
 import { Users, Maximize2, Star, Check, Sparkles, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
@@ -10,6 +10,7 @@ interface RoomsSectionProps {
 
 export const RoomsSection: React.FC<RoomsSectionProps> = ({ onSelectRoom }) => {
   const { lang } = useLanguage();
+  const roomsList = getRooms(lang);
 
   // Localized text dictionary for Rooms Section
   const text = {
@@ -56,7 +57,7 @@ export const RoomsSection: React.FC<RoomsSectionProps> = ({ onSelectRoom }) => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {ROOMS.map((room) => (
+          {roomsList.map((room) => (
             <div
               key={room.id}
               className="bg-stone-50 rounded-2xl overflow-hidden border border-stone-200 shadow-xs hover:shadow-xl hover:border-amber-400 transition-all duration-300 flex flex-col group"
