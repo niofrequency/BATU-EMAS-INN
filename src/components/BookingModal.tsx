@@ -36,7 +36,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const defaultCheckOut = new Date(today);
   defaultCheckOut.setDate(today.getDate() + 2);
 
-  const [selectedRoomId, setSelectedRoomId] = useState<string>(preselectedRoom?.id || 'deluxe_gold');
+  const [selectedRoomId, setSelectedRoomId] = useState<string>(preselectedRoom?.id || 'deluxe');
   const [guestName, setGuestName] = useState('');
   const [guestEmail, setGuestEmail] = useState('');
   const [guestPhone, setGuestPhone] = useState('');

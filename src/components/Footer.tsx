@@ -8,28 +8,28 @@ export const Footer: React.FC = () => {
   // Localized text dictionary for Footer Section
   const text = {
     en: {
-      footerDesc: "Experience handcrafted luxury, famous yellow floor tile suites, exquisite ocean breeze dining, and personalized concierge care.",
+      footerDesc: "A comfortable, budget-friendly hotel in Timika, Papua, close to the airport — Your Comfort is Our Priority, a real Home Away From Home.",
       explore: "Explore",
-      rooms: "Rooms & Suites",
+      rooms: "Rooms",
       amenities: "Amenities",
       contact: "Contact",
-      resortDirect: "Resort Direct",
+      resortDirect: "Hotel Direct",
       directBookingAdvantage: "Direct Booking Advantage",
-      directBookingDesc: "Book directly on our official Batu Emas Inn portal for guaranteed lowest rates, priority room upgrades, and late check-out privileges.",
+      directBookingDesc: "Book directly with Batu Emas Inn by phone or WhatsApp for the best available rate and a smooth, hassle-free check-in.",
       allRightsReserved: "All rights reserved.",
       privacyPolicy: "Privacy Policy",
       termsOfService: "Terms of Service",
       guestGuidelines: "Guest Guidelines"
     },
     id: {
-      footerDesc: "Nikmati kemewahan buatan tangan, suite ubin lantai kuning yang terkenal, santapan angin laut yang luar biasa, dan layanan pramutamu pribadi.",
+      footerDesc: "Hotel nyaman dengan harga terjangkau di Timika, Papua, dekat dengan bandara — Kenyamanan Anda Prioritas Kami, Home Away From Home yang sesungguhnya.",
       explore: "Jelajahi",
-      rooms: "Kamar & Suite",
+      rooms: "Kamar",
       amenities: "Fasilitas",
       contact: "Kontak",
-      resortDirect: "Langsung Resor",
+      resortDirect: "Langsung Hotel",
       directBookingAdvantage: "Keuntungan Pemesanan Langsung",
-      directBookingDesc: "Pesan langsung di portal resmi Batu Emas Inn kami untuk tarif terendah yang dijamin, peningkatan kamar prioritas, dan hak istimewa check-out terlambat.",
+      directBookingDesc: "Pesan langsung ke Batu Emas Inn melalui telepon atau WhatsApp untuk tarif terbaik dan proses check-in yang lebih mudah.",
       allRightsReserved: "Hak cipta dilindungi undang-undang.",
       privacyPolicy: "Kebijakan Privasi",
       termsOfService: "Ketentuan Layanan",
@@ -54,7 +54,7 @@ export const Footer: React.FC = () => {
                   BATU EMAS <span className="text-amber-400">INN</span>
                 </div>
                 <p className="text-[10px] text-amber-300 tracking-widest uppercase font-semibold">
-                  Luxury & Comfort
+                  Your Comfort is Our Priority
                 </p>
               </div>
             </div>
@@ -80,15 +80,15 @@ export const Footer: React.FC = () => {
             <ul className="space-y-2 text-xs text-stone-300">
               <li className="flex items-center gap-2">
                 <MapPin className="w-3.5 h-3.5 text-amber-400" />
-                <span>Batu Emas Blvd No. 88</span>
+                <span>Jl. Ahmad Yani No. 82, Kwamki, Timika</span>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="w-3.5 h-3.5 text-amber-400" />
-                <span>+1 (800) 888-GOLD</span>
+                <span>+62 822-2664-4055</span>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-amber-400" />
-                <span>reservations@batuemasinn.com</span>
+                <span>batuemasinn@gmail.com</span>
               </li>
             </ul>
           </div>
