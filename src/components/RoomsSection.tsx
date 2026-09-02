@@ -16,25 +16,25 @@ export const RoomsSection: React.FC<RoomsSectionProps> = ({ onSelectRoom }) => {
   const text = {
     en: {
       badge: "Accommodations",
-      heading: "Explore Rooms & Luxury Suites",
-      subheading: "Each space features custom golden yellow floor tile accents, plush bedding, premium room amenities, and direct room service access.",
+      heading: "Explore Our Rooms",
+      subheading: "Every room includes air conditioning, free Wi-Fi, TV, and a private hot & cold shower — with daily housekeeping throughout your stay.",
       popularChoice: "Popular Choice",
       perNight: " / night",
       upToGuests: "Up to",
       guestsLabel: "Guests",
       keyHighlights: "Key Highlights:",
-      reserveBtn: "Reserve This Suite"
+      reserveBtn: "Reserve This Room"
     },
     id: {
       badge: "Akomodasi",
-      heading: "Jelajahi Kamar & Suite Mewah",
-      subheading: "Setiap ruang menampilkan aksen ubin lantai kuning keemasan khusus, tempat tidur empuk, fasilitas kamar premium, dan akses layanan kamar langsung.",
+      heading: "Jelajahi Kamar Kami",
+      subheading: "Setiap kamar dilengkapi AC, Wi-Fi gratis, TV, dan kamar mandi dengan air panas & dingin — dengan housekeeping setiap hari selama Anda menginap.",
       popularChoice: "Pilihan Populer",
       perNight: " / malam",
       upToGuests: "Hingga",
       guestsLabel: "Tamu",
       keyHighlights: "Sorotan Utama:",
-      reserveBtn: "Pesan Suite Ini"
+      reserveBtn: "Pesan Kamar Ini"
     }
   }[lang];
 

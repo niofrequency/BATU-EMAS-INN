@@ -29,28 +29,28 @@ const DEFAULT_BOOKINGS: Booking[] = [
     checkInDate: '2026-08-10',
     checkOutDate: '2026-08-14',
     guests: 2,
-    roomType: 'deluxe_gold',
-    roomName: 'Deluxe Gold Room',
+    roomType: 'deluxe',
+    roomName: 'Deluxe Room',
     status: 'confirmed',
-    totalAmount: 480,
+    totalAmount: 1600000,
     createdAt: new Date(Date.now() - 86400000 * 2).toISOString(),
-    specialRequests: 'Late check-in requested (around 8 PM). Quiet high-floor room preferred.'
+    specialRequests: 'Late check-in requested (around 8 PM).'
   },
   {
     id: 'bk-102',
     userID: 'demo-guest-id-2',
     guestName: 'Marcus Aurelius',
-    guestEmail: 'marcus@goldenhotel.com',
-    guestPhone: '+1 (555) 987-6543',
+    guestEmail: 'marcus@example.com',
+    guestPhone: '+62 812-3456-7890',
     checkInDate: '2026-08-20',
     checkOutDate: '2026-08-25',
-    guests: 3,
-    roomType: 'executive_suite',
-    roomName: 'Executive Amber Suite',
+    guests: 2,
+    roomType: 'superior',
+    roomName: 'Superior Room',
     status: 'pending',
-    totalAmount: 1050,
+    totalAmount: 1750000,
     createdAt: new Date(Date.now() - 3600000 * 5).toISOString(),
-    specialRequests: 'Honeymoon welcome champagne and fruit basket.'
+    specialRequests: 'Add breakfast for 2 guests.'
   }
 ];
 
@@ -58,23 +58,23 @@ const DEFAULT_MESSAGES: ContactMessage[] = [
   {
     id: 'msg-201',
     senderName: 'Sophia Chen',
-    email: 'sophia.chen@travelblog.com',
-    phone: '+1 (555) 345-6789',
-    subject: 'Wedding Reception Venue Inquiry',
-    messageText: 'Hello Batu Emas Inn team! We are looking to host an intimate beachside wedding reception in November for 40 guests. Do you offer private pool area catering and room blocks?',
+    email: 'sophia.chen@example.com',
+    phone: '+62 813-1234-5678',
+    subject: 'Meeting Room Inquiry',
+    messageText: 'Hello Batu Emas Inn team! We would like to book the meeting room for 25 people next month for a full-day company training. Could you send us the rates and availability?',
     timestamp: new Date(Date.now() - 3600000 * 12).toISOString(),
     readStatus: 'unread'
   },
   {
     id: 'msg-202',
     senderName: 'David Miller',
-    email: 'david.m@corporate-events.io',
-    phone: '+1 (555) 876-5432',
-    subject: 'Corporate Suite Reservation',
-    messageText: 'I would like to inquire about extended stays for 3 executive guests during the upcoming tech summit in September.',
+    email: 'david.m@example.com',
+    phone: '+62 812-9876-5432',
+    subject: 'Room Block Reservation',
+    messageText: 'I would like to inquire about booking a block of Superior rooms for our team visiting Timika during the upcoming project in September.',
     timestamp: new Date(Date.now() - 86400000 * 3).toISOString(),
     readStatus: 'read',
-    replyNotes: 'Replied via phone call with discount package.'
+    replyNotes: 'Replied via phone call with availability details.'
   }
 ];
 

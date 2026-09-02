@@ -1,115 +1,89 @@
 import { RoomInfo } from '../types';
- 
+
 export const getRooms = (lang: 'en' | 'id'): RoomInfo[] => {
   if (lang === 'id') {
     return [
       {
-        id: 'deluxe_gold',
-        name: 'Kamar Deluxe Gold',
-        subtitle: 'Keemasan Elegan & Pemandangan Kolam',
-        pricePerNight: 120,
+        id: 'junior',
+        name: 'Junior Room',
+        subtitle: 'Kamar Twin Nyaman di Lantai 3',
+        pricePerNight: 300,
         capacity: 2,
-        size: '38 m²',
-        description: 'Tempat peristirahatan luas yang dibuat dengan cermat, menampilkan aksen ubin marmer kuning mengkilap khas, kasur ukuran king, balkon pribadi, dan pemandangan taman yang tenang.',
-        image: '/img/room 3.webp',
-        amenities: ['Kasur King', 'Wi-Fi Kecepatan Tinggi', 'Balkon Pemandangan Taman', 'Kamar Mandi Ubin Emas', 'Smart TV 55"', 'Mini Bar', 'AC'],
-        rating: 4.9,
-        featured: true
-      },
-      {
-        id: 'executive_suite',
-        name: 'Suite Eksekutif Amber',
-        subtitle: 'Ruang Tamu Mewah & Studio Kerja',
-        pricePerNight: 210,
-        capacity: 3,
-        size: '56 m²',
-        description: 'Dirancang untuk pelancong cerdas. Menampilkan area santai terpisah dengan perabotan kayu ek emas, bathtub rendam dalam, lounge kopi espresso, dan pemandangan matahari terbenam.',
-        image: '/img/room 3.webp',
-        amenities: ['Kasur King + Sofa Bed', 'Ruang Tamu Terpisah', 'Mesin Espresso', 'Bathtub Rendam', 'Meja Kerja Eksekutif', 'Layanan Pelayan 24/7', 'Sarapan Gratis'],
-        rating: 4.95,
-        featured: true
-      },
-      {
-        id: 'royal_amber',
-        name: 'Suite Royal Emas',
-        subtitle: 'Puncak Kemewahan',
-        pricePerNight: 350,
-        capacity: 4,
-        size: '85 m²',
-        description: 'Permata mahkota kami. Suite megah yang menawarkan lantai ubin emas mengkilap, jendela panorama dari lantai ke langit-langit, jacuzzi pribadi, ruang makan, dan akses lounge VIP.',
-        image: '/img/room 3.webp',
-        amenities: ['Kamar Utama + Kamar Twin', 'Jacuzzi Pribadi di Kamar', 'Akses Lounge VIP', 'Jendela Full Kaca', 'Meja Makan Pribadi', 'Champagne Gratis'],
-        rating: 5.0,
-        featured: true
-      },
-      {
-        id: 'family_villa',
-        name: 'Vila Keluarga Golden',
-        subtitle: 'Suaka Pribadi untuk Keluarga',
-        pricePerNight: 280,
-        capacity: 6,
-        size: '110 m²',
-        description: 'Tempat perlindungan pribadi yang luas dikelilingi oleh flora tropis. Menampilkan dua kamar tidur utama, dek kolam renang pribadi, dapur lengkap, dan ruang hiburan keluarga.',
-        image: '/img/room 3.webp',
-        amenities: ['2 Kamar Tidur (3 Kasur)', 'Akses Kolam Renang Pribadi', 'Dapur Kecil Lengkap', 'Dek Luar Ruangan Luas', 'Fasilitas Ramah Anak', 'Area Barbeque Pribadi'],
-        rating: 4.88,
+        size: '16 m²',
+        description: 'Kamar praktis dengan 2 tempat tidur single, cocok untuk rekan perjalanan atau teman yang bepergian bersama dengan harga terjangkau.',
+        image: '/img/room 1.webp',
+        amenities: ['2 Tempat Tidur Single', 'AC', 'Wi-Fi Gratis', 'Televisi', 'Air Panas & Dingin', 'Housekeeping Harian'],
+        rating: 4.6,
         featured: false
+      },
+      {
+        id: 'superior',
+        name: 'Superior Room',
+        subtitle: 'Kamar Lantai 2, Single atau Double',
+        pricePerNight: 350,
+        capacity: 2,
+        size: '16 m²',
+        description: 'Kamar dengan pilihan 1 tempat tidur single atau double, cocok untuk pelancong solo maupun pasangan. Tambahan Rp 50.000 untuk sarapan 2 orang.',
+        image: '/img/room 2.webp',
+        amenities: ['Tempat Tidur Single/Double', 'AC', 'Wi-Fi Gratis', 'Televisi', 'Air Panas & Dingin', 'Housekeeping Harian'],
+        rating: 4.7,
+        featured: true
+      },
+      {
+        id: 'deluxe',
+        name: 'Deluxe Room',
+        subtitle: 'Kamar Lantai 1, Sudah Termasuk Sarapan',
+        pricePerNight: 400,
+        capacity: 2,
+        size: '16 m²',
+        description: 'Kamar tarif terbaik kami di lantai 1, sudah termasuk sarapan setiap hari untuk memulai hari Anda dengan nyaman di Batu Emas Inn.',
+        image: '/img/room 3.webp',
+        amenities: ['Tempat Tidur Single', 'Sarapan Termasuk', 'AC', 'Wi-Fi Gratis', 'Televisi', 'Air Panas & Dingin'],
+        rating: 4.8,
+        featured: true
       }
     ];
   }
 
   return [
     {
-      id: 'deluxe_gold',
-      name: 'Deluxe Gold Room',
-      subtitle: 'Golden Elegance & Pool View',
-      pricePerNight: 120,
+      id: 'junior',
+      name: 'Junior Room',
+      subtitle: 'Cozy Twin Room on the 3rd Floor',
+      pricePerNight: 300,
       capacity: 2,
-      size: '38 m²',
-      description: 'A spacious and meticulously crafted retreat featuring signature polished yellow marble tile accents, a king-sized mattress, private balcony, and serene garden view.',
-      image: '/img/room 3.webp',
-      amenities: ['King Bed', 'Free High-Speed Wi-Fi', 'Balcony with Garden View', 'Golden Tile Bathroom', '55" Smart TV', 'Mini Bar', 'Air Conditioning'],
-      rating: 4.9,
-      featured: true
-    },
-    {
-      id: 'executive_suite',
-      name: 'Executive Amber Suite',
-      subtitle: 'Luxury Living & Work Studio',
-      pricePerNight: 210,
-      capacity: 3,
-      size: '56 m²',
-      description: 'Designed for discerning travelers. Features a separate lounge area with golden oak furnishings, deep soak bathtub, coffee espresso lounge, and sunset views.',
-      image: '/img/room 3.webp',
-      amenities: ['King Bed + Sofa Bed', 'Separate Living Room', 'Espresso Machine', 'Soaking Bathtub', 'Executive Desk', '24/7 Butler Service', 'Free Breakfast'],
-      rating: 4.95,
-      featured: true
-    },
-    {
-      id: 'royal_amber',
-      name: 'Royal Emas Suite',
-      subtitle: 'The Pinnacle of Luxury',
-      pricePerNight: 350,
-      capacity: 4,
-      size: '85 m²',
-      description: 'Our crown jewel. Magnificent suite boasting glossy gold tile floors, panoramic floor-to-ceiling windows, private jacuzzi, dining room, and VIP lounge access.',
-      image: '/img/room 3.webp',
-      amenities: ['Master Bedroom + Twin Bedroom', 'Private In-Room Jacuzzi', 'VIP Lounge Access', 'Floor-to-Ceiling Windows', 'Private Dining Table', 'Complimentary Champagne'],
-      rating: 5.0,
-      featured: true
-    },
-    {
-      id: 'family_villa',
-      name: 'Family Golden Villa',
-      subtitle: 'Private Sanctuary for Families',
-      pricePerNight: 280,
-      capacity: 6,
-      size: '110 m²',
-      description: 'An expansive private sanctuary surrounded by tropical flora. Features two master bedrooms, private pool deck, full kitchen, and family entertaining space.',
-      image: '/img/room 3.webp',
-      amenities: ['2 Bedrooms (3 Beds)', 'Private Pool Access', 'Fully Equipped Kitchenette', 'Spacious Outdoor Deck', 'Kid-Friendly Amenities', 'Private Barbecue Area'],
-      rating: 4.88,
+      size: '16 m²',
+      description: 'A practical room fitted with two single beds, perfect for friends or colleagues travelling together on a budget.',
+      image: '/img/room 1.webp',
+      amenities: ['2 Single Beds', 'Air Conditioning', 'Free Wi-Fi', 'Television', 'Hot & Cold Shower', 'Daily Housekeeping'],
+      rating: 4.6,
       featured: false
+    },
+    {
+      id: 'superior',
+      name: 'Superior Room',
+      subtitle: '2nd Floor, Single or Double Bed',
+      pricePerNight: 350,
+      capacity: 2,
+      size: '16 m²',
+      description: 'A well-appointed room with the option of a single or double bed, ideal for solo travellers and couples. Add Rp 50,000 for breakfast for 2 guests.',
+      image: '/img/room 2.webp',
+      amenities: ['Single or Double Bed', 'Air Conditioning', 'Free Wi-Fi', 'Television', 'Hot & Cold Shower', 'Daily Housekeeping'],
+      rating: 4.7,
+      featured: true
+    },
+    {
+      id: 'deluxe',
+      name: 'Deluxe Room',
+      subtitle: '1st Floor, Breakfast Included',
+      pricePerNight: 400,
+      capacity: 2,
+      size: '16 m²',
+      description: 'Our best-rate room on the 1st floor, with breakfast included every day for a comfortable start to your stay at Batu Emas Inn.',
+      image: '/img/room 3.webp',
+      amenities: ['Single Bed', 'Breakfast Included', 'Air Conditioning', 'Free Wi-Fi', 'Television', 'Hot & Cold Shower'],
+      rating: 4.8,
+      featured: true
     }
   ];
 };
@@ -119,33 +93,43 @@ export const getHotelAmenities = (lang: 'en' | 'id') => {
     return [
       {
         icon: 'Wifi',
-        title: 'Wi-Fi Super Cepat',
-        description: 'Konektivitas nirkabel berkecepatan tinggi tanpa hambatan di seluruh area resor.'
+        title: 'Wi-Fi Gratis',
+        description: 'Akses internet nirkabel gratis di seluruh area hotel.'
       },
       {
         icon: 'Wind',
-        title: 'Pendingin Ruangan (AC)',
-        description: 'Sistem pengatur suhu yang dapat dikontrol secara individual di semua kamar untuk kenyamanan maksimal.'
+        title: 'AC (Air Conditioner)',
+        description: 'Pendingin ruangan di setiap kamar untuk kenyamanan Anda.'
       },
       {
         icon: 'UtensilsCrossed',
-        title: 'Restoran Mewah Emas',
-        description: 'Hidangan khas lokal yang otentik dan menu gourmet internasional yang dibuat oleh koki peraih penghargaan.'
+        title: 'Restoran & Ruang Meeting',
+        description: 'Batu Emas Resto dan ruang pertemuan tersedia untuk acara dan rapat kecil.'
       },
       {
         icon: 'Clock',
-        title: 'Layanan Pramutamu 24/7',
-        description: 'Keramahan personal sepanjang waktu, termasuk parkir valet, tur, dan layanan antar-jemput.'
+        title: 'Layanan 24 Jam',
+        description: 'Resepsionis dan bantuan tamu siap melayani 24 jam setiap hari.'
       },
       {
         icon: 'Tv',
-        title: 'Televisi Pintar',
-        description: 'TV pintar layar datar resolusi tinggi dengan saluran internasional dan akses streaming.'
+        title: 'Televisi',
+        description: 'TV tersedia di setiap kamar tamu.'
       },
       {
         icon: 'Car',
-        title: 'Antar-Jemput Bandara & Valet',
-        description: 'Layanan antar-jemput bandara mewah gratis dan parkir valet berpenjaga 24 jam.'
+        title: 'Parkir',
+        description: 'Area parkir luas dan gratis, lokasi dekat dengan Bandara Mozes Kilangin.'
+      },
+      {
+        icon: 'Sparkles',
+        title: 'Housekeeping',
+        description: 'Layanan kebersihan kamar setiap hari selama masa inap Anda.'
+      },
+      {
+        icon: 'Droplet',
+        title: 'Kamar Mandi Air Panas & Dingin',
+        description: 'Setiap kamar dilengkapi shower dengan pilihan air panas dan dingin.'
       }
     ];
   }
@@ -153,33 +137,43 @@ export const getHotelAmenities = (lang: 'en' | 'id') => {
   return [
     {
       icon: 'Wifi',
-      title: 'Ultra-Fast Wi-Fi',
-      description: 'Seamless high-speed wireless connectivity throughout the entire resort.'
+      title: 'Free Wi-Fi',
+      description: 'Complimentary wireless internet access throughout the hotel.'
     },
     {
       icon: 'Wind',
-      title: 'Air Conditioning',
-      description: 'Individually controlled climate systems in all rooms for your ultimate comfort.'
+      title: 'Air Conditioner',
+      description: 'In-room air conditioning to keep every stay comfortable.'
     },
     {
       icon: 'UtensilsCrossed',
-      title: 'Emas Fine Dining',
-      description: 'Authentic local delicacies and international gourmet dishes crafted by award-winning chefs.'
+      title: 'Restaurant & Meeting Room',
+      description: 'Batu Emas Resto and a function space available for meetings and small gatherings.'
     },
     {
       icon: 'Clock',
-      title: '24/7 Concierge Service',
-      description: 'Personalized hospitality round-the-clock, including valet parking, tours, and shuttle service.'
+      title: '24 Hours Service',
+      description: 'Front desk and guest assistance available around the clock, every day.'
     },
     {
       icon: 'Tv',
-      title: 'Smart Television',
-      description: 'High-resolution flat-screen smart TVs featuring international channels and streaming access.'
+      title: 'Television',
+      description: 'A television is provided in every guest room.'
     },
     {
       icon: 'Car',
-      title: 'Airport Transfer & Valet',
-      description: 'Complimentary luxury airport shuttle pickup and 24-hour guarded valet parking.'
+      title: 'Parking',
+      description: 'Free on-site parking, conveniently close to Mozes Kilangin Airport.'
+    },
+    {
+      icon: 'Sparkles',
+      title: 'Housekeeping',
+      description: 'Daily housekeeping service to keep your room fresh and tidy.'
+    },
+    {
+      icon: 'Droplet',
+      title: 'Hot & Cold Shower',
+      description: 'Every room has an en-suite bathroom with hot and cold water shower.'
     }
   ];
 };

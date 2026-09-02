@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, MapPin, Phone, Mail, Clock, CheckCircle, Sparkles } from 'lucide-react';
+import { Send, MapPin, Phone, Mail, Clock, CheckCircle, Sparkles, Instagram } from 'lucide-react';
 import { createContactMessage } from '../lib/dataService';
 import { useLanguage } from '../context/LanguageContext';
  
@@ -21,13 +21,14 @@ export const ContactSection: React.FC = () => {
     en: {
       badge: "Get In Touch",
       heading: "We'd Love to Hear From You",
-      description: "Have questions about custom suite reservations, private events, shuttle services, or dining options? Send us an inquiry and our front desk will reply promptly.",
-      addressTitle: "Resort Address",
-      addressText: "Batu Emas Boulevard No. 88, Golden Coast Resort Zone",
+      description: "Have questions about room availability, meeting room bookings, or our in-house restaurant? Send us an inquiry and our front desk will reply promptly.",
+      addressTitle: "Hotel Address",
+      addressText: "Jl. Ahmad Yani No. 82, Kwamki, Timika, Mimika, Papua",
       reservationsTitle: "Direct Reservations",
       emailTitle: "Email Inquiry",
       hoursTitle: "Front Desk Hours",
       hoursText: "24 Hours / 7 Days a Week",
+      instagramTitle: "Follow Us",
       formHeading: "Send an Inquiry Message",
       formSub: "Your message is sent directly to our admin inbox system.",
       successTitle: "Thank You for Contacting Us!",
@@ -47,13 +48,14 @@ export const ContactSection: React.FC = () => {
     id: {
       badge: "Hubungi Kami",
       heading: "Kami Ingin Mendengar Dari Anda",
-      description: "Punya pertanyaan tentang reservasi suite khusus, acara pribadi, layanan antar-jemput, atau pilihan bersantap? Kirimkan pertanyaan dan resepsionis kami akan segera membalas.",
-      addressTitle: "Alamat Resor",
-      addressText: "Batu Emas Boulevard No. 88, Zona Resor Pantai Emas",
+      description: "Punya pertanyaan tentang ketersediaan kamar, pemesanan ruang meeting, atau restoran kami? Kirimkan pertanyaan dan resepsionis kami akan segera membalas.",
+      addressTitle: "Alamat Hotel",
+      addressText: "Jl. Ahmad Yani No. 82, Kwamki, Timika, Mimika, Papua",
       reservationsTitle: "Reservasi Langsung",
       emailTitle: "Pertanyaan Email",
       hoursTitle: "Jam Meja Resepsionis",
       hoursText: "24 Jam / 7 Hari Seminggu",
+      instagramTitle: "Ikuti Kami",
       formHeading: "Kirim Pesan Pertanyaan",
       formSub: "Pesan Anda dikirim langsung ke sistem inbox admin kami.",
       successTitle: "Terima Kasih Telah Menghubungi Kami!",
@@ -144,7 +146,7 @@ export const ContactSection: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-amber-300">{text.reservationsTitle}</h3>
-                  <p className="text-stone-300 text-sm">+1 (800) 888-GOLD / +1 (555) 321-4321</p>
+                  <p className="text-stone-300 text-sm">+62 822-2664-4055</p>
                 </div>
               </div>
 
@@ -154,7 +156,7 @@ export const ContactSection: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-amber-300">{text.emailTitle}</h3>
-                  <p className="text-stone-300 text-sm">reservations@batuemasinn.com</p>
+                  <p className="text-stone-300 text-sm">batuemasinn@gmail.com</p>
                 </div>
               </div>
 
@@ -165,6 +167,23 @@ export const ContactSection: React.FC = () => {
                 <div>
                   <h3 className="text-sm font-bold text-amber-300">{text.hoursTitle}</h3>
                   <p className="text-stone-300 text-sm">{text.hoursText}</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 flex-shrink-0">
+                  <Instagram className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-amber-300">{text.instagramTitle}</h3>
+                  <a
+                    href="https://www.instagram.com/batuemasinn"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-stone-300 text-sm hover:text-amber-300 transition-colors"
+                  >
+                    @batuemasinn
+                  </a>
                 </div>
               </div>
 

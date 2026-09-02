@@ -8,7 +8,7 @@ export interface UserProfile {
   createdAt: string;
 }
 
-export type RoomType = 'deluxe_gold' | 'executive_suite' | 'royal_amber' | 'family_villa';
+export type RoomType = 'junior' | 'superior' | 'deluxe';
 
 export interface RoomInfo {
   id: RoomType;

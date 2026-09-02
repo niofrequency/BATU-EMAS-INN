@@ -25,14 +25,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
   const [checkInDate, setCheckInDate] = useState(defaultCheckIn.toISOString().split('T')[0]);
   const [checkOutDate, setCheckOutDate] = useState(defaultCheckOut.toISOString().split('T')[0]);
   const [guests, setGuests] = useState(2);
-  const [roomType, setRoomType] = useState('deluxe_gold');
+  const [roomType, setRoomType] = useState('deluxe');
 
   // Localized text dictionary for Hero Section
   const text = {
     en: {
-      badge: "Golden Hospitality",
+      badge: "Your Comfort is Our Priority",
       welcomeTo: "Welcome to",
-      description: "Immerse yourself in timeless elegance framed by our signature polished golden floor tiles, opulent suite spaces, crystal pools, and 24/7 bespoke guest service.",
+      description: "A comfortable, budget-friendly hotel in Timika, Papua, conveniently close to the airport. Air-conditioned rooms, an in-house restaurant, a meeting room, and 24-hour guest service — a real Home Away from Home.",
       instantConf: "Instant Confirmation",
       bestRate: "Best Rate Guarantee",
       securePortal: "Secure Guest & Admin Portal",
@@ -41,21 +41,21 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
       checkIn: "Check-in Date",
       checkOut: "Check-out Date",
       numGuests: "Number of Guests",
-      roomSuite: "Room & Suite",
+      roomSuite: "Room Type",
       bookNowBtn: "Book Now",
-      singleGuest: "1 Guest (Single)",
-      coupleGuest: "2 Guests (Couple)",
-      familyGuest: "3 Guests (Family)",
-      suiteGuest: "4 Guests (Suite)",
-      villaGuest: "6 Guests (Villa)",
-      mapTitle: "Batu Emas Resort",
-      mapSubtitle: "Bali, Indonesia",
+      singleGuest: "1 Guest",
+      coupleGuest: "2 Guests",
+      familyGuest: "3 Guests",
+      suiteGuest: "4 Guests",
+      villaGuest: "6 Guests",
+      mapTitle: "Batu Emas Inn",
+      mapSubtitle: "Timika, Papua",
       mapAction: "View on Google Maps"
     },
     id: {
-      badge: "Keramahan Emas",
+      badge: "Kenyamanan Anda Prioritas Kami",
       welcomeTo: "Selamat Datang di",
-      description: "Nikmati keanggunan abadi yang dibingkai oleh lantai ubin emas poles khas kami, ruang suite mewah, kolam renang jernih, dan layanan tamu 24/7.",
+      description: "Hotel nyaman dengan harga terjangkau di Timika, Papua, lokasi dekat dengan bandara. Kamar ber-AC, restoran, ruang meeting, dan layanan tamu 24 jam — Home Away From Home yang sesungguhnya.",
       instantConf: "Konfirmasi Instan",
       bestRate: "Garansi Harga Terbaik",
       securePortal: "Portal Tamu & Admin Aman",
@@ -64,15 +64,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
       checkIn: "Tanggal Check-in",
       checkOut: "Tanggal Check-out",
       numGuests: "Jumlah Tamu",
-      roomSuite: "Kamar & Suite",
+      roomSuite: "Tipe Kamar",
       bookNowBtn: "Pesan Sekarang",
-      singleGuest: "1 Tamu (Single)",
-      coupleGuest: "2 Tamu (Pasangan)",
-      familyGuest: "3 Tamu (Keluarga)",
-      suiteGuest: "4 Tamu (Suite)",
-      villaGuest: "6 Tamu (Villa)",
-      mapTitle: "Resor Batu Emas",
-      mapSubtitle: "Bali, Indonesia",
+      singleGuest: "1 Tamu",
+      coupleGuest: "2 Tamu",
+      familyGuest: "3 Tamu",
+      suiteGuest: "4 Tamu",
+      villaGuest: "6 Tamu",
+      mapTitle: "Batu Emas Inn",
+      mapSubtitle: "Timika, Papua",
       mapAction: "Lihat di Google Maps"
     }
   }[lang];
@@ -94,7 +94,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
   };
 
   // Google Maps Search URL for the Hotel Location
-  const googleMapsUrl = "https://www.google.com/maps/search/?api=1&query=Batu+Emas+Inn+Bali+Indonesia";
+  const googleMapsUrl = "https://www.google.com/maps/search/?api=1&query=Batu+Emas+Inn+Jl+Ahmad+Yani+No+82+Kwamki+Timika+Papua";
 
   return (
     <div className="relative bg-stone-900 text-white overflow-hidden w-full">
@@ -103,7 +103,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
       <div className="absolute inset-0 z-0 opacity-40 mix-blend-luminosity">
         <img
           src="/img/frontdoor.webp"
-          alt="Batu Emas Inn Resort Entrance"
+          alt="Batu Emas Inn Entrance"
           className="w-full h-full object-cover scale-105 transform transition-transform duration-10000 hover:scale-100"
         />
       </div>

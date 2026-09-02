@@ -1,7 +1,7 @@
 import React from 'react';
 import { HOTEL_AMENITIES } from '../data/rooms';
 import { useLanguage } from '../context/LanguageContext';
-import { Wifi, Wind, UtensilsCrossed, Clock, Tv, Car, ShieldCheck, Award, Sparkles } from 'lucide-react';
+import { Wifi, Wind, UtensilsCrossed, Clock, Tv, Car, ShieldCheck, Award, Sparkles, Droplet } from 'lucide-react';
 
 const iconMap: Record<string, React.ReactNode> = {
   Wifi: <Wifi className="w-6 h-6 text-amber-600" />,
@@ -10,7 +10,8 @@ const iconMap: Record<string, React.ReactNode> = {
   Clock: <Clock className="w-6 h-6 text-amber-600" />,
   Tv: <Tv className="w-6 h-6 text-amber-600" />,
   Car: <Car className="w-6 h-6 text-amber-600" />,
-  Sparkles: <Sparkles className="w-6 h-6 text-amber-600" />
+  Sparkles: <Sparkles className="w-6 h-6 text-amber-600" />,
+  Droplet: <Droplet className="w-6 h-6 text-amber-600" />
 };
 
 export const AboutAmenities: React.FC = () => {
@@ -18,32 +19,32 @@ export const AboutAmenities: React.FC = () => {
 
   const text = {
     en: {
-      badge: "Sanctuary of Refined Luxury",
-      title: "A Golden Haven Built on Tradition & Modern Comfort",
-      desc1: "Named after our iconic handcrafted glossy yellow floor tiles that gleam like polished amber in the morning sun, BATU EMAS INN offers guests an unforgettable blend of tropical tranquility and premier five-star hospitality.",
-      desc2: "Whether you are relaxing in our Royal Emas Suite, dining at our waterfront restaurant, or unwinding in our infinity gold pool, our attentive staff ensures every moment of your stay exceeds expectations.",
-      suitesLabel: "Luxury Suites",
-      ratingLabel: "Guest Rating",
-      conciergeLabel: "Concierge",
-      signatureExp: "Signature Experience",
-      signatureDesc: "Personalized butler service & complimentary gourmet breakfast daily.",
-      facilityBadge: "World-Class Facilities",
-      facilityTitle: "Designed for Your Absolute Ease",
-      facilityDesc: "From high-speed fiber connectivity to relaxing spa remedies, Batu Emas Inn brings you every comfort under one golden roof."
+      badge: "Home Away From Home",
+      title: "A Comfortable Stay Built on Trust & Warm Hospitality",
+      desc1: "BATU EMAS INN has been welcoming guests in Timika for more than 6 years. In late 2023 the hotel underwent an expansion of its facilities, room styles, and management, reflecting our commitment to uplifting service to guests, partners, and our internal team alike.",
+      desc2: "Whether you're staying in one of our Junior, Superior, or Deluxe rooms, enjoying a meal at Batu Emas Resto, or hosting a small gathering in our meeting room, our team is here to make every stay feel like a real home away from home.",
+      suitesLabel: "Years Established",
+      ratingLabel: "Room Types",
+      conciergeLabel: "Front Desk",
+      signatureExp: "Our Promise",
+      signatureDesc: "\"Home Away From Home\" — your comfort is our priority.",
+      facilityBadge: "Hotel Facilities",
+      facilityTitle: "Everything You Need for a Pleasant Stay",
+      facilityDesc: "From air-conditioned rooms to our in-house restaurant and meeting room, Batu Emas Inn brings together every essential for a comfortable stay in Timika."
     },
     id: {
-      badge: "Suaka Kemewahan Berkelas",
-      title: "Surga Emas yang Dibangun atas Tradisi & Kenyamanan Modern",
-      desc1: "Dinamai dari ubin lantai kuning mengkilap buatan tangan ikonik kami yang berkilau seperti amber dipoles di pagi hari, BATU EMAS INN menawarkan tamu perpaduan tak terlupakan antara ketenangan tropis dan keramahtamahan bintang lima utama.",
-      desc2: "Baik Anda bersantai di Royal Emas Suite kami, menikmati hidangan di restoran tepi air, atau bersantai di kolam renang emas infinity kami, staf penuh perhatian kami memastikan setiap momen masa inap Anda melampaui harapan.",
-      suitesLabel: "Suite Mewah",
-      ratingLabel: "Peringkat Tamu",
-      conciergeLabel: "Pramutamu",
-      signatureExp: "Pengalaman Unggulan",
-      signatureDesc: "Layanan pelayan pribadi & sarapan gourmet gratis setiap hari.",
-      facilityBadge: "Fasilitas Kelas Dunia",
-      facilityTitle: "Dirancang untuk Kenyamanan Mutlak Anda",
-      facilityDesc: "Dari konektivitas serat optik berkecepatan tinggi hingga perawatan spa yang menenangkan, Batu Emas Inn menghadirkan kenyamanan di bawah satu atap emas."
+      badge: "Home Away From Home",
+      title: "Penginapan Nyaman yang Dibangun atas Kepercayaan & Keramahan",
+      desc1: "BATU EMAS INN telah menyambut tamu di Timika selama lebih dari 6 tahun. Pada akhir 2023, hotel ini mengalami ekspansi fasilitas, gaya kamar, dan manajemen, mencerminkan komitmen kami untuk meningkatkan pelayanan kepada tamu, mitra, dan tim internal kami.",
+      desc2: "Baik Anda menginap di kamar Junior, Superior, maupun Deluxe kami, menikmati hidangan di Batu Emas Resto, atau mengadakan pertemuan kecil di ruang meeting kami, tim kami siap memastikan setiap masa inap terasa seperti rumah sendiri.",
+      suitesLabel: "Tahun Berdiri",
+      ratingLabel: "Tipe Kamar",
+      conciergeLabel: "Resepsionis",
+      signatureExp: "Komitmen Kami",
+      signatureDesc: "\"Home Away From Home\" — kenyamanan Anda adalah prioritas kami.",
+      facilityBadge: "Fasilitas Hotel",
+      facilityTitle: "Semua yang Anda Butuhkan untuk Menginap Nyaman",
+      facilityDesc: "Dari kamar ber-AC hingga restoran dan ruang meeting kami, Batu Emas Inn menghadirkan semua kebutuhan penting untuk masa inap yang nyaman di Timika."
     }
   }[lang];
 
@@ -80,11 +81,11 @@ export const AboutAmenities: React.FC = () => {
 
             <div className="grid grid-cols-3 gap-4 pt-4 border-t border-stone-200">
               <div>
-                <div className="font-serif text-2xl font-bold text-amber-600">48+</div>
+                <div className="font-serif text-2xl font-bold text-amber-600">6+</div>
                 <div className="text-xs font-medium text-stone-500 uppercase tracking-wider">{text.suitesLabel}</div>
               </div>
               <div>
-                <div className="font-serif text-2xl font-bold text-emerald-900">4.9★</div>
+                <div className="font-serif text-2xl font-bold text-emerald-900">3</div>
                 <div className="text-xs font-medium text-stone-500 uppercase tracking-wider">{text.ratingLabel}</div>
               </div>
               <div>
@@ -99,12 +100,12 @@ export const AboutAmenities: React.FC = () => {
             <div className="grid grid-cols-2 gap-4">
               <img
                 src="/img/admindesk.webp"
-                alt="Hotel Interior Yellow Tiles"
+                alt="Batu Emas Inn Front Desk"
                 className="rounded-2xl object-cover h-64 w-full shadow-md border-2 border-amber-300/40"
               />
               <img
                 src="/img/frontdoor.webp"
-                alt="Resort Infinity Pool"
+                alt="Batu Emas Inn Entrance"
                 className="rounded-2xl object-cover h-64 w-full shadow-md mt-6"
               />
             </div>

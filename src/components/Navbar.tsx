@@ -47,7 +47,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </span>
               </div>
               <p className="text-[9px] sm:text-[10px] tracking-widest text-emerald-800 font-medium uppercase truncate max-w-[140px] sm:max-w-none">
-                {lang === 'en' ? 'Golden Luxury & Comfort' : 'Kemewahan & Kenyamanan Emas'}
+                {lang === 'en' ? 'Your Comfort is Our Priority' : 'Kenyamanan Anda Prioritas Kami'}
               </p>
             </div>
           </div>
@@ -65,6 +65,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             </a>
             <a href="#amenities" onClick={() => setCurrentView('landing')} className="hover:text-amber-600 transition-colors">
               {t.amenities}
+            </a>
+            <a href="#restaurant" onClick={() => setCurrentView('landing')} className="hover:text-amber-600 transition-colors">
+              {t.restaurant}
+            </a>
+            <a href="#meetings" onClick={() => setCurrentView('landing')} className="hover:text-amber-600 transition-colors">
+              {t.meetings}
             </a>
             <a href="#contact" onClick={() => setCurrentView('landing')} className="hover:text-amber-600 transition-colors">
               {t.contact}
@@ -220,16 +226,30 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               {t.rooms}
             </a>
-            <a 
-              href="#amenities" 
-              onClick={() => { setCurrentView('landing'); setMobileMenuOpen(false); }} 
+            <a
+              href="#amenities"
+              onClick={() => { setCurrentView('landing'); setMobileMenuOpen(false); }}
               className="py-1.5 hover:text-amber-600 transition-colors"
             >
               {t.amenities}
             </a>
-            <a 
-              href="#contact" 
-              onClick={() => { setCurrentView('landing'); setMobileMenuOpen(false); }} 
+            <a
+              href="#restaurant"
+              onClick={() => { setCurrentView('landing'); setMobileMenuOpen(false); }}
+              className="py-1.5 hover:text-amber-600 transition-colors"
+            >
+              {t.restaurant}
+            </a>
+            <a
+              href="#meetings"
+              onClick={() => { setCurrentView('landing'); setMobileMenuOpen(false); }}
+              className="py-1.5 hover:text-amber-600 transition-colors"
+            >
+              {t.meetings}
+            </a>
+            <a
+              href="#contact"
+              onClick={() => { setCurrentView('landing'); setMobileMenuOpen(false); }}
               className="py-1.5 hover:text-amber-600 transition-colors"
             >
               {t.contact}
