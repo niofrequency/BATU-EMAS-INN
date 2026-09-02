@@ -117,6 +117,17 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
+        <div className="text-center text-[11px] text-stone-500">
+          <a
+            href="https://industrial-infrastructure-integration.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-amber-400 transition-colors"
+          >
+            Designed by III
+          </a>
+        </div>
+
       </div>
     </footer>
   );
