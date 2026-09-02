@@ -26,7 +26,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <nav className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-amber-200/50 shadow-xs w-full">
-      <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24">
+      <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="flex items-center justify-between h-20">
           
           {/* Logo */}
@@ -39,10 +39,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               alt="Batu Emas Inn"
               className="h-10 sm:h-14 w-auto group-hover:scale-105 transition-transform duration-200"
             />
+            <span className="font-serif text-lg lg:text-xl xl:text-2xl font-bold tracking-tight text-stone-900 group-hover:text-amber-700 transition-colors whitespace-nowrap">
+              Batu Emas <span className="text-amber-600">Inn</span>
+            </span>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-stone-700">
+          <div className="hidden xl:flex items-center gap-6 text-sm font-medium text-stone-700">
             <button
               onClick={() => setCurrentView('landing')}
               className={`transition-colors hover:text-amber-600 ${currentView === 'landing' ? 'text-amber-700 font-semibold' : ''}`}
@@ -67,7 +70,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           {/* Desktop Action & Auth Controls */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden xl:flex items-center gap-3">
             
             {/* Language Toggle Button */}
             <button
@@ -166,7 +169,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           {/* Mobile Menu Trigger (Simplified) */}
-          <div className="md:hidden flex items-center gap-3">
+          <div className="xl:hidden flex items-center gap-3">
             <button
               onClick={toggleLanguage}
               className="p-2 rounded-full border border-stone-200 bg-stone-50 hover:bg-amber-50 hover:border-amber-300 text-stone-800 transition-colors"
@@ -189,7 +192,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Expanded Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white/98 backdrop-blur-xl border-b border-stone-200 px-6 pt-4 pb-6 space-y-4 shadow-xl w-full animate-fade-in">
+        <div className="xl:hidden bg-white/98 backdrop-blur-xl border-b border-stone-200 px-6 pt-4 pb-6 space-y-4 shadow-xl w-full animate-fade-in">
           
           {/* Mobile Book Now CTA */}
           <button
