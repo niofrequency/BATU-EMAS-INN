@@ -20,22 +20,25 @@ interface AuthContextType {
   role: UserRole;
   isAdmin: boolean;
   loading: boolean;
-  signInWithGoogle: () => Promise<void>;
-  signInWithEmail: (email: string, pass: string) => Promise<void>;
-  registerWithEmail: (email: string, pass: string) => Promise<void>;
+  signInWithGoogle: () => Promise<UserRole>;
+  signInWithEmail: (email: string, pass: string) => Promise<UserRole>;
+  registerWithEmail: (email: string, pass: string) => Promise<UserRole>;
   logout: () => Promise<void>;
   setUserRole: (uid: string, newRole: UserRole) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Exported so any screen that needs to recognize/protect the master admin
+// (e.g. the admin Users tab) checks the same identity, not a duplicated
+// hardcoded string that could drift out of sync.
+export const MASTER_ADMIN_EMAIL = 'mpigome44@gmail.com';
+export const MASTER_ADMIN_UID = 'oR2YnszWuvNCBIeJ1KRNC0A6XfR2';
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<FirebaseUser | null>(null);
   const [role, setRole] = useState<UserRole>('guest');
   const [loading, setLoading] = useState(true);
-
-  const MASTER_ADMIN_EMAIL = 'mpigome44@gmail.com';
-  const MASTER_ADMIN_UID = 'oR2YnszWuvNCBIeJ1KRNC0A6XfR2';
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
@@ -71,7 +74,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => unsubscribe();
   }, []);
 
-  const syncUserRole = async (firebaseUser: FirebaseUser) => {
+  const syncUserRole = async (firebaseUser: FirebaseUser): Promise<UserRole> => {
     const userDocRef = doc(db, 'users', firebaseUser.uid);
     const userDoc = await getDoc(userDocRef);
     let assignedRole: UserRole = 'guest';
@@ -90,22 +93,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, { merge: true });
 
     setRole(assignedRole);
+    return assignedRole;
   };
 
-  const signInWithGoogle = async () => {
+  // Each of these returns the freshly-resolved role (rather than the stale
+  // `role` state closed over by the caller) so callers can route the user
+  // correctly immediately after sign-in, before this provider re-renders.
+  const signInWithGoogle = async (): Promise<UserRole> => {
     const result = await signInWithPopup(auth, googleProvider);
-    await syncUserRole(result.user);
+    return syncUserRole(result.user);
   };
 
-  const signInWithEmail = async (email: string, pass: string) => {
+  const signInWithEmail = async (email: string, pass: string): Promise<UserRole> => {
     const result = await signInWithEmailAndPassword(auth, email, pass);
-    await syncUserRole(result.user);
+    return syncUserRole(result.user);
   };
 
-  const registerWithEmail = async (email: string, pass: string) => {
+  const registerWithEmail = async (email: string, pass: string): Promise<UserRole> => {
     const result = await createUserWithEmailAndPassword(auth, email, pass);
-    const assignedRole = (email === MASTER_ADMIN_EMAIL || result.user.uid === MASTER_ADMIN_UID) ? 'admin' : 'guest';
-    
+    const assignedRole: UserRole = (email === MASTER_ADMIN_EMAIL || result.user.uid === MASTER_ADMIN_UID) ? 'admin' : 'guest';
+
     await setDoc(doc(db, 'users', result.user.uid), {
       email: result.user.email,
       displayName: email.split('@')[0],
@@ -114,6 +121,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
 
     setRole(assignedRole);
+    return assignedRole;
   };
 
   const logout = async () => {

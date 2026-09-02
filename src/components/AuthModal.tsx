@@ -10,7 +10,7 @@ interface AuthModalProps {
 }
 
 export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSelectRoleView }) => {
-  const { signInWithEmail, registerWithEmail, signInWithGoogle, role } = useAuth();
+  const { signInWithEmail, registerWithEmail, signInWithGoogle } = useAuth();
 
   const [isRegistering, setIsRegistering] = useState(false);
   const [email, setEmail] = useState('');
@@ -26,12 +26,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSelectR
     setLoading(true);
 
     try {
-      if (isRegistering) {
-        await registerWithEmail(email, password);
-      } else {
-        await signInWithEmail(email, password);
-      }
-      onSelectRoleView(role);
+      const resolvedRole = isRegistering
+        ? await registerWithEmail(email, password)
+        : await signInWithEmail(email, password);
+      onSelectRoleView(resolvedRole);
       onClose();
     } catch (err: any) {
       console.error(err);
@@ -45,8 +43,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSelectR
     setErrorMsg('');
     setLoading(true);
     try {
-      await signInWithGoogle();
-      onSelectRoleView(role);
+      const resolvedRole = await signInWithGoogle();
+      onSelectRoleView(resolvedRole);
       onClose();
     } catch (err: any) {
       console.error(err);

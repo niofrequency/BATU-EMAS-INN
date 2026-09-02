@@ -78,6 +78,9 @@ export const GuestDashboard: React.FC<GuestDashboardProps> = ({ onOpenNewBooking
     }
   }[lang];
 
+  const formatIDR = (amount: number) =>
+    new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(amount);
+
   const loadData = async () => {
     if (!user) return;
     setLoading(true);
@@ -247,7 +250,7 @@ export const GuestDashboard: React.FC<GuestDashboardProps> = ({ onOpenNewBooking
 
                   <div className="flex items-center justify-between text-xs text-stone-600 pt-1">
                     <div>{text.guestsLabel} <strong>{b.guests} {text.personLabel}</strong></div>
-                    <div>{text.totalAmount} <strong className="text-amber-700 font-serif text-base">${b.totalAmount}</strong></div>
+                    <div>{text.totalAmount} <strong className="text-amber-700 font-serif text-base">{formatIDR(b.totalAmount)}</strong></div>
                   </div>
 
                   {b.specialRequests && (

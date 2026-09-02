@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth, MASTER_ADMIN_EMAIL, MASTER_ADMIN_UID } from '../context/AuthContext';
 import { 
   fetchAllBookings, 
   updateBookingStatus, 
@@ -13,19 +13,21 @@ import {
 } from '../lib/dataService';
 import { Booking, ContactMessage, UserProfile, UserRole } from '../types';
 import { ROOMS } from '../data/rooms';
-import { 
-  ShieldCheck, 
-  Inbox, 
-  Calendar, 
-  Users, 
-  Trash2, 
-  RefreshCw, 
-  PlusCircle, 
-  DollarSign, 
+import { hasFirebaseConfig } from '../lib/firebase';
+import {
+  ShieldCheck,
+  Inbox,
+  Calendar,
+  Users,
+  Trash2,
+  RefreshCw,
+  PlusCircle,
+  DollarSign,
   Filter,
   Sparkles,
   Search,
-  History
+  History,
+  AlertTriangle
 } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
@@ -124,7 +126,8 @@ export const AdminDashboard: React.FC = () => {
 
   // USER ROLE HANDLERS (Protected Master Admin check)
   const handleRoleChange = async (targetUser: UserProfile, newRole: UserRole) => {
-    if (targetUser.email === 'mpigome44@gmail.com' && newRole === 'guest') {
+    const isMasterAdmin = targetUser.email === MASTER_ADMIN_EMAIL || targetUser.uid === MASTER_ADMIN_UID;
+    if (isMasterAdmin && newRole === 'guest') {
       setActionMsg('Security Warning: Cannot demote the master administrator.');
       return;
     }
@@ -239,6 +242,21 @@ export const AdminDashboard: React.FC = () => {
             </button>
           </div>
         </div>
+
+        {/* Live Database Connection Warning */}
+        {!hasFirebaseConfig && (
+          <div className="p-4 rounded-xl bg-red-50 border border-red-300 text-red-800 text-xs font-semibold flex items-start gap-3 shadow-xs">
+            <AlertTriangle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+            <div>
+              <div className="font-bold mb-1">No live database connected — running in local demo mode</div>
+              <p className="font-normal leading-relaxed">
+                Bookings and messages shown below are only stored in this browser's local storage.
+                Guest reservations or inquiries submitted from a different browser or device will
+                not appear here until Firebase environment variables are configured for this site.
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Action Toast Feedback */}
         {actionMsg && (
@@ -728,7 +746,7 @@ export const AdminDashboard: React.FC = () => {
                 </thead>
                 <tbody className="divide-y divide-stone-200">
                   {usersList.map((u) => {
-                    const isMasterAdmin = u.email === 'mpigome44@gmail.com';
+                    const isMasterAdmin = u.email === MASTER_ADMIN_EMAIL || u.uid === MASTER_ADMIN_UID;
                     return (
                       <tr key={u.uid} className="hover:bg-stone-50 transition-colors">
                         <td className="p-4 font-bold text-stone-900">
