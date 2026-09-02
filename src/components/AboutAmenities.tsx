@@ -22,9 +22,9 @@ export const AboutAmenities: React.FC = () => {
       badge: "Home Away From Home",
       title: "A Comfortable Stay Built on Trust & Warm Hospitality",
       desc1: "BATU EMAS INN has been welcoming guests in Timika for more than 6 years. In late 2023 the hotel underwent an expansion of its facilities, room styles, and management, reflecting our commitment to uplifting service to guests, partners, and our internal team alike.",
-      desc2: "Whether you're staying in one of our Junior, Superior, or Deluxe rooms, enjoying a meal at Batu Emas Resto, or hosting a small gathering in our meeting room, our team is here to make every stay feel like a real home away from home.",
+      desc2: "Whether you're relaxing in our room, enjoying a meal at Batu Emas Resto, or hosting a small gathering in our meeting room, our team is here to make every stay feel like a real home away from home.",
       suitesLabel: "Years Established",
-      ratingLabel: "Room Types",
+      ratingLabel: "Guest Rating",
       conciergeLabel: "Front Desk",
       signatureExp: "Our Promise",
       signatureDesc: "\"Home Away From Home\" — your comfort is our priority.",
@@ -36,9 +36,9 @@ export const AboutAmenities: React.FC = () => {
       badge: "Home Away From Home",
       title: "Penginapan Nyaman yang Dibangun atas Kepercayaan & Keramahan",
       desc1: "BATU EMAS INN telah menyambut tamu di Timika selama lebih dari 6 tahun. Pada akhir 2023, hotel ini mengalami ekspansi fasilitas, gaya kamar, dan manajemen, mencerminkan komitmen kami untuk meningkatkan pelayanan kepada tamu, mitra, dan tim internal kami.",
-      desc2: "Baik Anda menginap di kamar Junior, Superior, maupun Deluxe kami, menikmati hidangan di Batu Emas Resto, atau mengadakan pertemuan kecil di ruang meeting kami, tim kami siap memastikan setiap masa inap terasa seperti rumah sendiri.",
+      desc2: "Baik Anda menginap di kamar kami, menikmati hidangan di Batu Emas Resto, atau mengadakan pertemuan kecil di ruang meeting kami, tim kami siap memastikan setiap masa inap terasa seperti rumah sendiri.",
       suitesLabel: "Tahun Berdiri",
-      ratingLabel: "Tipe Kamar",
+      ratingLabel: "Peringkat Tamu",
       conciergeLabel: "Resepsionis",
       signatureExp: "Komitmen Kami",
       signatureDesc: "\"Home Away From Home\" — kenyamanan Anda adalah prioritas kami.",
@@ -85,7 +85,7 @@ export const AboutAmenities: React.FC = () => {
                 <div className="text-xs font-medium text-stone-500 uppercase tracking-wider">{text.suitesLabel}</div>
               </div>
               <div>
-                <div className="font-serif text-2xl font-bold text-emerald-900">3</div>
+                <div className="font-serif text-2xl font-bold text-emerald-900">4.7★</div>
                 <div className="text-xs font-medium text-stone-500 uppercase tracking-wider">{text.ratingLabel}</div>
               </div>
               <div>

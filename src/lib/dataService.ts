@@ -29,10 +29,10 @@ const DEFAULT_BOOKINGS: Booking[] = [
     checkInDate: '2026-08-10',
     checkOutDate: '2026-08-14',
     guests: 2,
-    roomType: 'deluxe',
-    roomName: 'Deluxe Room',
+    roomType: 'standard',
+    roomName: 'Batu Emas Inn Room',
     status: 'confirmed',
-    totalAmount: 1600000,
+    totalAmount: 1400000,
     createdAt: new Date(Date.now() - 86400000 * 2).toISOString(),
     specialRequests: 'Late check-in requested (around 8 PM).'
   },
@@ -45,12 +45,12 @@ const DEFAULT_BOOKINGS: Booking[] = [
     checkInDate: '2026-08-20',
     checkOutDate: '2026-08-25',
     guests: 2,
-    roomType: 'superior',
-    roomName: 'Superior Room',
+    roomType: 'standard',
+    roomName: 'Batu Emas Inn Room',
     status: 'pending',
     totalAmount: 1750000,
     createdAt: new Date(Date.now() - 3600000 * 5).toISOString(),
-    specialRequests: 'Add breakfast for 2 guests.'
+    specialRequests: 'Add extra pillows.'
   }
 ];
 

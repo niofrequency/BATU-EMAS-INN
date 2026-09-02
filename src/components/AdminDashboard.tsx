@@ -51,7 +51,7 @@ export const AdminDashboard: React.FC = () => {
   // New Booking Form state for Walk-ins (Default check-out set to 1 night stay)
   const [newGuestName, setNewGuestName] = useState('');
   const [newGuestEmail, setNewGuestEmail] = useState('');
-  const [newRoomType, setNewRoomType] = useState('deluxe');
+  const [newRoomType, setNewRoomType] = useState('standard');
   const [newCheckIn, setNewCheckIn] = useState(new Date().toISOString().split('T')[0]);
   const [newCheckOut, setNewCheckOut] = useState(new Date(Date.now() + 86400000).toISOString().split('T')[0]);
   const [newGuests, setNewGuests] = useState(2);
