@@ -110,37 +110,39 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
 
       {/* Glossy Yellow Floor Tile Gradient Ambience */}
       <div className="absolute inset-0 z-1 bg-gradient-to-t from-stone-950 via-stone-900/80 to-amber-950/40 pointer-events-none" />
-      
-      {/* Floating Google Maps Location Square (Pops out slightly at the top right) */}
-      <div className="absolute z-20 top-4 right-4 sm:top-6 sm:right-8 md:top-8 md:right-16 xl:right-24 -translate-y-2 md:-translate-y-3">
-        <a
-          href={googleMapsUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group block bg-stone-950/85 hover:bg-stone-900/95 backdrop-blur-md p-3.5 sm:p-4 rounded-2xl border-2 border-amber-400/60 hover:border-amber-400 shadow-2xl shadow-amber-500/10 transition-all duration-300 hover:-translate-y-1 w-40 sm:w-44 text-left"
-        >
-          <div className="flex items-start justify-between mb-2">
-            <div className="w-8 h-8 rounded-xl bg-amber-400/20 border border-amber-400/40 flex items-center justify-center text-amber-400 group-hover:scale-110 group-hover:bg-amber-400 group-hover:text-stone-950 transition-all">
-              <MapPin className="w-4 h-4" />
-            </div>
-            <ExternalLink className="w-3.5 h-3.5 text-stone-400 group-hover:text-amber-400 transition-colors" />
-          </div>
-          <div className="font-serif font-bold text-xs sm:text-sm text-white group-hover:text-amber-300 transition-colors truncate">
-            {text.mapTitle}
-          </div>
-          <div className="text-[11px] text-stone-400 truncate mb-2">
-            {text.mapSubtitle}
-          </div>
-          <div className="text-[10px] font-extrabold uppercase tracking-wider text-amber-400 flex items-center gap-1">
-            <span>{text.mapAction}</span>
-          </div>
-        </a>
-      </div>
 
       {/* Fluid container removing excessive side margins on wide screens */}
-      <div className="relative z-10 w-full px-4 sm:px-8 lg:px-16 xl:px-24 pt-16 pb-24 md:pt-24 md:pb-32">
+      <div className="relative z-10 w-full px-4 sm:px-8 lg:px-16 xl:px-24 pt-6 sm:pt-8 pb-24 md:pt-24 md:pb-32">
+
+        {/* Google Maps Location Card — stacks above the badge on mobile so it never
+            overlaps the headline text; only floats top-right from sm: upward. */}
+        <div className="flex justify-end mb-4 sm:mb-0 sm:block sm:absolute sm:z-20 sm:top-8 sm:right-8 lg:right-16 xl:right-24">
+          <a
+            href={googleMapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group block bg-stone-950/85 hover:bg-stone-900/95 backdrop-blur-md p-3.5 sm:p-4 rounded-2xl border-2 border-amber-400/60 hover:border-amber-400 shadow-2xl shadow-amber-500/10 transition-all duration-300 hover:-translate-y-1 w-40 sm:w-44 text-left"
+          >
+            <div className="flex items-start justify-between mb-2">
+              <div className="w-8 h-8 rounded-xl bg-amber-400/20 border border-amber-400/40 flex items-center justify-center text-amber-400 group-hover:scale-110 group-hover:bg-amber-400 group-hover:text-stone-950 transition-all">
+                <MapPin className="w-4 h-4" />
+              </div>
+              <ExternalLink className="w-3.5 h-3.5 text-stone-400 group-hover:text-amber-400 transition-colors" />
+            </div>
+            <div className="font-serif font-bold text-xs sm:text-sm text-white group-hover:text-amber-300 transition-colors truncate">
+              {text.mapTitle}
+            </div>
+            <div className="text-[11px] text-stone-400 truncate mb-2">
+              {text.mapSubtitle}
+            </div>
+            <div className="text-[10px] font-extrabold uppercase tracking-wider text-amber-400 flex items-center gap-1">
+              <span>{text.mapAction}</span>
+            </div>
+          </a>
+        </div>
+
         <div className="max-w-4xl space-y-6">
-          
+
           {/* Welcome Badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-400/10 border border-amber-400/40 text-amber-300 text-xs font-bold tracking-wide uppercase backdrop-blur-md">
             <Crown className="w-3.5 h-3.5 fill-amber-400" />

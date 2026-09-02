@@ -1,5 +1,5 @@
 import React from 'react';
-import { Crown, Shield, Phone, Mail, MapPin } from 'lucide-react';
+import { Shield, Phone, Mail, MapPin } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 export const Footer: React.FC = () => {
@@ -42,7 +42,7 @@ export const Footer: React.FC = () => {
   }[lang];
 
   return (
-    <footer className="bg-emerald-950 text-stone-200 border-t border-emerald-900/60 pt-16 pb-12 w-full">
+    <footer className="bg-emerald-950 text-stone-200 border-t border-emerald-900/60 pt-16 pb-24 md:pb-12 w-full">
       <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24 space-y-12">
         
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -50,17 +50,10 @@ export const Footer: React.FC = () => {
           {/* Brand Col */}
           <div className="space-y-4 md:col-span-1">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-yellow-500 flex items-center justify-center text-stone-950 font-bold shadow-md">
-                <Crown className="w-5 h-5 fill-stone-950" />
-              </div>
-              <div>
-                <div className="font-serif text-xl font-bold text-white tracking-wide">
-                  BATU EMAS <span className="text-amber-400">INN</span>
-                </div>
-                <p className="text-[10px] text-amber-300 tracking-widest uppercase font-semibold">
-                  Your Comfort is Our Priority
-                </p>
-              </div>
+              <img src="/img/logo.png" alt="Batu Emas Inn" className="h-14 w-auto" />
+              <p className="text-[10px] text-amber-300 tracking-widest uppercase font-semibold max-w-[110px] leading-tight">
+                {lang === 'en' ? 'Your Comfort is Our Priority' : 'Kenyamanan Anda Prioritas Kami'}
+              </p>
             </div>
 
             <p className="text-xs text-stone-300 leading-relaxed font-light">
@@ -117,7 +110,7 @@ export const Footer: React.FC = () => {
           <div>
             © {new Date().getFullYear()} Batu Emas Inn. {text.allRightsReserved}
           </div>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
             <span>{text.privacyPolicy}</span>
             <span>{text.termsOfService}</span>
             <span>{text.guestGuidelines}</span>

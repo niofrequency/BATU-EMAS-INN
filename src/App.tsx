@@ -14,6 +14,7 @@ import { BookingModal } from './components/BookingModal';
 import { AuthModal } from './components/AuthModal';
 import { Footer } from './components/Footer';
 import { WhatsAppButton } from './components/WhatsAppButton';
+import { MobileBookingBar } from './components/MobileBookingBar';
 import { RoomInfo, UserRole } from './types';
 import { ShieldCheck, Calendar, Sparkles } from 'lucide-react';
 
@@ -151,6 +152,10 @@ function AppContent() {
       <Footer />
 
       <WhatsAppButton />
+
+      {currentView === 'landing' && (
+        <MobileBookingBar onOpenBooking={() => setBookingModalOpen(true)} />
+      )}
 
       <BookingModal
         isOpen={bookingModalOpen}
