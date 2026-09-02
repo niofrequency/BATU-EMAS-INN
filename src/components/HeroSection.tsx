@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar as CalendarIcon, Users, Sparkles, ArrowRight, CheckCircle2, Crown, Shield, MapPin, ExternalLink } from 'lucide-react';
+import { Calendar as CalendarIcon, Users, Sparkles, ArrowRight, CheckCircle2, Shield, MapPin, ExternalLink } from 'lucide-react';
 import { ROOMS } from '../data/rooms';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -30,7 +30,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
   // Localized text dictionary for Hero Section
   const text = {
     en: {
-      badge: "Your Comfort is Our Priority",
       welcomeTo: "Welcome to",
       description: "A comfortable, budget-friendly hotel in Timika, Papua, conveniently close to the airport. Air-conditioned rooms, an in-house restaurant, a meeting room, and 24-hour guest service — a real Home Away from Home.",
       instantConf: "Instant Confirmation",
@@ -53,7 +52,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
       mapAction: "View on Google Maps"
     },
     id: {
-      badge: "Kenyamanan Anda Prioritas Kami",
       welcomeTo: "Selamat Datang di",
       description: "Hotel nyaman dengan harga terjangkau di Timika, Papua, lokasi dekat dengan bandara. Kamar ber-AC, restoran, ruang meeting, dan layanan tamu 24 jam — Home Away From Home yang sesungguhnya.",
       instantConf: "Konfirmasi Instan",
@@ -142,12 +140,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
         </div>
 
         <div className="max-w-4xl space-y-6">
-
-          {/* Welcome Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-400/10 border border-amber-400/40 text-amber-300 text-xs font-bold tracking-wide uppercase backdrop-blur-md">
-            <Crown className="w-3.5 h-3.5 fill-amber-400" />
-            <span>{text.badge}</span>
-          </div>
 
           {/* Headline */}
           <h1 className="font-serif text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-white leading-tight">
