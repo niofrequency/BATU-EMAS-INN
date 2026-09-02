@@ -1,45 +1,22 @@
 import { RoomInfo } from '../types';
 
+const ROOM_IMAGES = ['/img/room 1.webp', '/img/room 2.webp', '/img/room 3.webp', '/img/bathroom 1.webp', '/img/bathroom 2.webp'];
+
 export const getRooms = (lang: 'en' | 'id'): RoomInfo[] => {
   if (lang === 'id') {
     return [
       {
-        id: 'junior',
-        name: 'Junior Room',
-        subtitle: 'Kamar Twin Nyaman di Lantai 3',
-        pricePerNight: 300,
-        capacity: 2,
-        size: '16 m²',
-        description: 'Kamar praktis dengan 2 tempat tidur single, cocok untuk rekan perjalanan atau teman yang bepergian bersama dengan harga terjangkau.',
-        image: '/img/room 1.webp',
-        amenities: ['2 Tempat Tidur Single', 'AC', 'Wi-Fi Gratis', 'Televisi', 'Air Panas & Dingin', 'Housekeeping Harian'],
-        rating: 4.6,
-        featured: false
-      },
-      {
-        id: 'superior',
-        name: 'Superior Room',
-        subtitle: 'Kamar Lantai 2, Single atau Double',
+        id: 'standard',
+        name: 'Kamar Batu Emas Inn',
+        subtitle: 'Nyaman, Ber-AC, Single atau Double Bed',
         pricePerNight: 350,
         capacity: 2,
         size: '16 m²',
-        description: 'Kamar dengan pilihan 1 tempat tidur single atau double, cocok untuk pelancong solo maupun pasangan. Tambahan Rp 50.000 untuk sarapan 2 orang.',
+        description: 'Kamar nyaman berukuran 16 m² dengan pilihan tempat tidur single atau double, AC, dan kamar mandi dalam dengan air panas & dingin — cocok untuk pelancong solo, pasangan, maupun teman seperjalanan.',
         image: '/img/room 2.webp',
+        images: ROOM_IMAGES,
         amenities: ['Tempat Tidur Single/Double', 'AC', 'Wi-Fi Gratis', 'Televisi', 'Air Panas & Dingin', 'Housekeeping Harian'],
         rating: 4.7,
-        featured: true
-      },
-      {
-        id: 'deluxe',
-        name: 'Deluxe Room',
-        subtitle: 'Kamar Lantai 1, Sudah Termasuk Sarapan',
-        pricePerNight: 400,
-        capacity: 2,
-        size: '16 m²',
-        description: 'Kamar tarif terbaik kami di lantai 1, sudah termasuk sarapan setiap hari untuk memulai hari Anda dengan nyaman di Batu Emas Inn.',
-        image: '/img/room 3.webp',
-        amenities: ['Tempat Tidur Single', 'Sarapan Termasuk', 'AC', 'Wi-Fi Gratis', 'Televisi', 'Air Panas & Dingin'],
-        rating: 4.8,
         featured: true
       }
     ];
@@ -47,42 +24,17 @@ export const getRooms = (lang: 'en' | 'id'): RoomInfo[] => {
 
   return [
     {
-      id: 'junior',
-      name: 'Junior Room',
-      subtitle: 'Cozy Twin Room on the 3rd Floor',
-      pricePerNight: 300,
-      capacity: 2,
-      size: '16 m²',
-      description: 'A practical room fitted with two single beds, perfect for friends or colleagues travelling together on a budget.',
-      image: '/img/room 1.webp',
-      amenities: ['2 Single Beds', 'Air Conditioning', 'Free Wi-Fi', 'Television', 'Hot & Cold Shower', 'Daily Housekeeping'],
-      rating: 4.6,
-      featured: false
-    },
-    {
-      id: 'superior',
-      name: 'Superior Room',
-      subtitle: '2nd Floor, Single or Double Bed',
+      id: 'standard',
+      name: 'Batu Emas Inn Room',
+      subtitle: 'Comfortable, Air-Conditioned, Single or Double Bed',
       pricePerNight: 350,
       capacity: 2,
       size: '16 m²',
-      description: 'A well-appointed room with the option of a single or double bed, ideal for solo travellers and couples. Add Rp 50,000 for breakfast for 2 guests.',
+      description: 'A comfortable 16 m² room with the option of a single or double bed, air conditioning, and an en-suite bathroom with hot & cold shower — ideal for solo travellers, couples, or friends travelling together.',
       image: '/img/room 2.webp',
+      images: ROOM_IMAGES,
       amenities: ['Single or Double Bed', 'Air Conditioning', 'Free Wi-Fi', 'Television', 'Hot & Cold Shower', 'Daily Housekeeping'],
       rating: 4.7,
-      featured: true
-    },
-    {
-      id: 'deluxe',
-      name: 'Deluxe Room',
-      subtitle: '1st Floor, Breakfast Included',
-      pricePerNight: 400,
-      capacity: 2,
-      size: '16 m²',
-      description: 'Our best-rate room on the 1st floor, with breakfast included every day for a comfortable start to your stay at Batu Emas Inn.',
-      image: '/img/room 3.webp',
-      amenities: ['Single Bed', 'Breakfast Included', 'Air Conditioning', 'Free Wi-Fi', 'Television', 'Hot & Cold Shower'],
-      rating: 4.8,
       featured: true
     }
   ];

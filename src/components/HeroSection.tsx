@@ -25,7 +25,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onQuickBook }) => {
   const [checkInDate, setCheckInDate] = useState(defaultCheckIn.toISOString().split('T')[0]);
   const [checkOutDate, setCheckOutDate] = useState(defaultCheckOut.toISOString().split('T')[0]);
   const [guests, setGuests] = useState(2);
-  const [roomType, setRoomType] = useState('deluxe');
+  const [roomType, setRoomType] = useState('standard');
 
   // Localized text dictionary for Hero Section
   const text = {

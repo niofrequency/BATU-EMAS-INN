@@ -8,7 +8,7 @@ export interface UserProfile {
   createdAt: string;
 }
 
-export type RoomType = 'junior' | 'superior' | 'deluxe';
+export type RoomType = 'standard';
 
 export interface RoomInfo {
   id: RoomType;
@@ -19,6 +19,7 @@ export interface RoomInfo {
   size: string;
   description: string;
   image: string;
+  images: string[];
   amenities: string[];
   rating: number;
   featured?: boolean;
