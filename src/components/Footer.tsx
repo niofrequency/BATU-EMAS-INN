@@ -51,9 +51,14 @@ export const Footer: React.FC = () => {
           <div className="space-y-4 md:col-span-1">
             <div className="flex items-center gap-3">
               <img src="/img/logo.png" alt="Batu Emas Inn" className="h-14 w-auto" />
-              <p className="text-[10px] text-amber-300 tracking-widest uppercase font-semibold max-w-[110px] leading-tight">
-                {lang === 'en' ? 'Your Comfort is Our Priority' : 'Kenyamanan Anda Prioritas Kami'}
-              </p>
+              <div>
+                <div className="font-serif text-lg font-bold text-white tracking-wide">
+                  Batu Emas <span className="text-amber-400">Inn</span>
+                </div>
+                <p className="text-[10px] text-amber-300 tracking-widest uppercase font-semibold max-w-[130px] leading-tight">
+                  {lang === 'en' ? 'Your Comfort is Our Priority' : 'Kenyamanan Anda Prioritas Kami'}
+                </p>
+              </div>
             </div>
 
             <p className="text-xs text-stone-300 leading-relaxed font-light">
