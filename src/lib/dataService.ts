@@ -145,12 +145,14 @@ export async function fetchUserBookings(userID: string): Promise<Booking[]> {
     snapshot.forEach((doc) => {
       list.push({ id: doc.id, ...doc.data() } as Booking);
     });
-    if (list.length > 0) return list;
+    // A successful query result is authoritative even when it's empty (e.g.
+    // this guest genuinely has no bookings) — don't mask it with local demo data.
+    return list;
   } catch (err) {
     handleFirestoreError(err, OperationType.LIST, 'bookings');
   }
 
-  // Fallback
+  // Fallback only when Firestore itself couldn't be reached
   const local = getLocalData<Booking>(BOOKINGS_KEY, DEFAULT_BOOKINGS);
   return local.filter(b => b.userID === userID || userID === 'demo-guest-id');
 }
@@ -162,11 +164,14 @@ export async function fetchAllBookings(): Promise<Booking[]> {
     snapshot.forEach((doc) => {
       list.push({ id: doc.id, ...doc.data() } as Booking);
     });
-    if (list.length > 0) return list;
+    // A successful query result is authoritative even when it's empty (e.g.
+    // the admin just deleted every booking) — don't mask it with local demo data.
+    return list;
   } catch (err) {
     handleFirestoreError(err, OperationType.LIST, 'bookings');
   }
 
+  // Fallback only when Firestore itself couldn't be reached
   return getLocalData<Booking>(BOOKINGS_KEY, DEFAULT_BOOKINGS);
 }
 
@@ -224,11 +229,14 @@ export async function fetchAllMessages(): Promise<ContactMessage[]> {
     snapshot.forEach((doc) => {
       list.push({ id: doc.id, ...doc.data() } as ContactMessage);
     });
-    if (list.length > 0) return list;
+    // A successful query result is authoritative even when it's empty (e.g.
+    // the admin just deleted every message) — don't mask it with local demo data.
+    return list;
   } catch (err) {
     handleFirestoreError(err, OperationType.LIST, 'messages');
   }
 
+  // Fallback only when Firestore itself couldn't be reached
   return getLocalData<ContactMessage>(MESSAGES_KEY, DEFAULT_MESSAGES);
 }
 
@@ -296,11 +304,14 @@ export async function fetchAllUsers(): Promise<UserProfile[]> {
     snapshot.forEach((doc) => {
       list.push(doc.data() as UserProfile);
     });
-    if (list.length > 0) return list;
+    // A successful query result is authoritative even when it's empty —
+    // don't mask it with local demo data.
+    return list;
   } catch (err) {
     handleFirestoreError(err, OperationType.LIST, 'users');
   }
 
+  // Fallback only when Firestore itself couldn't be reached
   return getLocalData<UserProfile>(USERS_KEY, DEFAULT_USERS);
 }
 
