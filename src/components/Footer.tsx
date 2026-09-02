@@ -12,6 +12,8 @@ export const Footer: React.FC = () => {
       explore: "Explore",
       rooms: "Rooms",
       amenities: "Amenities",
+      restaurant: "Restaurant",
+      meetings: "Meetings",
       contact: "Contact",
       resortDirect: "Hotel Direct",
       directBookingAdvantage: "Direct Booking Advantage",
@@ -26,6 +28,8 @@ export const Footer: React.FC = () => {
       explore: "Jelajahi",
       rooms: "Kamar",
       amenities: "Fasilitas",
+      restaurant: "Restoran",
+      meetings: "Meeting",
       contact: "Kontak",
       resortDirect: "Langsung Hotel",
       directBookingAdvantage: "Keuntungan Pemesanan Langsung",
@@ -70,6 +74,8 @@ export const Footer: React.FC = () => {
             <ul className="space-y-2 text-xs font-medium text-stone-300">
               <li><a href="#rooms" className="hover:text-amber-300 transition-colors">{text.rooms}</a></li>
               <li><a href="#amenities" className="hover:text-amber-300 transition-colors">{text.amenities}</a></li>
+              <li><a href="#restaurant" className="hover:text-amber-300 transition-colors">{text.restaurant}</a></li>
+              <li><a href="#meetings" className="hover:text-amber-300 transition-colors">{text.meetings}</a></li>
               <li><a href="#contact" className="hover:text-amber-300 transition-colors">{text.contact}</a></li>
             </ul>
           </div>

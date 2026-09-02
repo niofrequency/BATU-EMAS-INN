@@ -66,6 +66,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             <a href="#amenities" onClick={() => setCurrentView('landing')} className="hover:text-amber-600 transition-colors">
               {t.amenities}
             </a>
+            <a href="#restaurant" onClick={() => setCurrentView('landing')} className="hover:text-amber-600 transition-colors">
+              {t.restaurant}
+            </a>
+            <a href="#meetings" onClick={() => setCurrentView('landing')} className="hover:text-amber-600 transition-colors">
+              {t.meetings}
+            </a>
             <a href="#contact" onClick={() => setCurrentView('landing')} className="hover:text-amber-600 transition-colors">
               {t.contact}
             </a>
@@ -220,16 +226,30 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               {t.rooms}
             </a>
-            <a 
-              href="#amenities" 
-              onClick={() => { setCurrentView('landing'); setMobileMenuOpen(false); }} 
+            <a
+              href="#amenities"
+              onClick={() => { setCurrentView('landing'); setMobileMenuOpen(false); }}
               className="py-1.5 hover:text-amber-600 transition-colors"
             >
               {t.amenities}
             </a>
-            <a 
-              href="#contact" 
-              onClick={() => { setCurrentView('landing'); setMobileMenuOpen(false); }} 
+            <a
+              href="#restaurant"
+              onClick={() => { setCurrentView('landing'); setMobileMenuOpen(false); }}
+              className="py-1.5 hover:text-amber-600 transition-colors"
+            >
+              {t.restaurant}
+            </a>
+            <a
+              href="#meetings"
+              onClick={() => { setCurrentView('landing'); setMobileMenuOpen(false); }}
+              className="py-1.5 hover:text-amber-600 transition-colors"
+            >
+              {t.meetings}
+            </a>
+            <a
+              href="#contact"
+              onClick={() => { setCurrentView('landing'); setMobileMenuOpen(false); }}
               className="py-1.5 hover:text-amber-600 transition-colors"
             >
               {t.contact}

@@ -5,6 +5,8 @@ import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { AboutAmenities } from './components/AboutAmenities';
 import { RoomsSection } from './components/RoomsSection';
+import { RestaurantMenu } from './components/RestaurantMenu';
+import { MeetingRoom } from './components/MeetingRoom';
 import { ContactSection } from './components/ContactSection';
 import { GuestDashboard } from './components/GuestDashboard';
 import { AdminDashboard } from './components/AdminDashboard';
@@ -89,6 +91,8 @@ function AppContent() {
             <HeroSection onQuickBook={handleQuickBook} />
             <AboutAmenities />
             <RoomsSection onSelectRoom={handleSelectRoom} />
+            <RestaurantMenu />
+            <MeetingRoom />
             <ContactSection />
           </main>
         )}
