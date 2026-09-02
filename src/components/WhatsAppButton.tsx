@@ -17,7 +17,9 @@ export const WhatsAppButton: React.FC = () => {
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(defaultMessage)}`;
 
   return (
-    <div className="fixed bottom-6 right-6 z-40">
+    // Hidden below md: the mobile booking bar (MobileBookingBar) carries its
+    // own WhatsApp action, so we don't stack two fixed floating elements.
+    <div className="hidden md:block fixed bottom-6 right-6 z-40">
       {/* Main WhatsApp Circular Button with Pulse Effect */}
       <a
         href={whatsappUrl}

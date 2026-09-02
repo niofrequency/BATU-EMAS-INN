@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
-import { Crown, User, ShieldCheck, LogOut, Calendar, Menu, X, Sparkles, Globe } from 'lucide-react';
+import { User, ShieldCheck, LogOut, Calendar, Menu, X, Sparkles, Globe } from 'lucide-react';
 
 interface NavbarProps {
   currentView: 'landing' | 'guest' | 'admin';
@@ -30,26 +30,18 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="flex items-center justify-between h-20">
           
           {/* Logo */}
-          <div 
+          <div
             onClick={() => setCurrentView('landing')}
-            className="flex items-center gap-2.5 cursor-pointer group"
+            className="flex items-center gap-2.5 cursor-pointer group shrink-0"
           >
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br from-amber-400 via-amber-500 to-yellow-600 flex items-center justify-center text-white shadow-md shadow-amber-500/20 group-hover:scale-105 transition-transform duration-200 shrink-0">
-              <Crown className="w-5 h-5 sm:w-6 sm:h-6 text-stone-950 fill-stone-950" />
-            </div>
-            <div>
-              <div className="flex items-center gap-1.5">
-                <span className="font-serif text-lg sm:text-2xl font-bold tracking-tight text-stone-900 group-hover:text-amber-700 transition-colors">
-                  BATU EMAS
-                </span>
-                <span className="text-[10px] sm:text-xs font-semibold px-1.5 py-0.5 rounded-md bg-amber-100 text-amber-900 border border-amber-300">
-                  INN
-                </span>
-              </div>
-              <p className="text-[9px] sm:text-[10px] tracking-widest text-emerald-800 font-medium uppercase truncate max-w-[140px] sm:max-w-none">
-                {lang === 'en' ? 'Your Comfort is Our Priority' : 'Kenyamanan Anda Prioritas Kami'}
-              </p>
-            </div>
+            <img
+              src="/img/logo.png"
+              alt="Batu Emas Inn"
+              className="h-10 sm:h-14 w-auto group-hover:scale-105 transition-transform duration-200"
+            />
+            <p className="hidden sm:block text-[10px] tracking-widest text-emerald-800 font-medium uppercase max-w-[130px] leading-tight">
+              {lang === 'en' ? 'Your Comfort is Our Priority' : 'Kenyamanan Anda Prioritas Kami'}
+            </p>
           </div>
 
           {/* Desktop Navigation */}
