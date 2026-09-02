@@ -39,9 +39,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               alt="Batu Emas Inn"
               className="h-10 sm:h-14 w-auto group-hover:scale-105 transition-transform duration-200"
             />
-            <p className="hidden sm:block text-[10px] tracking-widest text-emerald-800 font-medium uppercase max-w-[130px] leading-tight">
-              {lang === 'en' ? 'Your Comfort is Our Priority' : 'Kenyamanan Anda Prioritas Kami'}
-            </p>
           </div>
 
           {/* Desktop Navigation */}
